@@ -2,6 +2,7 @@ import Foundation
 
 #if canImport(HomeKit)
 import HomeKit
+import Combine
 
 /// A MainActor-bound manager for discovering and accessing HomeKit homes and accessories.
 ///
@@ -175,9 +176,9 @@ private extension HomeKitManager {
 
 /// A stub HomeKit manager for non-HomeKit platforms.
 @MainActor
-public final class HomeKitManager: ObservableObject {
-    @Published public private(set) var homes: [String] = []
-    @Published public private(set) var isReady: Bool = true
+public final class HomeKitManager {
+    public private(set) var homes: [String] = []
+    public private(set) var isReady: Bool = true
 
     public init() {}
 
