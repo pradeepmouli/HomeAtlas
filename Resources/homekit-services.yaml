@@ -1,0 +1,1175 @@
+# HomeKit Services and Characteristics Catalog
+# Auto-generated from iOS SDK headers
+# Generated: 2025-11-09T13:40:27Z
+
+services:
+  - identifier: HMServiceTypeAccessoryInformation
+    name: AccessoryInformation
+    swiftName: accessoryInformation
+
+  - identifier: HMServiceTypeAirPurifier
+    name: AirPurifier
+    swiftName: airPurifier
+    requiredCharacteristics:
+      - Active
+      - CurrentAirPurifierState
+      - TargetAirPurifierState
+    optionalCharacteristics:
+      - LockPhysicalControls
+      - Name
+      - RotationSpeed
+      - SwingMode
+
+  - identifier: HMServiceTypeAirQualitySensor
+    name: AirQualitySensor
+    swiftName: airQualitySensor
+    optionalCharacteristics:
+      - NitrogenDioxideDensity
+      - OzoneDensity
+      - PM10Density
+      - PM2_5Density
+      - SulphurDioxideDensity
+      - VolatileOrganicCompoundDensity
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeBattery
+    name: Battery
+    swiftName: battery
+    requiredCharacteristics:
+      - StatusLowBattery
+    optionalCharacteristics:
+      - BatteryLevel
+      - ChargingState
+      - Name
+
+  - identifier: HMServiceTypeCameraControl
+    name: CameraControl
+    swiftName: cameraControl
+
+  - identifier: HMServiceTypeCameraRTPStreamManagement
+    name: CameraRTPStreamManagement
+    swiftName: cameraRTPStreamManagement
+
+  - identifier: HMServiceTypeCarbonDioxideSensor
+    name: CarbonDioxideSensor
+    swiftName: carbonDioxideSensor
+    requiredCharacteristics:
+      - CarbonDioxideDetected
+    optionalCharacteristics:
+      - CarbonDioxideLevel
+      - CarbonDioxidePeakLevel
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeCarbonMonoxideSensor
+    name: CarbonMonoxideSensor
+    swiftName: carbonMonoxideSensor
+    requiredCharacteristics:
+      - CarbonMonoxideDetected
+    optionalCharacteristics:
+      - CarbonMonoxideLevel
+      - CarbonMonoxidePeakLevel
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeContactSensor
+    name: ContactSensor
+    swiftName: contactSensor
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeDoor
+    name: Door
+    swiftName: door
+    requiredCharacteristics:
+      - CurrentPosition
+      - PositionState
+      - TargetPosition
+    optionalCharacteristics:
+      - Name
+      - ObstructionDetected
+      - HoldPosition
+
+  - identifier: HMServiceTypeDoorbell
+    name: Doorbell
+    swiftName: doorbell
+    optionalCharacteristics:
+      - Brightness
+      - Mute
+      - Name
+      - Volume
+
+  - identifier: HMServiceTypeFan
+    name: Fan
+    swiftName: fan
+    requiredCharacteristics:
+      - Active
+    optionalCharacteristics:
+      - CurrentFanState
+      - TargetFanState
+      - LockPhysicalControls
+      - Name
+      - RotationDirection
+      - RotationSpeed
+      - SwingMode
+
+  - identifier: HMServiceTypeFaucet
+    name: Faucet
+    swiftName: faucet
+    requiredCharacteristics:
+      - Active
+    optionalCharacteristics:
+      - Name
+      - StatusFault
+
+  - identifier: HMServiceTypeFilterMaintenance
+    name: FilterMaintenance
+    swiftName: filterMaintenance
+    requiredCharacteristics:
+      - FilterChangeIndication
+    optionalCharacteristics:
+      - FilterLifeLevel
+      - FilterResetChangeIndication
+      - Name
+
+  - identifier: HMServiceTypeGarageDoorOpener
+    name: GarageDoorOpener
+    swiftName: garageDoorOpener
+    requiredCharacteristics:
+      - CurrentDoorState
+      - TargetDoorState
+      - ObstructionDetected
+    optionalCharacteristics:
+      - Name
+
+  - identifier: HMServiceTypeHeaterCooler
+    name: HeaterCooler
+    swiftName: heaterCooler
+    requiredCharacteristics:
+      - Active
+      - CurrentHeaterCoolerState
+      - TargetHeaterCoolerState
+      - CurrentTemperature
+    optionalCharacteristics:
+      - LockPhysicalControls
+      - Name
+      - RotationSpeed
+      - SwingMode
+
+  - identifier: HMServiceTypeHumidifierDehumidifier
+    name: HumidifierDehumidifier
+    swiftName: humidifierDehumidifier
+    requiredCharacteristics:
+      - Active
+      - CurrentHumidifierDehumidifierState
+      - TargetHumidifierDehumidifierState
+      - CurrentRelativeHumidity
+    optionalCharacteristics:
+      - LockPhysicalControls
+      - Name
+      - RotationSpeed
+      - SwingMode
+
+  - identifier: HMServiceTypeHumiditySensor
+    name: HumiditySensor
+    swiftName: humiditySensor
+    requiredCharacteristics:
+      - CurrentRelativeHumidity
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeInputSource
+    name: InputSource
+    swiftName: inputSource
+    requiredCharacteristics:
+      - ConfiguredName
+      - InputSourceType
+      - IsConfigured
+      - Name
+      - CurrentVisibilityState
+    optionalCharacteristics:
+      - Identifier
+      - InputDeviceType
+      - TargetVisibilityState
+
+  - identifier: HMServiceTypeIrrigationSystem
+    name: IrrigationSystem
+    swiftName: irrigationSystem
+    requiredCharacteristics:
+      - Active
+      - ProgramMode
+      - InUse
+    optionalCharacteristics:
+      - RemainingDuration
+      - Name
+      - StatusFault
+
+  - identifier: HMServiceTypeLabel
+    name: Label
+    swiftName: label
+    requiredCharacteristics:
+      - LabelNamespace
+
+  - identifier: HMServiceTypeLeakSensor
+    name: LeakSensor
+    swiftName: leakSensor
+    requiredCharacteristics:
+      - LeakDetected
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeLightSensor
+    name: LightSensor
+    swiftName: lightSensor
+    requiredCharacteristics:
+      - CurrentLightLevel
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeLightbulb
+    name: Lightbulb
+    swiftName: lightbulb
+    requiredCharacteristics:
+      - PowerState
+    optionalCharacteristics:
+      - Brightness
+      - ColorTemperature
+      - Hue
+      - Name
+      - Saturation
+
+  - identifier: HMServiceTypeLockManagement
+    name: LockManagement
+    swiftName: lockManagement
+    requiredCharacteristics:
+      - Version
+    optionalCharacteristics:
+      - AudioFeedback
+      - CurrentDoorState
+      - Logs
+      - MotionDetected
+
+  - identifier: HMServiceTypeLockMechanism
+    name: LockMechanism
+    swiftName: lockMechanism
+    optionalCharacteristics:
+      - Name
+
+  - identifier: HMServiceTypeMicrophone
+    name: Microphone
+    swiftName: microphone
+    requiredCharacteristics:
+      - Mute
+    optionalCharacteristics:
+      - Volume
+
+  - identifier: HMServiceTypeMotionSensor
+    name: MotionSensor
+    swiftName: motionSensor
+    requiredCharacteristics:
+      - MotionDetected
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeOccupancySensor
+    name: OccupancySensor
+    swiftName: occupancySensor
+    requiredCharacteristics:
+      - OccupancyDetected
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeOutlet
+    name: Outlet
+    swiftName: outlet
+    requiredCharacteristics:
+      - PowerState
+    optionalCharacteristics:
+      - Name
+      - OutletInUse
+
+  - identifier: HMServiceTypeSecuritySystem
+    name: SecuritySystem
+    swiftName: securitySystem
+    optionalCharacteristics:
+      - Name
+      - SecuritySystemAlarmType
+      - StatusFault
+      - StatusTampered
+
+  - identifier: HMServiceTypeSlats
+    name: Slats
+    swiftName: slats
+    requiredCharacteristics:
+      - CurrentSlatState
+      - SlatType
+    optionalCharacteristics:
+      - Name
+      - SwingMode
+
+  - identifier: HMServiceTypeSmokeSensor
+    name: SmokeSensor
+    swiftName: smokeSensor
+    requiredCharacteristics:
+      - SmokeDetected
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeSpeaker
+    name: Speaker
+    swiftName: speaker
+    requiredCharacteristics:
+      - Mute
+    optionalCharacteristics:
+      - Active
+      - Volume
+      - VolumeControlType
+      - VolumeSelector
+
+  - identifier: HMServiceTypeStatefulProgrammableSwitch
+    name: StatefulProgrammableSwitch
+    swiftName: statefulProgrammableSwitch
+    optionalCharacteristics:
+      - Name
+
+  - identifier: HMServiceTypeStatelessProgrammableSwitch
+    name: StatelessProgrammableSwitch
+    swiftName: statelessProgrammableSwitch
+    optionalCharacteristics:
+      - Name
+      - LabelIndex
+
+  - identifier: HMServiceTypeSwitch
+    name: Switch
+    swiftName: switch
+    requiredCharacteristics:
+      - PowerState
+    optionalCharacteristics:
+      - Name
+
+  - identifier: HMServiceTypeTelevision
+    name: Television
+    swiftName: television
+    requiredCharacteristics:
+      - Active
+      - ActiveIdentifier
+      - ConfiguredName
+      - RemoteKey
+    optionalCharacteristics:
+      - Brightness
+      - ClosedCaptions
+      - CurrentMediaState
+      - TargetMediaState
+      - Name
+      - PictureMode
+      - PowerModeSelection
+
+  - identifier: HMServiceTypeTemperatureSensor
+    name: TemperatureSensor
+    swiftName: temperatureSensor
+    requiredCharacteristics:
+      - CurrentTemperature
+    optionalCharacteristics:
+      - Name
+      - StatusActive
+      - StatusFault
+      - StatusLowBattery
+      - StatusTampered
+
+  - identifier: HMServiceTypeThermostat
+    name: Thermostat
+    swiftName: thermostat
+    requiredCharacteristics:
+      - CurrentTemperature
+      - TargetTemperature
+    optionalCharacteristics:
+      - Name
+      - CurrentRelativeHumidity
+      - TargetRelativeHumidity
+
+  - identifier: HMServiceTypeValve
+    name: Valve
+    swiftName: valve
+    requiredCharacteristics:
+      - Active
+      - InUse
+      - ValveType
+    optionalCharacteristics:
+      - IsConfigured
+      - Name
+      - RemainingDuration
+      - LabelIndex
+      - SetDuration
+      - StatusFault
+
+  - identifier: HMServiceTypeVentilationFan
+    name: VentilationFan
+    swiftName: ventilationFan
+
+  - identifier: HMServiceTypeWiFiRouter
+    name: WiFiRouter
+    swiftName: wiFiRouter
+    requiredCharacteristics:
+      - ConfiguredName
+      - RouterStatus
+      - WANStatusList
+
+  - identifier: HMServiceTypeWiFiSatellite
+    name: WiFiSatellite
+    swiftName: wiFiSatellite
+    requiredCharacteristics:
+      - WiFiSatelliteStatus
+
+  - identifier: HMServiceTypeWindow
+    name: Window
+    swiftName: window
+    requiredCharacteristics:
+      - CurrentPosition
+      - PositionState
+      - TargetPosition
+    optionalCharacteristics:
+      - Name
+      - ObstructionDetected
+      - HoldPosition
+
+  - identifier: HMServiceTypeWindowCovering
+    name: WindowCovering
+    swiftName: windowCovering
+    requiredCharacteristics:
+      - CurrentPosition
+      - PositionState
+      - TargetPosition
+    optionalCharacteristics:
+      - Name
+      - ObstructionDetected
+      - HoldPosition
+
+characteristics:
+  - identifier: HMCharacteristicTypeActive
+    name: Active
+    swiftName: active
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeActiveIdentifier
+    name: ActiveIdentifier
+    swiftName: activeIdentifier
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeAdminOnlyAccess
+    name: AdminOnlyAccess
+    swiftName: adminOnlyAccess
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeAirParticulateDensity
+    name: AirParticulateDensity
+    swiftName: airParticulateDensity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeAirParticulateSize
+    name: AirParticulateSize
+    swiftName: airParticulateSize
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeAirQuality
+    name: AirQuality
+    swiftName: airQuality
+    valueType: String
+
+  - identifier: HMCharacteristicTypeAudioFeedback
+    name: AudioFeedback
+    swiftName: audioFeedback
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeBatteryLevel
+    name: BatteryLevel
+    swiftName: batteryLevel
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeBrightness
+    name: Brightness
+    swiftName: brightness
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCarbonDioxideDetected
+    name: CarbonDioxideDetected
+    swiftName: carbonDioxideDetected
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCarbonDioxideLevel
+    name: CarbonDioxideLevel
+    swiftName: carbonDioxideLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCarbonDioxidePeakLevel
+    name: CarbonDioxidePeakLevel
+    swiftName: carbonDioxidePeakLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCarbonMonoxideDetected
+    name: CarbonMonoxideDetected
+    swiftName: carbonMonoxideDetected
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCarbonMonoxideLevel
+    name: CarbonMonoxideLevel
+    swiftName: carbonMonoxideLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCarbonMonoxidePeakLevel
+    name: CarbonMonoxidePeakLevel
+    swiftName: carbonMonoxidePeakLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeChargingState
+    name: ChargingState
+    swiftName: chargingState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeClosedCaptions
+    name: ClosedCaptions
+    swiftName: closedCaptions
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeColorTemperature
+    name: ColorTemperature
+    swiftName: colorTemperature
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeConfiguredName
+    name: ConfiguredName
+    swiftName: configuredName
+    valueType: String
+
+  - identifier: HMCharacteristicTypeContactState
+    name: ContactState
+    swiftName: contactState
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeCoolingThreshold
+    name: CoolingThreshold
+    swiftName: coolingThreshold
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentAirPurifierState
+    name: CurrentAirPurifierState
+    swiftName: currentAirPurifierState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentDoorState
+    name: CurrentDoorState
+    swiftName: currentDoorState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentFanState
+    name: CurrentFanState
+    swiftName: currentFanState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentHeaterCoolerState
+    name: CurrentHeaterCoolerState
+    swiftName: currentHeaterCoolerState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentHeatingCooling
+    name: CurrentHeatingCooling
+    swiftName: currentHeatingCooling
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentHorizontalTilt
+    name: CurrentHorizontalTilt
+    swiftName: currentHorizontalTilt
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeCurrentHumidifierDehumidifierState
+    name: CurrentHumidifierDehumidifierState
+    swiftName: currentHumidifierDehumidifierState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentLightLevel
+    name: CurrentLightLevel
+    swiftName: currentLightLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCurrentLockMechanismState
+    name: CurrentLockMechanismState
+    swiftName: currentLockMechanismState
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentMediaState
+    name: CurrentMediaState
+    swiftName: currentMediaState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentPosition
+    name: CurrentPosition
+    swiftName: currentPosition
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentRelativeHumidity
+    name: CurrentRelativeHumidity
+    swiftName: currentRelativeHumidity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCurrentSecuritySystemState
+    name: CurrentSecuritySystemState
+    swiftName: currentSecuritySystemState
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentSlatState
+    name: CurrentSlatState
+    swiftName: currentSlatState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeCurrentTemperature
+    name: CurrentTemperature
+    swiftName: currentTemperature
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeCurrentTilt
+    name: CurrentTilt
+    swiftName: currentTilt
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentVerticalTilt
+    name: CurrentVerticalTilt
+    swiftName: currentVerticalTilt
+    valueType: String
+
+  - identifier: HMCharacteristicTypeCurrentVisibilityState
+    name: CurrentVisibilityState
+    swiftName: currentVisibilityState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeDehumidifierThreshold
+    name: DehumidifierThreshold
+    swiftName: dehumidifierThreshold
+    valueType: String
+
+  - identifier: HMCharacteristicTypeDigitalZoom
+    name: DigitalZoom
+    swiftName: digitalZoom
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeFilterChangeIndication
+    name: FilterChangeIndication
+    swiftName: filterChangeIndication
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeFilterLifeLevel
+    name: FilterLifeLevel
+    swiftName: filterLifeLevel
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeFilterResetChangeIndication
+    name: FilterResetChangeIndication
+    swiftName: filterResetChangeIndication
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeFirmwareVersion
+    name: FirmwareVersion
+    swiftName: firmwareVersion
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeHardwareVersion
+    name: HardwareVersion
+    swiftName: hardwareVersion
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeHeatingThreshold
+    name: HeatingThreshold
+    swiftName: heatingThreshold
+    valueType: String
+
+  - identifier: HMCharacteristicTypeHoldPosition
+    name: HoldPosition
+    swiftName: holdPosition
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeHue
+    name: Hue
+    swiftName: hue
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeHumidifierThreshold
+    name: HumidifierThreshold
+    swiftName: humidifierThreshold
+    valueType: String
+
+  - identifier: HMCharacteristicTypeIdentifier
+    name: Identifier
+    swiftName: identifier
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeIdentify
+    name: Identify
+    swiftName: identify
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeImageMirroring
+    name: ImageMirroring
+    swiftName: imageMirroring
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeImageRotation
+    name: ImageRotation
+    swiftName: imageRotation
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeInUse
+    name: InUse
+    swiftName: inUse
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeInputDeviceType
+    name: InputDeviceType
+    swiftName: inputDeviceType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeInputEvent
+    name: InputEvent
+    swiftName: inputEvent
+    valueType: String
+
+  - identifier: HMCharacteristicTypeInputSourceType
+    name: InputSourceType
+    swiftName: inputSourceType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeIsConfigured
+    name: IsConfigured
+    swiftName: isConfigured
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeLabelIndex
+    name: LabelIndex
+    swiftName: labelIndex
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeLabelNamespace
+    name: LabelNamespace
+    swiftName: labelNamespace
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeLeakDetected
+    name: LeakDetected
+    swiftName: leakDetected
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeLockManagementAutoSecureTimeout
+    name: LockManagementAutoSecureTimeout
+    swiftName: lockManagementAutoSecureTimeout
+    valueType: String
+
+  - identifier: HMCharacteristicTypeLockManagementControlPoint
+    name: LockManagementControlPoint
+    swiftName: lockManagementControlPoint
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeLockMechanismLastKnownAction
+    name: LockMechanismLastKnownAction
+    swiftName: lockMechanismLastKnownAction
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeLockPhysicalControls
+    name: LockPhysicalControls
+    swiftName: lockPhysicalControls
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeLogs
+    name: Logs
+    swiftName: logs
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeManufacturer
+    name: Manufacturer
+    swiftName: manufacturer
+    valueType: String
+
+  - identifier: HMCharacteristicTypeModel
+    name: Model
+    swiftName: model
+    valueType: String
+
+  - identifier: HMCharacteristicTypeMotionDetected
+    name: MotionDetected
+    swiftName: motionDetected
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeMute
+    name: Mute
+    swiftName: mute
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeName
+    name: Name
+    swiftName: name
+    valueType: String
+
+  - identifier: HMCharacteristicTypeNightVision
+    name: NightVision
+    swiftName: nightVision
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeNitrogenDioxideDensity
+    name: NitrogenDioxideDensity
+    swiftName: nitrogenDioxideDensity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeObstructionDetected
+    name: ObstructionDetected
+    swiftName: obstructionDetected
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeOccupancyDetected
+    name: OccupancyDetected
+    swiftName: occupancyDetected
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeOpticalZoom
+    name: OpticalZoom
+    swiftName: opticalZoom
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeOutletInUse
+    name: OutletInUse
+    swiftName: outletInUse
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeOutputState
+    name: OutputState
+    swiftName: outputState
+    valueType: String
+
+  - identifier: HMCharacteristicTypeOzoneDensity
+    name: OzoneDensity
+    swiftName: ozoneDensity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypePM10Density
+    name: PM10Density
+    swiftName: pM10Density
+    valueType: Double
+
+  - identifier: HMCharacteristicTypePM2_5Density
+    name: PM2_5Density
+    swiftName: pM2_5Density
+    valueType: Double
+
+  - identifier: HMCharacteristicTypePictureMode
+    name: PictureMode
+    swiftName: pictureMode
+    valueType: Int
+
+  - identifier: HMCharacteristicTypePositionState
+    name: PositionState
+    swiftName: positionState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypePowerModeSelection
+    name: PowerModeSelection
+    swiftName: powerModeSelection
+    valueType: Int
+
+  - identifier: HMCharacteristicTypePowerState
+    name: PowerState
+    swiftName: powerState
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeProgramMode
+    name: ProgramMode
+    swiftName: programMode
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeRemainingDuration
+    name: RemainingDuration
+    swiftName: remainingDuration
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeRemoteKey
+    name: RemoteKey
+    swiftName: remoteKey
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeRotationDirection
+    name: RotationDirection
+    swiftName: rotationDirection
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeRotationSpeed
+    name: RotationSpeed
+    swiftName: rotationSpeed
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeRouterStatus
+    name: RouterStatus
+    swiftName: routerStatus
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeSaturation
+    name: Saturation
+    swiftName: saturation
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeSecuritySystemAlarmType
+    name: SecuritySystemAlarmType
+    swiftName: securitySystemAlarmType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeSelectedStreamConfiguration
+    name: SelectedStreamConfiguration
+    swiftName: selectedStreamConfiguration
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeSerialNumber
+    name: SerialNumber
+    swiftName: serialNumber
+    valueType: String
+
+  - identifier: HMCharacteristicTypeSetDuration
+    name: SetDuration
+    swiftName: setDuration
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeSetupStreamEndpoint
+    name: SetupStreamEndpoint
+    swiftName: setupStreamEndpoint
+    valueType: String
+
+  - identifier: HMCharacteristicTypeSlatType
+    name: SlatType
+    swiftName: slatType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeSmokeDetected
+    name: SmokeDetected
+    swiftName: smokeDetected
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeSoftwareVersion
+    name: SoftwareVersion
+    swiftName: softwareVersion
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeStatusActive
+    name: StatusActive
+    swiftName: statusActive
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeStatusFault
+    name: StatusFault
+    swiftName: statusFault
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeStatusJammed
+    name: StatusJammed
+    swiftName: statusJammed
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeStatusLowBattery
+    name: StatusLowBattery
+    swiftName: statusLowBattery
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeStatusTampered
+    name: StatusTampered
+    swiftName: statusTampered
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeStreamingStatus
+    name: StreamingStatus
+    swiftName: streamingStatus
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeSulphurDioxideDensity
+    name: SulphurDioxideDensity
+    swiftName: sulphurDioxideDensity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeSupportedAudioStreamConfiguration
+    name: SupportedAudioStreamConfiguration
+    swiftName: supportedAudioStreamConfiguration
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeSupportedRTPConfiguration
+    name: SupportedRTPConfiguration
+    swiftName: supportedRTPConfiguration
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeSupportedVideoStreamConfiguration
+    name: SupportedVideoStreamConfiguration
+    swiftName: supportedVideoStreamConfiguration
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeSwingMode
+    name: SwingMode
+    swiftName: swingMode
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetAirPurifierState
+    name: TargetAirPurifierState
+    swiftName: targetAirPurifierState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetDoorState
+    name: TargetDoorState
+    swiftName: targetDoorState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetFanState
+    name: TargetFanState
+    swiftName: targetFanState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetHeaterCoolerState
+    name: TargetHeaterCoolerState
+    swiftName: targetHeaterCoolerState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetHeatingCooling
+    name: TargetHeatingCooling
+    swiftName: targetHeatingCooling
+    valueType: String
+
+  - identifier: HMCharacteristicTypeTargetHorizontalTilt
+    name: TargetHorizontalTilt
+    swiftName: targetHorizontalTilt
+    valueType: Bool
+
+  - identifier: HMCharacteristicTypeTargetHumidifierDehumidifierState
+    name: TargetHumidifierDehumidifierState
+    swiftName: targetHumidifierDehumidifierState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetLockMechanismState
+    name: TargetLockMechanismState
+    swiftName: targetLockMechanismState
+    valueType: String
+
+  - identifier: HMCharacteristicTypeTargetMediaState
+    name: TargetMediaState
+    swiftName: targetMediaState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetPosition
+    name: TargetPosition
+    swiftName: targetPosition
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTargetRelativeHumidity
+    name: TargetRelativeHumidity
+    swiftName: targetRelativeHumidity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeTargetSecuritySystemState
+    name: TargetSecuritySystemState
+    swiftName: targetSecuritySystemState
+    valueType: String
+
+  - identifier: HMCharacteristicTypeTargetTemperature
+    name: TargetTemperature
+    swiftName: targetTemperature
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeTargetTilt
+    name: TargetTilt
+    swiftName: targetTilt
+    valueType: String
+
+  - identifier: HMCharacteristicTypeTargetVerticalTilt
+    name: TargetVerticalTilt
+    swiftName: targetVerticalTilt
+    valueType: String
+
+  - identifier: HMCharacteristicTypeTargetVisibilityState
+    name: TargetVisibilityState
+    swiftName: targetVisibilityState
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeTemperatureUnits
+    name: TemperatureUnits
+    swiftName: temperatureUnits
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeValveType
+    name: ValveType
+    swiftName: valveType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeVersion
+    name: Version
+    swiftName: version
+    valueType: String
+
+  - identifier: HMCharacteristicTypeVolatileOrganicCompoundDensity
+    name: VolatileOrganicCompoundDensity
+    swiftName: volatileOrganicCompoundDensity
+    valueType: Double
+
+  - identifier: HMCharacteristicTypeVolume
+    name: Volume
+    swiftName: volume
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeVolumeControlType
+    name: VolumeControlType
+    swiftName: volumeControlType
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeVolumeSelector
+    name: VolumeSelector
+    swiftName: volumeSelector
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeWANStatusList
+    name: WANStatusList
+    swiftName: wANStatusList
+    valueType: Data
+
+  - identifier: HMCharacteristicTypeWaterLevel
+    name: WaterLevel
+    swiftName: waterLevel
+    valueType: Int
+
+  - identifier: HMCharacteristicTypeWiFiSatelliteStatus
+    name: WiFiSatelliteStatus
+    swiftName: wiFiSatelliteStatus
+    valueType: Int
+

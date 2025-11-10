@@ -1,0 +1,44 @@
+{
+	"configurations": [
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Debug HomeKitCatalogExtractor",
+			"target": "HomeKitCatalogExtractor",
+			"configuration": "debug",
+			"preLaunchTask": "swift: Build Debug HomeKitCatalogExtractor"
+		},
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Release HomeKitCatalogExtractor",
+			"target": "HomeKitCatalogExtractor",
+			"configuration": "release",
+			"preLaunchTask": "swift: Build Release HomeKitCatalogExtractor"
+		},
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Debug HomeKitServiceGenerator",
+			"target": "HomeKitServiceGenerator",
+			"configuration": "debug",
+			"preLaunchTask": "swift: Build Debug HomeKitServiceGenerator"
+		},
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Release HomeKitServiceGenerator",
+			"target": "HomeKitServiceGenerator",
+			"configuration": "release",
+			"preLaunchTask": "swift: Build Release HomeKitServiceGenerator"
+		}
+	]
+}

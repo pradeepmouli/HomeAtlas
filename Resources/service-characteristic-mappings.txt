@@ -1,0 +1,197 @@
+# HomeKit Service-Characteristic Mappings
+# Based on HomeKit Accessory Protocol (HAP) Specification
+#
+# Format:
+# service_name:
+#   required:
+#     - characteristic_name
+#   optional:
+#     - characteristic_name
+
+Lightbulb:
+  required:
+    - PowerState
+  optional:
+    - Brightness
+    - Hue
+    - Saturation
+    - ColorTemperature
+    - Name
+
+Switch:
+  required:
+    - PowerState
+  optional:
+    - Name
+
+Outlet:
+  required:
+    - PowerState
+    - OutletInUse
+  optional:
+    - Name
+
+Thermostat:
+  required:
+    - CurrentHeatingCooling
+    - TargetHeatingCooling
+    - CurrentTemperature
+    - TargetTemperature
+    - TemperatureUnits
+  optional:
+    - CurrentRelativeHumidity
+    - TargetRelativeHumidity
+    - CoolingThreshold
+    - HeatingThreshold
+    - Name
+
+LockMechanism:
+  required:
+    - CurrentLockMechanismState
+    - TargetLockMechanismState
+  optional:
+    - Name
+
+GarageDoorOpener:
+  required:
+    - CurrentDoorState
+    - TargetDoorState
+    - ObstructionDetected
+  optional:
+    - Name
+    - LockCurrentState
+    - LockTargetState
+
+Fan:
+  required:
+    - Active
+  optional:
+    - CurrentFanState
+    - TargetFanState
+    - RotationDirection
+    - RotationSpeed
+    - SwingMode
+    - LockPhysicalControls
+    - Name
+
+TemperatureSensor:
+  required:
+    - CurrentTemperature
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+MotionSensor:
+  required:
+    - MotionDetected
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+ContactSensor:
+  required:
+    - ContactState
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+SmokeSensor:
+  required:
+    - SmokeDetected
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+LeakSensor:
+  required:
+    - LeakDetected
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+HumiditySensor:
+  required:
+    - CurrentRelativeHumidity
+  optional:
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+AirQualitySensor:
+  required:
+    - AirQuality
+  optional:
+    - OzoneDensity
+    - NitrogenDioxideDensity
+    - SulphurDioxideDensity
+    - PM2_5Density
+    - PM10Density
+    - VolatileOrganicCompoundDensity
+    - AirParticulateDensity
+    - AirParticulateSize
+    - CarbonMonoxideLevel
+    - CarbonDioxideLevel
+    - Name
+    - StatusActive
+    - StatusFault
+    - StatusTampered
+    - StatusLowBattery
+
+Battery:
+  required:
+    - BatteryLevel
+    - ChargingState
+    - StatusLowBattery
+  optional:
+    - Name
+
+Window:
+  required:
+    - CurrentPosition
+    - TargetPosition
+    - PositionState
+  optional:
+    - HoldPosition
+    - ObstructionDetected
+    - Name
+
+WindowCovering:
+  required:
+    - CurrentPosition
+    - TargetPosition
+    - PositionState
+  optional:
+    - HoldPosition
+    - CurrentHorizontalTilt
+    - TargetHorizontalTilt
+    - CurrentVerticalTilt
+    - TargetVerticalTilt
+    - ObstructionDetected
+    - Name
+
+Door:
+  required:
+    - CurrentPosition
+    - TargetPosition
+    - PositionState
+  optional:
+    - HoldPosition
+    - ObstructionDetected
+    - Name
