@@ -105,21 +105,16 @@ jobs:
 
   # Verify package builds on multiple Swift versions
   swift-versions:
-    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Swift ${{ matrix.swift }} on macOS
+    runs-on: macos-14
     strategy:
       matrix:
-        os: [macos-14, ubuntu-latest]
         swift: ['6.0']
-        exclude:
-          # Exclude Ubuntu as it will use the container job above
-          - os: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode (macOS only)
-        if: runner.os == 'macOS'
+      - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_16.0.app/Contents/Developer
 
       - name: Swift Version
