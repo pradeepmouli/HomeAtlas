@@ -1,6 +1,6 @@
 # Package Naming Research: SwiftHomeKit
 
-**Task**: T016 [US3] Research alternative package names and check for conflicts in Swift Package Index  
+**Task**: T016 [US3] Research alternative package names and check for conflicts in Swift Package Index
 **Date**: 2025-11-10
 
 ## Current Name

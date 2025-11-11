@@ -7,7 +7,7 @@ This document explains why SwiftHomeKit wrapper classes cannot conform to `Encod
 All SwiftHomeKit wrapper classes store `underlying` properties referencing Apple HomeKit framework types:
 
 - `Accessory` → `HMAccessory`
-- `Service` → `HMService` 
+- `Service` → `HMService`
 - `Characteristic<Value>` → `HMCharacteristic`
 - `Home` → `HMHome`
 - `Room` → `HMRoom`
@@ -40,7 +40,7 @@ public struct AccessorySnapshot: Codable {
     public let isReachable: Bool
     public let categoryType: String
     public let serviceTypes: [String]
-    
+
     public init(from accessory: Accessory) {
         self.name = accessory.name
         self.uniqueIdentifier = accessory.uniqueIdentifier
@@ -57,10 +57,10 @@ let data = try JSONEncoder().encode(snapshot)
 
 ### Benefits of DTO Approach
 
-✅ **Type-Safe**: All properties are simple value types (String, UUID, Bool, Array)  
-✅ **Encodable**: Straightforward `Codable` conformance  
-✅ **Flexible**: Choose which properties to serialize  
-✅ **Testable**: DTO round-trip tests are simpler than wrapper tests  
+✅ **Type-Safe**: All properties are simple value types (String, UUID, Bool, Array)
+✅ **Encodable**: Straightforward `Codable` conformance
+✅ **Flexible**: Choose which properties to serialize
+✅ **Testable**: DTO round-trip tests are simpler than wrapper tests
 ✅ **Constitution Compliant**: No `Any` leakage, maintains type-safety
 
 ### When to Use DTOs

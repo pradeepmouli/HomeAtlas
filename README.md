@@ -83,7 +83,7 @@ struct AccessorySnapshot: Codable {
     let uniqueIdentifier: UUID
     let isReachable: Bool
     let categoryType: String
-    
+
     init(from accessory: Accessory) {
         self.name = accessory.name
         self.uniqueIdentifier = accessory.uniqueIdentifier

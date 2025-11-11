@@ -7,7 +7,7 @@ let package = Package(
         .iOS(.v16), .macOS(.v13), .tvOS(.v16), .watchOS(.v9)
     ],
     products: [
-        .executable(name: "IntegrationExample", targets: ["IntegrationExample"]) 
+        .executable(name: "IntegrationExample", targets: ["IntegrationExample"])
     ],
     dependencies: [
         .package(path: "../..")
