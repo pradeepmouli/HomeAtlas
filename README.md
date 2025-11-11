@@ -30,6 +30,18 @@ Then add the library to your target:
 ])
 ```
 
+## Release & Publishing
+
+This package is prepared for the Swift Package Index (SPI):
+- Manifest includes library and executable products, platforms, and targets
+- MIT license and README are present
+- Semantic versions are tagged on Git for releases (e.g., `0.1.0`)
+
+To publish a new release:
+1. Update CHANGELOG.md
+2. Create a new tag: `git tag -a v0.1.0 -m "Initial release" && git push origin v0.1.0`
+3. Verify SPI ingestion and documentation build
+
 ## Compile-Time Accessory Control
 
 ```swift
@@ -60,6 +72,32 @@ func toggleLightbulb(named accessoryName: String, manager: HomeKitManager) async
 ```
 
 The example mirrors the [Developer Apple Context7 HomeKit Lightbulb service documentation](https://developer.apple.com/documentation/homekit/hmservice/lightbulb). `LightbulbService` exposes a `PowerStateCharacteristic` wrapper (`Characteristic<Bool>`) so attempts to write a non-boolean value fail at compile time rather than at runtime.
+
+## Serialization for Diagnostics
+
+SwiftHomeKit wrappers do not conform to `Encodable` because they wrap non-Encodable HomeKit framework types (`HMAccessory`, `HMService`, etc.). For diagnostics or logging that require serialization, use the DTO (Data Transfer Object) pattern to extract encodable snapshots:
+
+```swift
+struct AccessorySnapshot: Codable {
+    let name: String
+    let uniqueIdentifier: UUID
+    let isReachable: Bool
+    let categoryType: String
+    
+    init(from accessory: Accessory) {
+        self.name = accessory.name
+        self.uniqueIdentifier = accessory.uniqueIdentifier
+        self.isReachable = accessory.isReachable
+        self.categoryType = accessory.category.categoryType
+    }
+}
+
+// Usage:
+let snapshot = AccessorySnapshot(from: myAccessory)
+let jsonData = try JSONEncoder().encode(snapshot)
+```
+
+See `docs/encodable-exclusion-rationale.md` for detailed rationale and DTO examples.
 
 ## Deterministic Error Insights
 

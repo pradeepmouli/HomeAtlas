@@ -1,10 +1,38 @@
 .DS_Store
-/.build
+
+# Swift Package Manager build artifacts (root and nested examples)
+# Previous pattern '/.build' only ignored the top-level .build directory.
+# '.build/' (no leading slash) matches any .build directory recursively.
+.build/
+
+# SwiftPM dependency checkouts (rarely needed in repo; prefer resolution via Package.swift)
 /Packages
+
+# SwiftPM workspace metadata (never required for consumers)
 .swiftpm/
-xcuserdata/
-DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Xcode / Derived data
+xcuserdata/
+DerivedData/
+
+# IDE/editor configs (optional: keep if you want shared tasks/settings)
+.vscode/
+
+# Tooling specific local credentials
 .netrc
+
+# Build products & debug symbol bundles that can appear outside .build (defensive)
+*.dSYM/
+
+# Generated Swift ABI description files (ephemeral)
+*.abi.json
+
+# Lock files: For libraries, it's conventional to exclude Package.resolved so
+# integrators resolve with their own toolchain. Remove this ignore if you want
+# to pin transitive dependencies for consumers.
 Package.resolved
+
+# Specify tool local state (if purely local; delete if you intend to share)
+.specify/
