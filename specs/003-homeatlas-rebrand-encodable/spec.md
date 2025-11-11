@@ -115,6 +115,6 @@ Consumers who compile on platforms without HomeKit support can still build their
 
 - **SC-001**: Developers can generate a complete Home snapshot JSON in under 2 seconds for Homes with up to 100 Accessories on modern desktop hardware.
 - **SC-002**: Snapshot export succeeds without crashes in 99% of attempts across supported platforms and sample datasets.
-- **SC-003**: Documentation migration tasks are completable in under 15 minutes by an existing user familiar with the prior naming.
+- **SC-003**: Documentation migration tasks are completable in under 15 minutes by a developer who has used the library in at least one project (familiar with prior naming).
 - **SC-004**: At least 5 representative acceptance scenarios (including permission-restricted characteristics) pass with stable, documented JSON keys.
 - **SC-HK-001**: Compilation and basic export behavior succeed on platforms without HomeKit; CI confirms both HomeKit-present and HomeKit-absent builds.
