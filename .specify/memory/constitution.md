@@ -68,7 +68,7 @@ Rationale: Updated guidance keeps downstream adopters unblocked and reduces supp
 
 ## Governance
 
-- This constitution supersedes prior informal practices for HomeAtlas (formerly SwiftHomeKit).
+- This constitution governs the HomeAtlas library and supersedes prior informal practices.
 - Amendments require agreement from the maintainer group and MUST document rationale plus migration expectations.
 - Versioning follows SemVer on the constitution: MAJOR for principle changes/removals, MINOR for new principles or guardrails, PATCH for clarifications.
 - Compliance reviews MUST occur before releasing new library versions; non-compliant changes block release until resolved.
