@@ -1,7 +1,7 @@
-# Contract: SwiftHomeKit Public API
+# Contract: HomeAtlas Public API
 
 ## Module Overview
-- **Module Name**: `SwiftHomeKit`
+- **Module Name**: `HomeAtlas`
 - **Purpose**: Provide strongly typed wrappers around Apple HomeKit accessories, services, and characteristics with `@MainActor` enforcement and async/await APIs.
 - **Current Version**: 0.1.0
 - **Implementation Status**: US1 complete, US2 complete, US3 pending

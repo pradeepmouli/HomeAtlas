@@ -50,18 +50,18 @@ specs/002-swiftpm-deploy-encodable-naming/
 
 ```text
 Sources/
-├── SwiftHomeKit/
+├── HomeAtlas/
 │   ├── [wrappers, models, HomeKit integration]
 │   └── ...
 Tests/
-├── SwiftHomeKitTests/
+├── HomeAtlasTests/
 │   ├── [encode/decode, integration, contract tests]
 │   └── ...
 Package.swift
 README.md
 ```
 
-**Structure Decision**: Single Swift package with `Sources/SwiftHomeKit` and `Tests/SwiftHomeKitTests` as the main code and test roots. No new targets or submodules required for this feature.
+**Structure Decision**: Single Swift package with `Sources/HomeAtlas` and `Tests/HomeAtlasTests` as the main code and test roots. Legacy references to `SwiftHomeKit` remain only for migration context.
 
 ## Complexity Tracking
 

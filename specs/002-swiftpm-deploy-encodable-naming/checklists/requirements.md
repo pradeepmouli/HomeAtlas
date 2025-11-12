@@ -19,7 +19,7 @@
 
 - [X] CHK009 - Is "all required metadata" for SwiftPM deployment specifically enumerated? [Clarity, Spec §FR-001] ✓ T006 lists: name, version, platforms, products, targets, authors
 - [X] CHK010 - Is "where feasible" for Encodable conformance defined with objective criteria? [Clarity, Spec §FR-002] ✓ FR-002 defines 3 conditions for feasibility
-- [X] CHK011 - Is the 90% wrapper class conformance threshold in success criteria actionable? [Measurability, Spec §SC-002] ✓ SC-002 defines scope as "classes in Sources/SwiftHomeKit/ conforming to HomeKit service/characteristic wrapper protocols"
+- [X] CHK011 - Is the 90% wrapper class conformance threshold in success criteria actionable? [Measurability, Spec §SC-002] ✓ SC-002 defines scope as "classes in `Sources/HomeAtlas/` conforming to HomeKit service/characteristic wrapper protocols"
 - [X] CHK012 - Are "Swift community standards" for naming quantified or referenced? [Clarity, Spec §FR-004] ✓ FR-004 references Swift API Design Guidelines
 - [X] CHK013 - Is "unique" package name defined (unique within Swift Package Index vs. global)? [Clarity, Spec §SC-003] ✓ SC-003 specifies "unique in the Swift Package Index"
 - [X] CHK014 - Are "type-safe APIs" requirements specific about what constitutes `Any` leakage? [Clarity, Spec §FR-TYPE] ✓ FR-002 explicitly prohibits `Any` types, T012b validates
@@ -78,7 +78,7 @@
 ## Ambiguities & Conflicts
 
 - [X] CHK048 - Is "evaluate" for Encodable conformance defined (assess vs. implement)? [Ambiguity, Spec §FR-002] ✓ FR-002 changed to "MUST conform" with criteria; T011 audits, T012 implements
-- [X] CHK049 - Is the scope of "wrapper classes" explicitly bounded? [Ambiguity, Spec §FR-002] ✓ SC-002 defines as "classes in Sources/SwiftHomeKit/ conforming to HomeKit service/characteristic wrapper protocols"
+- [X] CHK049 - Is the scope of "wrapper classes" explicitly bounded? [Ambiguity, Spec §FR-002] ✓ SC-002 defines as "classes in `Sources/HomeAtlas/` conforming to HomeKit service/characteristic wrapper protocols"
 - [X] CHK050 - Are "without breaking API guarantees" criteria specified? [Ambiguity, Spec §FR-002] ✓ FR-002 defines feasibility criteria, FR-TYPE ensures type-safety preserved
 - [X] CHK051 - Is "published" defined (public Swift Package Index vs. private registry)? [Ambiguity, Spec §US1] ✓ T008 specifies "private/public" for testing
 - [X] CHK052 - Are traceability requirements established linking FRs to acceptance criteria? [Traceability] ✓ Tasks reference user stories [US1/US2/US3], SCs map to FRs

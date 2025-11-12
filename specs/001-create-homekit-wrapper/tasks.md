@@ -25,7 +25,7 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 **Purpose**: Establish Swift Package targets, directories, and resources referenced by subsequent phases.
 
 - [X] T001 Define library, executable, and plugin targets with Swift 6 settings in `Package.swift`
-- [X] T002 Create repository directories (`Sources/SwiftHomeKit/`, `Sources/HomeKitSchemaGen/`, `Plugins/SwiftHomeKitPlugin/`, `Resources/`, `Tests/SwiftHomeKitTests/`, `Tests/GeneratorTests/`)
+- [X] T002 Create repository directories (`Sources/HomeAtlas/`, `Sources/HomeKitServiceGenerator/`, `Sources/HomeKitCatalogExtractor/`, `Sources/HomeAtlasMacros/`, `Resources/`, `Tests/HomeAtlasTests/`, `Tests/HomeAtlasMacrosTests/`)
 
 ---
 
@@ -34,11 +34,11 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 **Purpose**: Core schema, generator scaffolding, and CI hooks that every user story depends on.
 
 - [X] T003 Author baseline HomeKit catalog stub with Developer Apple citations in `Resources/homekit-services.yaml`
-- [X] T004 Implement schema models and validation helpers in `Sources/HomeKitSchemaGen/Schema/HomeKitSchema.swift`
-- [X] T005 Build Swift Argument Parser CLI scaffold in `Sources/HomeKitSchemaGen/CLI/CommandRoot.swift`
-- [X] T006 Integrate SwiftSyntax-based generation pipeline skeleton in `Sources/HomeKitSchemaGen/Generator/EmitterPipeline.swift`
-- [X] T007 Implement SwiftPM command plugin entry point in `Plugins/SwiftHomeKitPlugin/SwiftHomeKitPlugin.swift`
-- [X] T008 Add generator smoke tests covering `sync` validation in `Tests/GeneratorTests/GeneratorSmokeTests.swift`
+- [X] T004 Implement schema models and validation helpers in `Sources/HomeKitServiceGenerator/CatalogParser.swift`
+- [X] T005 Build Swift Argument Parser CLI scaffold in `Sources/HomeKitServiceGenerator/main.swift`
+- [X] T006 Integrate SwiftSyntax-based generation pipeline skeleton in `Sources/HomeKitServiceGenerator/ServiceGenerator.swift`
+- [X] T007 Implement CLI entry point for regeneration commands in `Sources/HomeKitServiceGenerator/main.swift`
+- [X] T008 Add generator smoke tests covering `sync` validation in `Tests/HomeAtlasTests/Integration/GeneratedParityTests.swift`
 
 **Checkpoint**: Foundation ready – user story implementation can now begin in parallel
 
@@ -52,10 +52,10 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 
 ### Implementation Tasks
 
-- [X] T009 [US1] Generate `ServiceDescriptor` and `AccessoryProfile` runtime types in `Sources/SwiftHomeKit/Descriptors.swift`
-- [X] T010 [P] [US1] Implement `CharacteristicValueType` domain modelling in `Sources/SwiftHomeKit/CharacteristicValueType.swift`
-- [X] T011 [US1] Add `HomeKitManager` facade with `@MainActor` typed accessors in `Sources/SwiftHomeKit/HomeKitManager.swift`
-- [X] T012 [P] [US1] Create integration test toggling a lightbulb characteristic in `Tests/SwiftHomeKitTests/Integration/LightbulbControlTests.swift`
+- [X] T009 [US1] Generate `ServiceDescriptor` and `AccessoryProfile` runtime types in `Sources/HomeAtlas/Types.swift`
+- [X] T010 [P] [US1] Implement `CharacteristicValueType` domain modelling in `Sources/HomeAtlas/Characteristic.swift`
+- [X] T011 [US1] Add `HomeKitManager` facade with `@MainActor` typed accessors in `Sources/HomeAtlas/HomeKitManager.swift`
+- [X] T012 [P] [US1] Create integration test toggling a lightbulb characteristic in `Tests/HomeAtlasTests/Integration/LightbulbControlTests.swift`
 - [X] T013 [US1] Document compile-time usage example with Developer Apple references in `README.md`
 
 **Checkpoint**: User Story 1 functional and independently demonstrable
@@ -70,13 +70,13 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 
 ### Implementation Tasks
 
-- [X] T014 [US2] Extend `HomeKitError` hierarchy with metadata-rich cases in `Sources/SwiftHomeKit/HomeKitError.swift`
-- [X] T015 [P] [US2] Add diagnostic logging hooks capturing latency in `Sources/SwiftHomeKit/DiagnosticsLogger.swift`
-- [X] T016 [US2] Wire telemetry capture into async characteristic writes in `Sources/SwiftHomeKit/Characteristic.swift`
-- [X] T017 [P] [US2] Add unit tests for error surface and diagnostics in `Tests/SwiftHomeKitTests/Unit/HomeKitErrorTests.swift`
+- [X] T014 [US2] Extend `HomeKitError` hierarchy with metadata-rich cases in `Sources/HomeAtlas/HomeKitError.swift`
+- [X] T015 [P] [US2] Add diagnostic logging hooks capturing latency in `Sources/HomeAtlas/DiagnosticsLogger.swift`
+- [X] T016 [US2] Wire telemetry capture into async characteristic writes in `Sources/HomeAtlas/Characteristic.swift`
+- [X] T017 [P] [US2] Add unit tests for error surface and diagnostics in `Tests/HomeAtlasTests/HomeKitErrorTests.swift`
 - [X] T018 [US2] Update troubleshooting documentation with Developer Apple guidance in `docs/troubleshooting.md`
-- [ ] T030 [US2] Add latency benchmark integration test covering 95th percentile target in `Tests/SwiftHomeKitTests/Integration/LatencyBenchmarks.swift`
-- [ ] T031 [P] [US2] Assert diagnostics metadata coverage for each `HomeKitError` case in `Tests/SwiftHomeKitTests/Unit/HomeKitErrorDiagnosticsTests.swift`
+- [ ] T030 [US2] Add latency benchmark integration test covering 95th percentile target in `Tests/HomeAtlasTests/Integration/LatencyBenchmarks.swift`
+- [ ] T031 [P] [US2] Assert diagnostics metadata coverage for each `HomeKitError` case in `Tests/HomeAtlasTests/HomeKitErrorDiagnosticsTests.swift`
 
 **Checkpoint**: User Stories 1 and 2 functional and testable independently
 
@@ -86,15 +86,15 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 
 **Goal**: Enable maintainers to autogenerate new service wrappers with confidence and parity tests, sourcing canonical metadata directly from the shipped iOS SDK.
 
-**Independent Test**: Run the SDK extractor (`swift run homekit-catalog-extractor dump --sdk iphoneos`), then `swift package plugin generate-homekit && swift test --filter GeneratedParityTests` after adding a mock service to confirm metadata harvest, generation, docs, and tests update automatically.
+**Independent Test**: Run the SDK extractor (`swift run HomeKitCatalogExtractor dump --sdk iphoneos`), then `swift package plugin generate-homeatlas && swift test --filter GeneratedParityTests` after adding a mock service to confirm metadata harvest, generation, docs, and tests update automatically.
 
 ### Implementation Tasks
 
-- [X] T019 [US3] Build clang-backed SDK extractor CLI in `Sources/HomeKitCatalogExtractor/` to parse HomeKit headers into normalized JSON
+- [X] T019 [US3] Build clang-backed SDK extractor CLI in `Sources/HomeKitCatalogExtractor/` to parse HomeKit headers into normalized data
 - [X] T020 [P] [US3] Parse `HomeKit.tbd` exports and diff against header-derived catalog within extractor tests
-- [X] T021 [US3] Integrate extractor output into `Resources/homekit-services.yaml` regeneration via `Sources/HomeKitSchemaGen/CLI/Subcommands/SyncCommand.swift`
-- [X] T022 [P] [US3] Generate SwiftSyntax service/characteristic source files with Context7 doc links in `Sources/HomeKitServiceGenerator/ServiceGenerator.swift`
-- [X] T023 [P] [US3] Document SDK extraction + generation workflow in `docs/service-extension.md` and back with parity tests in `Tests/SwiftHomeKitTests/Integration/GeneratedParityTests.swift`
+- [X] T021 [US3] Integrate extractor output into `Resources/homekit-services.yaml` regeneration via `Sources/HomeKitServiceGenerator/main.swift`
+- [X] T022 [P] [US3] Generate SwiftSyntax service/characteristic source files with Context7 doc links in `Sources/HomeAtlas/Generated/`
+- [X] T023 [P] [US3] Document SDK extraction + generation workflow in `docs/service-extension.md` and back with parity tests in `Tests/HomeAtlasTests/Integration/GeneratedParityTests.swift`
 
 **Checkpoint**: All user stories independently functional with automation for catalog updates
 
@@ -105,7 +105,7 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 **Purpose**: Repository-wide improvements, documentation polish, and CI enablement.
 
 - [X] T024 Add Developer Apple citation index in `docs/reference-index.md`
-- [X] T025 Document plugin usage with Developer Apple citations in `README.md` and `specs/001-create-homekit-wrapper/quickstart.md`
+- [X] T025 Document generator usage with Developer Apple citations in `README.md` and `specs/001-create-homekit-wrapper/quickstart.md`
 - [ ] T026 Configure CI workflow for fallback builds in `.github/workflows/ci.yml`
 
 ---
@@ -118,8 +118,8 @@ description: "Task list for strongly typed Swift HomeKit wrapper"
 
 ### Implementation Tasks
 
-- [X] T027 [US4] Add manual `HMHome`, `HMRoom`, and `HMZone` wrappers with `@MainActor` accessors in `Sources/SwiftHomeKit/Context/` citing Developer Apple metadata.
-- [X] T028 [P] [US4] Expose cache warm-up and reset APIs across `Service`, `Accessory`, and `HomeKitManager` in `Sources/SwiftHomeKit/` with negative tests in `Tests/SwiftHomeKitTests/Unit/CacheLifecycleTests.swift`.
+- [X] T027 [US4] Add manual `HMHome`, `HMRoom`, and `HMZone` wrappers with `@MainActor` accessors in `Sources/HomeAtlas/Context/` citing Developer Apple metadata.
+- [X] T028 [P] [US4] Expose cache warm-up and reset APIs across `Service`, `Accessory`, and `HomeKitManager` in `Sources/HomeAtlas/` with negative tests in `Tests/HomeAtlasTests/CacheLifecycleTests.swift`.
 - [X] T029 [US4] Document context wrappers and cache lifecycle usage in `README.md` and `specs/001-create-homekit-wrapper/quickstart.md`, referencing Developer Apple Context7 guidance.
 
 **Checkpoint**: Context entity ergonomics and cache lifecycle APIs documented and validated.

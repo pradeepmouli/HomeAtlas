@@ -264,5 +264,5 @@ public final class Accessory { ... }
 
 ---
 
-**Last Updated**: January 8, 2025
+**Last Updated**: November 11, 2025
 **Related**: [Service Extension](service-extension.md), [Troubleshooting Guide](troubleshooting.md)

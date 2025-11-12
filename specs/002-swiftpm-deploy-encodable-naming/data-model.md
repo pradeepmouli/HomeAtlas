@@ -3,7 +3,7 @@
 ## Entities
 
 ### Wrapper Class
-- **Description**: Swift type that wraps HomeKit objects (e.g., accessories, services, characteristics)
+- **Description**: Swift type in `Sources/HomeAtlas/` that wraps HomeKit objects (e.g., accessories, services, characteristics)
 - **Fields**: Varies by wrapper; typically includes identifiers, names, types, and value fields
 - **Relationships**: May reference other wrappers (e.g., a Service wrapper references Characteristic wrappers)
 - **Validation**: Must not leak `Any`; must be type-safe; must document non-encodable fields

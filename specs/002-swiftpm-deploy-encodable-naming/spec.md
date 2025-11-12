@@ -41,7 +41,7 @@ As a developer, I want wrapper classes to conform to `Encodable` where possible,
 
 ### User Story 3 - Package Naming Options (Priority: P3)
 
-As a maintainer, I want to evaluate alternative package naming conventions, so that the library name is clear, discoverable, and consistent with Swift community standards.
+As a maintainer, I want to evaluate alternative package naming conventions, so that the library name is clear, discoverable, and consistent with Swift community standards. The initiative consolidated on `HomeAtlas` as the long-term package identity replacing the legacy `SwiftHomeKit` label.
 
 **Why this priority**: Naming impacts discoverability and user trust in the package ecosystem.
 
@@ -86,7 +86,7 @@ As a maintainer, I want to evaluate alternative package naming conventions, so t
 ### Measurable Outcomes
 
 - **SC-001**: Package can be added to a sample project via SwiftPM and builds successfully on supported platforms.
-- **SC-002**: At least 90% of wrapper classes (defined as classes in Sources/SwiftHomeKit/ conforming to HomeKit service/characteristic wrapper protocols) conform to `Encodable` or have documented reasons for exclusion.
+- **SC-002**: At least 90% of wrapper classes (defined as classes in `Sources/HomeAtlas/` conforming to HomeKit service/characteristic wrapper protocols) conform to `Encodable` or have documented reasons for exclusion.
 - **SC-003**: Package name is unique in the Swift Package Index and follows community naming conventions.
 - **SC-004**: Documentation is updated and published alongside the package release.
 - **SC-HK-001**: Encode/decode tests pass for new wrappers and fallback compilation succeeds on platforms without HomeKit.

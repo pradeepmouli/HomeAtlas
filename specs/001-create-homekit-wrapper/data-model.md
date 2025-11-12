@@ -1,4 +1,4 @@
-# Data Model: SwiftHomeKit
+# Data Model: HomeAtlas (formerly SwiftHomeKit)
 
 ## Overview
 

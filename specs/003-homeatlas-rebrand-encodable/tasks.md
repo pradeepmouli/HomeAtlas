@@ -24,11 +24,11 @@
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-**Purpose**: Project initialization and basic structure for snapshot encoding
+**Purpose**: Ensure baseline folders exist for snapshot encoding work
 
-- [ ] T001 Create `Sources/HomeAtlas/Encoding/` directory for snapshot logic
-- [ ] T002 [P] Create `Tests/HomeAtlasTests/Encodable/` directory for snapshot tests
-- [ ] T003 [P] Create `Tests/HomeAtlasTests/Integration/` directory if not exists
+- [ ] T001 Confirm or create `Sources/HomeAtlas/Encoding/` directory for snapshot logic
+- [ ] T002 [P] Confirm or create `Tests/HomeAtlasTests/Encodable/` directory for snapshot tests
+- [ ] T003 [P] Confirm or create `Tests/HomeAtlasTests/Integration/` directory (add README stub if created)
 
 ---
 
@@ -80,21 +80,17 @@
 
 **Goal**: Module, tools, and docs use HomeAtlas branding consistently with migration guidance
 
-**Independent Test**: Import module as HomeAtlasKit in fresh project; run CLI with HomeAtlas names; verify migration note exists
+**Independent Test**: Import module as `HomeAtlas` in a fresh project; run CLI with documented HomeAtlas commands; verify migration note exists
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Rename legacy `Sources/SwiftHomeKit/` → `Sources/HomeAtlas/`
-- [ ] T025 [P] [US2] Rename legacy `Tests/SwiftHomeKitTests/` → `Tests/HomeAtlasTests/`
-- [ ] T026 [P] [US2] Update `Package.swift` product and target names to `HomeAtlasKit`
-- [ ] T027 [P] [US2] Update tool display names in `Sources/HomeKitServiceGenerator/main.swift` and docs to reference `HomeAtlasGen`
-- [ ] T028 [P] [US2] Update `README.md` with HomeAtlas branding, import examples using `import HomeAtlasKit`
-- [ ] T029 [P] [US2] Add migration note in `CHANGELOG.md` or `docs/migration-homeatlas.md` with search/replace steps for consumers
-- [ ] T030 [US2] Update all doc references in `docs/` to use HomeAtlas naming (depends on T024-T029)
-- [ ] T031 [US2] Update `.github/copilot-instructions.md` to reflect HomeAtlas naming
-- [ ] T032 [US2] Run build to verify package compiles with new naming
-- [ ] T033 [US2] Update quickstart examples in `docs/` to use HomeAtlasKit import
-- [ ] T033a [US2] Update `.specify/memory/constitution.md` references from "SwiftHomeKit" to "HomeAtlas" where appropriate
+- [ ] T024 [P] [US2] Audit repository for lingering `SwiftHomeKit` identifiers and replace with `HomeAtlas` where migration context is not required
+- [ ] T025 [P] [US2] Update `Package.swift` comments and product docs to describe the module as `HomeAtlas`
+- [ ] T026 [P] [US2] Refresh CLI documentation in `docs/service-extension.md` and `README.md` to reference current executable names and HomeAtlas branding
+- [ ] T027 [P] [US2] Add or update migration guidance in `CHANGELOG.md` and/or `docs/migration-homeatlas.md`
+- [ ] T028 [US2] Sweep `.github/copilot-instructions.md`, `.specify/memory/constitution.md`, and spec files to ensure HomeAtlas naming consistency
+- [ ] T029 [US2] Run `swift build` to verify package metadata remains valid after documentation updates
+- [ ] T030 [US2] Update quickstart examples in `docs/` and `specs/002-*/quickstart.md` to confirm `import HomeAtlas`
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work - snapshot export works with HomeAtlas branding
 

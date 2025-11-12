@@ -6,7 +6,7 @@ HomeAtlas delivers compile-time safe wrappers over Apple HomeKit services and ch
 
 - Strongly typed descriptors for accessories, services, and characteristics (no `Any` leakage).
 - `@MainActor` async helpers that bridge HomeKit callbacks to structured Swift concurrency.
-- Schema-driven SwiftPM command plugin (`generate-homekit`) to regenerate sources whenever the HomeKit catalog evolves.
+- Schema-driven SwiftPM command plugin (`generate-homeatlas`) to regenerate sources whenever the HomeKit catalog evolves.
 - Deterministic error surface that captures accessory, service, and characteristic context for diagnostics.
 - Built-in snapshot export for diagnostics and monitoring with deterministic JSON serialization.
 
@@ -199,7 +199,7 @@ HomeAtlas uses a two-stage pipeline to keep service definitions synchronized wit
 ### 1. Extract Catalog from iOS SDK
 
 ```bash
-swift run homekit-catalog-extractor \
+swift run HomeKitCatalogExtractor \
     /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
     --output Resources/homekit-services.yaml
 ```
@@ -209,7 +209,7 @@ This parses HomeKit framework headers and validates exported symbols against `Ho
 ### 2. Generate Swift Wrappers
 
 ```bash
-swift run homekit-service-generator \
+swift run HomeKitServiceGenerator \
     Resources/homekit-services.yaml \
     --output Sources/HomeAtlas/Generated
 ```
@@ -217,7 +217,7 @@ swift run homekit-service-generator \
 Or use the SwiftPM plugin for integrated builds:
 
 ```bash
-swift package plugin generate-homekit
+swift package plugin generate-homeatlas
 ```
 
 The plugin/generator emits typed Swift wrappers into:

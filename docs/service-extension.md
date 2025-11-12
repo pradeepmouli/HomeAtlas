@@ -25,7 +25,7 @@ The `HomeKitCatalogExtractor` tool parses the iOS SDK to generate a normalized Y
 
 ```bash
 # Extract from default iOS SDK location
-swift run homekit-catalog-extractor \
+swift run HomeKitCatalogExtractor \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
   --output Resources/homekit-services.yaml
 ```
@@ -35,7 +35,7 @@ swift run homekit-catalog-extractor \
 For enhanced metadata (service/characteristic descriptions, constraints), provide optional sources:
 
 ```bash
-swift run homekit-catalog-extractor \
+swift run HomeKitCatalogExtractor \
   <SDK_PATH> \
   --output Resources/homekit-services.yaml \
   --metadata /System/Library/PrivateFrameworks/HomeKitDaemon.framework/Resources/plain-metadata.config \
@@ -73,7 +73,7 @@ services:
 The `HomeKitServiceGenerator` tool consumes the YAML catalog and emits Swift source files:
 
 ```bash
-swift run homekit-service-generator \
+swift run HomeKitServiceGenerator \
   Resources/homekit-services.yaml \
   --output Sources/HomeAtlas/Generated
 ```
@@ -115,14 +115,14 @@ public final class LightbulbService: Service {
 When Apple introduces new HomeKit services in an iOS SDK update:
 
 1. **Update Catalog**: Re-run the extractor against the new SDK:
-   ```bash
-   swift run homekit-catalog-extractor <NEW_SDK_PATH> --output Resources/homekit-services.yaml
-   ```
+  ```bash
+  swift run HomeKitCatalogExtractor <NEW_SDK_PATH> --output Resources/homekit-services.yaml
+  ```
 
 2. **Regenerate Wrappers**: Re-run the generator:
-   ```bash
-   swift run homekit-service-generator Resources/homekit-services.yaml
-   ```
+  ```bash
+  swift run HomeKitServiceGenerator Resources/homekit-services.yaml
+  ```
 
 3. **Validate Parity**: Run integration tests to ensure generated code matches SDK:
    ```bash

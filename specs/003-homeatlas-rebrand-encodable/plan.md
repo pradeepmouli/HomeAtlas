@@ -7,9 +7,9 @@
 
 ## Summary
 
-Primary requirement: Rebrand the project to HomeAtlas (module: HomeAtlasKit; tools: HomeAtlasGen, HomeAtlasCLI) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
+Primary requirement: Finalize the HomeAtlas rebrand across documentation and tooling (module: `HomeAtlas`, CLI utilities retain their established names) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
 
-Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlasKit.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
+Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlas.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
 
 ## Technical Context
 
@@ -58,17 +58,17 @@ specs/003-homeatlas-rebrand-encodable/
 
 ```text
 Sources/
-├── SwiftHomeKit/                # Will be renamed to HomeAtlasKit in rebrand phase
+├── HomeAtlas/
 │   ├── Context/
 │   ├── Generated/
 │   ├── Encoding/
 │   │   └── HomeSnapshotEncoder.swift        # New: snapshot entry points and options
 │   └── …
-├── HomeKitServiceGenerator/     # Will become HomeAtlasGen (tool name)
-└── HomeKitCatalogExtractor/     # Tooling kept; docs update for naming
+├── HomeKitServiceGenerator/
+└── HomeKitCatalogExtractor/
 
 Tests/
-├── SwiftHomeKitTests/           # Will be renamed to HomeAtlasKitTests in rebrand phase
+├── HomeAtlasTests/
 │   ├── Encodable/
 │   │   └── SnapshotEncodingTests.swift      # New: validates schema and edge cases
 │   └── Integration/
@@ -76,7 +76,7 @@ Tests/
 └── …
 ```
 
-**Structure Decision**: Single Swift Package target with added `Encoding/` folder for snapshot logic and new tests under existing test target. Rebrand steps will rename the module and tool entry points, preserving source layout.
+**Structure Decision**: Single Swift Package target with added `Encoding/` folder for snapshot logic and new tests under the existing `HomeAtlas` test target. Tooling retains the extractor/generator names while documentation surfaces the HomeAtlas brand.
 
 ## Complexity Tracking
 

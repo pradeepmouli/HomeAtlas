@@ -3,7 +3,7 @@
 **Feature Branch**: `001-homeatlas-rebrand-encodable`
 **Created**: 2025-11-11
 **Status**: Draft
-**Input**: User description: "Update project naming - Brand/repo: HomeAtlas, SwiftPM module: HomeAtlasKit, Tooling: HomeAtlasGen, HomeAtlasCLI. Implement encodable wrapper/macro or generic method to serialize Home/Room/Accessory/Service/Characteristic etc.."
+**Input**: User description: "Finalize HomeAtlas branding, ensure the SwiftPM module exports as `HomeAtlas`, and deliver a deterministic snapshot export spanning Home/Room/Accessory/Service/Characteristic graphs."
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -39,7 +39,7 @@ A developer using the library can export the current Home graph (Home → Rooms 
 
 ### User Story 2 - Adopt HomeAtlas naming (Priority: P2)
 
-A developer can adopt the new naming: brand/repo as HomeAtlas, module as HomeAtlasKit, and tools as HomeAtlasGen and HomeAtlasCLI, with clear migration guidance.
+A developer can follow the documentation and rely on finalized naming: package imports use the `HomeAtlas` module, documentation references the HomeAtlas brand throughout, and migration guidance highlights differences from legacy `SwiftHomeKit` terminology.
 
 **Why this priority**: Aligns the toolkit under a cohesive brand and reduces confusion for new and existing users.
 
@@ -90,7 +90,7 @@ Consumers who compile on platforms without HomeKit support can still build their
 - **FR-002**: The JSON output MUST use stable, documented keys and be deterministic for a given Home state (ordering rules clearly defined).
 - **FR-003**: The export MUST not crash when encountering inaccessible or unsupported values; such fields are included as null with a reason field or excluded per documented rules.
 - **FR-004**: The solution MUST avoid leaking sensitive identifiers beyond what is already visible in standard Home views; provide an option to anonymize names and identifiers in the export.
-- **FR-005**: The rebrand MUST update visible naming in documentation and developer entry points to “HomeAtlas” (brand/repo), “HomeAtlasKit” (module), “HomeAtlasGen” and “HomeAtlasCLI” (tooling), with a migration note.
+- **FR-005**: The rebrand MUST update visible naming in documentation and developer entry points to “HomeAtlas” (brand/repo and module) and clarify tooling usage, with a migration note for legacy references.
 - **FR-TYPE**: Implementation MUST expose strongly typed Home interfaces for the targeted services/characteristics without leaking `Any` in public APIs.
 - **FR-CONCUR**: Implementation MUST specify the MainActor/async strategy for every Home call and for value reads performed during snapshot export.
 - **FR-DOCS**: Documentation MUST include examples for exporting a Home snapshot, notes on privacy options, performance guidance, and migration steps to HomeAtlas naming.

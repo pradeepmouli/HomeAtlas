@@ -7,9 +7,9 @@
 
 ## Summary
 
-Primary requirement: Rebrand the project to HomeAtlas (library module: `HomeAtlas`; tooling slated for HomeAtlasGen/HomeAtlasCLI) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
+Primary requirement: Rebrand the project to HomeAtlas (library module: `HomeAtlas`; tooling documentation aligned with the brand) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
 
-Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlasKit.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
+Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlas.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
 
 ## Technical Context
 
@@ -64,8 +64,8 @@ Sources/
 │   │   └── HomeSnapshotEncoder.swift        # Snapshot entry points and options
 │   ├── Generated/
 │   └── …
-├── HomeKitServiceGenerator/     # Rebrand to HomeAtlasGen in follow-up phase
-└── HomeKitCatalogExtractor/     # Tooling kept; docs update for naming
+├── HomeKitServiceGenerator/
+└── HomeKitCatalogExtractor/
 
 Tests/
 ├── HomeAtlasTests/
@@ -76,7 +76,7 @@ Tests/
 └── …
 ```
 
-**Structure Decision**: Single Swift Package target with added `Encoding/` folder for snapshot logic and new tests under existing test target. Rebrand steps will rename the module and tool entry points, preserving source layout.
+**Structure Decision**: Single Swift Package target with added `Encoding/` folder for snapshot logic and new tests under existing test target. Tool binaries retain their current names while documentation highlights the HomeAtlas brand.
 
 ## Complexity Tracking
 

@@ -1,11 +1,11 @@
-# Contract: HomeKit Schema Generator
+# Contract: HomeAtlas Schema Generator
 
 **Status**: Not yet implemented. US3 requires SDK extraction approach.
 
 ## Planned Architecture
 
 ### SDK Catalog Extraction
-- **Tool**: `homekit-catalog-extractor`
+- **Tool**: `HomeKitCatalogExtractor`
 - **Purpose**: Extract service/characteristic metadata directly from iOS SDK
 - **Inputs**:
   - `HMServiceTypes.h` - Service type constant declarations
@@ -14,14 +14,14 @@
 - **Output**: `Resources/homekit-services.yaml` - Normalized catalog
 
 ### Code Generation
-- **Tool**: `homekit-catalog-gen`
+- **Tool**: `HomeKitServiceGenerator`
 - **Purpose**: Generate strongly-typed service wrappers from catalog
 - **Input**: `Resources/homekit-services.yaml`
-- **Output**: `Sources/SwiftHomeKit/Generated/*.swift`
+- **Output**: `Sources/HomeAtlas/Generated/*.swift`
 
 ### Plugin Integration
-- **Plugin**: `SwiftHomeKitPlugin`
-- **Command**: `swift package generate-homekit`
+- **Plugin**: `HomeAtlasPlugin`
+- **Command**: `swift package plugin generate-homeatlas`
 - **Behavior**: Orchestrates extraction → generation pipeline
 
 ## Implementation Status

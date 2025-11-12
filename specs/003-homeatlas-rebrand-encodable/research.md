@@ -27,12 +27,12 @@ Branch: 003-homeatlas-rebrand-encodable
 - Rationale: Determinism simplifies diffing and testing.
 - Alternatives considered: Preserve HomeKit enumeration order (non-deterministic across runs/devices).
 
-### 5) Module and tooling renaming process
-- Decision: Rename module to `HomeAtlasKit`; tooling display names to `HomeAtlasGen` and `HomeAtlasCLI`. Provide migration notes and search/replace guidance.
-- Rationale: Aligns branding while minimizing churn.
-- Alternatives considered: Aliasing old names for a deprecation window; can be added if needed.
+### 5) Module and tooling naming alignment
+- Decision: Ship the SwiftPM library as `HomeAtlas` (matching package product) and surface extractor/generator tooling under existing executable names with HomeAtlas branding in documentation. Provide migration notes for legacy `SwiftHomeKit` references.
+- Rationale: Aligns branding without breaking existing target references; avoids unnecessary renames for executables already in use.
+- Alternatives considered: Renaming binaries (`HomeAtlasGen`, `HomeAtlasCLI`) which would require additional migration work for consumers; deferred unless future feedback demands it.
 
 ## References
-- SwiftHomeKit Constitution v1.1.0 (Type safety, MainActor, error model, documentation stewardship)
+- HomeAtlas Constitution v1.1.0 (Type safety, MainActor, error model, documentation stewardship)
 - Apple Developer docs (HomeKit threading and read permissions)
 

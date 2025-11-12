@@ -66,40 +66,43 @@ specs/001-create-homekit-wrapper/
 
 ```text
 Sources/
-├── SwiftHomeKit/
+├── HomeAtlas/
 │   ├── Accessory.swift
 │   ├── Characteristic.swift
-│   ├── Context/                 # US4 will add HMHome/HMRoom/HMZone wrappers
+│   ├── Context/
 │   ├── DiagnosticsLogger.swift
+│   ├── Encoding/
+│   ├── Generated/
+│   ├── HomeAtlas.swift
 │   ├── HomeKitError.swift
 │   ├── HomeKitManager.swift
 │   ├── Service.swift
-│   ├── SwiftHomeKit.swift
 │   └── Types.swift
-├── HomeKitSchemaGen/
-│   ├── CLI/
-│   └── Templates/
-└── Shared/
-  └── Metadata/
-
-Plugins/
-└── SwiftHomeKitPlugin/
-
-Tools/
-└── HomeKitCatalogExtractor/
+├── HomeKitServiceGenerator/
+│   ├── CatalogParser.swift
+│   ├── ServiceGenerator.swift
+│   └── main.swift
+├── HomeKitCatalogExtractor/
+│   ├── MetadataParser.swift
+│   ├── SDKExtractor.swift
+│   └── main.swift
+└── HomeAtlasMacros/
+    ├── Macros.swift
+    └── …
 
 Resources/
 └── homekit-services.yaml
 
 Tests/
-├── SwiftHomeKitTests/
-│   ├── Unit/
+├── HomeAtlasTests/
+│   ├── Encodable/
 │   ├── Integration/
-│   └── Fallback/
-└── GeneratorTests/
+│   ├── Unit/
+│   └── PlatformSafetyTests.swift
+└── HomeAtlasMacrosTests/
 ```
 
-**Structure Decision**: Single Swift package with `Sources/SwiftHomeKit/` housing runtime code (top-level Swift files today, expanding with `Context/` for US4 cache-aware wrappers), `Sources/HomeKitSchemaGen/` for generation tooling, `Tools/HomeKitCatalogExtractor/` for SDK metadata harvesting utilities, `Plugins/SwiftHomeKitPlugin/` for the SwiftPM command plugin, and `Tests/SwiftHomeKitTests/` covering unit, integration, latency, cache lifecycle, and generated parity tests.
+**Structure Decision**: Single Swift package with `Sources/HomeAtlas/` housing the runtime code (with `Context/` wrappers, `Encoding/` snapshot logic, and generated service/characteristic files), `Sources/HomeKitServiceGenerator/` for schema-driven wrapper generation, `Sources/HomeKitCatalogExtractor/` for SDK metadata harvesting utilities, the `HomeAtlasMacros` target supplying compile-time helpers, and `Tests/HomeAtlasTests/` plus `Tests/HomeAtlasMacrosTests/` for unit, integration, and macro validation.
 
 ## Complexity Tracking
 
