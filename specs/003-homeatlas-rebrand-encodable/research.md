@@ -35,4 +35,3 @@ Branch: 003-homeatlas-rebrand-encodable
 ## References
 - HomeAtlas Constitution v1.1.0 (Type safety, MainActor, error model, documentation stewardship)
 - Apple Developer docs (HomeKit threading and read permissions)
-

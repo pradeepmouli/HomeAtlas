@@ -29,4 +29,3 @@ func exportSnapshot() async throws {
 # Planned command-line support will surface through a dedicated snapshot subcommand:
 homeatlas export --output home-snapshot.json --anonymize=false
 ```
-

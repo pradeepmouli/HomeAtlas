@@ -13,15 +13,15 @@ Technical approach (subject to Phase 0 validation): Implement a generic snapshot
 
 ## Technical Context
 
-**Language/Version**: Swift 6.0 (per repo guidelines)  
-**Primary Dependencies**: Apple HomeKit (conditional), Foundation  
-**Storage**: None (in-memory traversal; output to file/string as needed)  
-**Testing**: XCTest with unit, integration, and fallback compilation tests  
-**Target Platform**: iOS 18+/macOS 15+ family as per constitution guardrails; compile-time fallbacks when HomeKit is not available  
-**Project Type**: Swift Package (single-target for core library)  
-**Performance Goals**: Export ≤ 2 seconds for ~100 accessories with ~1000 characteristics on modern desktop hardware  
-**Constraints**: Deterministic key ordering; no crashes on restricted values; optional anonymization  
-**Scale/Scope**: Typical consumer homes; stress tests up to 100+ accessories, 1000+ characteristics  
+**Language/Version**: Swift 6.0 (per repo guidelines)
+**Primary Dependencies**: Apple HomeKit (conditional), Foundation
+**Storage**: None (in-memory traversal; output to file/string as needed)
+**Testing**: XCTest with unit, integration, and fallback compilation tests
+**Target Platform**: iOS 18+/macOS 15+ family as per constitution guardrails; compile-time fallbacks when HomeKit is not available
+**Project Type**: Swift Package (single-target for core library)
+**Performance Goals**: Export ≤ 2 seconds for ~100 accessories with ~1000 characteristics on modern desktop hardware
+**Constraints**: Deterministic key ordering; no crashes on restricted values; optional anonymization
+**Scale/Scope**: Typical consumer homes; stress tests up to 100+ accessories, 1000+ characteristics
 
 Open questions (NEEDS CLARIFICATION for Phase 0):
 - Serialization mechanism choice: macro vs. encodable wrapper vs. generic method for snapshotting (proposal: generic method + Encodable snapshot types for MVP).
@@ -30,11 +30,11 @@ Open questions (NEEDS CLARIFICATION for Phase 0):
 
 ## Constitution Check
 
-Type-safe API surface: Use strongly-typed wrappers already present; public export API returns `Data`/`String` and documented schema without `Any` exposure.  
-MainActor strategy: All HomeKit interactions (reads of values) performed on `@MainActor`; traversal code annotated accordingly. No exceptions anticipated.  
-Error handling: Map failures to `HomeKitError` with context (home/room/accessory/service/characteristic identifiers). Timeouts/logging recorded via `DiagnosticsLogger`.  
-Coverage evidence: Add unit tests for entities, integration test to export a representative Home, parity tests to validate keys, and compile guard tests for no-HomeKit platforms.  
-Documentation: Update README, CHANGELOG, docs/reference-index.md with naming changes and an “Export snapshot” quickstart; add privacy notes.  
+Type-safe API surface: Use strongly-typed wrappers already present; public export API returns `Data`/`String` and documented schema without `Any` exposure.
+MainActor strategy: All HomeKit interactions (reads of values) performed on `@MainActor`; traversal code annotated accordingly. No exceptions anticipated.
+Error handling: Map failures to `HomeKitError` with context (home/room/accessory/service/characteristic identifiers). Timeouts/logging recorded via `DiagnosticsLogger`.
+Coverage evidence: Add unit tests for entities, integration test to export a representative Home, parity tests to validate keys, and compile guard tests for no-HomeKit platforms.
+Documentation: Update README, CHANGELOG, docs/reference-index.md with naming changes and an “Export snapshot” quickstart; add privacy notes.
 External references: Cite Apple Developer HomeKit docs for access permissions, threading, and characteristic read semantics via `developer_apple` context in docs.
 
 Gate status: PASS (no violations anticipated). Re-check after design below.
@@ -84,9 +84,9 @@ No constitution violations to justify at this time.
 
 ## Post-Design Constitution Re-Check
 
-After producing `research.md`, `data-model.md`, and the schema contract, the design remains compliant:  
-- Type safety preserved via snapshot models and typed traversal.  
-- `@MainActor` enforced on read paths; no background HomeKit access.  
-- Errors mapped to `HomeKitError` with diagnostics hooks.  
-- Tests planned for coverage and fallbacks.  
+After producing `research.md`, `data-model.md`, and the schema contract, the design remains compliant:
+- Type safety preserved via snapshot models and typed traversal.
+- `@MainActor` enforced on read paths; no background HomeKit access.
+- Errors mapped to `HomeKitError` with diagnostics hooks.
+- Tests planned for coverage and fallbacks.
 - Documentation updates enumerated.
