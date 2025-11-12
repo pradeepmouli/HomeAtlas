@@ -1,9 +1,10 @@
 // swift-tools-version: 6.0
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
-    name: "SwiftHomeKit",
+    name: "HomeAtlas",
     defaultLocalization: "en",
     platforms: [
         .iOS(.v16),
@@ -13,8 +14,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "SwiftHomeKit",
-            targets: ["SwiftHomeKit"]
+            name: "HomeAtlas",
+            targets: ["HomeAtlas"]
         ),
         .executable(
             name: "HomeKitCatalogExtractor",
@@ -29,9 +30,21 @@ let package = Package(
         .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0")
     ],
     targets: [
+    // Macro compiler plugin
+        .macro(
+            name: "HomeAtlasMacros",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ],
+            path: "Sources/HomeAtlasMacros"
+        ),
+
+        // Main library with macro support
         .target(
-            name: "SwiftHomeKit",
-            path: "Sources/SwiftHomeKit"
+            name: "HomeAtlas",
+            dependencies: ["HomeAtlasMacros"],
+            path: "Sources/HomeAtlas"
         ),
         .executableTarget(
             name: "HomeKitCatalogExtractor",
@@ -42,9 +55,17 @@ let package = Package(
             path: "Sources/HomeKitServiceGenerator"
         ),
         .testTarget(
-            name: "SwiftHomeKitTests",
-            dependencies: ["SwiftHomeKit"],
-            path: "Tests/SwiftHomeKitTests"
+            name: "HomeAtlasTests",
+            dependencies: ["HomeAtlas"],
+            path: "Tests/HomeAtlasTests"
+        ),
+        .testTarget(
+            name: "HomeAtlasMacrosTests",
+            dependencies: [
+                "HomeAtlasMacros",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
+            ],
+            path: "Tests/HomeAtlasMacrosTests"
         )
     ]
 )

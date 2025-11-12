@@ -1,10 +1,10 @@
 # Service Extension Workflow
 
-This document describes the SDK-driven workflow for extending SwiftHomeKit with new HomeKit services and characteristics.
+This document describes the SDK-driven workflow for extending HomeAtlas with new HomeKit services and characteristics.
 
 ## Overview
 
-SwiftHomeKit uses a two-stage code generation pipeline:
+HomeAtlas uses a two-stage code generation pipeline:
 
 1. **SDK Extraction**: Parse the iOS SDK to extract canonical HomeKit metadata
 2. **Service Generation**: Generate strongly-typed Swift wrappers from the extracted catalog
@@ -75,7 +75,7 @@ The `HomeKitServiceGenerator` tool consumes the YAML catalog and emits Swift sou
 ```bash
 swift run homekit-service-generator \
   Resources/homekit-services.yaml \
-  --output Sources/SwiftHomeKit/Generated
+  --output Sources/HomeAtlas/Generated
 ```
 
 **What the generator does:**
@@ -86,7 +86,7 @@ swift run homekit-service-generator \
    - `@MainActor` accessors for thread safety
    - Developer Apple documentation links
 3. **Type Constants**: Creates reference files for UUID type constants
-4. **Output Organization**: Writes files to `Sources/SwiftHomeKit/Generated/`
+4. **Output Organization**: Writes files to `Sources/HomeAtlas/Generated/`
 
 **Generated Code Example** (simplified):
 
@@ -133,7 +133,7 @@ When Apple introduces new HomeKit services in an iOS SDK update:
 
 ## Manual Service Definitions
 
-For services requiring custom behavior beyond autogeneration (e.g., complex state management), create manual wrappers in `Sources/SwiftHomeKit/` that subclass `Service` directly:
+For services requiring custom behavior beyond autogeneration (e.g., complex state management), create manual wrappers in `Sources/HomeAtlas/` that subclass `Service` directly:
 
 ```swift
 @MainActor
@@ -194,7 +194,7 @@ ls /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Develo
 
 **Problem**: Generated code fails to compile
 
-**Solution**: Ensure `Service` and `Characteristic` base types exist in `Sources/SwiftHomeKit/` and are `@MainActor`-annotated.
+**Solution**: Ensure `Service` and `Characteristic` base types exist in `Sources/HomeAtlas/` and are `@MainActor`-annotated.
 
 ## Developer Apple References
 

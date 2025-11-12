@@ -1,6 +1,6 @@
-# Troubleshooting SwiftHomeKit Diagnostics
+# Troubleshooting HomeAtlas Diagnostics
 
-SwiftHomeKit surfaces actionable error metadata to help you correlate runtime failures with Apple HomeKit guidance from Developer Apple Context7 (`developer_apple`, HomeKit > Troubleshooting HomeKit Accessories). This guide explains how to interpret `HomeKitError` payloads and the diagnostic events emitted by `DiagnosticsLogger`.
+HomeAtlas surfaces actionable error metadata to help you correlate runtime failures with Apple HomeKit guidance from Developer Apple Context7 (`developer_apple`, HomeKit > Troubleshooting HomeKit Accessories). This guide explains how to interpret `HomeKitError` payloads and the diagnostic events emitted by `DiagnosticsLogger`.
 
 ## Understanding `HomeKitError`
 

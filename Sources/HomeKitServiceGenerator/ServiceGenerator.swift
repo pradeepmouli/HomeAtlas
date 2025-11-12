@@ -42,6 +42,14 @@ struct ServiceGenerator {
                 characteristicTypeNames: characteristicTypeNames
             )
         }
+
+        // Also emit a generated mapping file for the macro target so it can map
+        // wrapper type names to value types without manual upkeep.
+        try generateMacroCharacteristicValueMapping(
+            at: "Sources/HomeAtlasMacros/Generated",
+            characteristicTypeNames: characteristicTypeNames,
+            characteristicsByName: characteristicsByName
+        )
     }
 
     // MARK: - Directory Management
@@ -192,7 +200,7 @@ struct ServiceGenerator {
 
         var contents = header
         contents += "#if canImport(HomeKit)\nimport HomeKit\n#endif\n\n"
-        contents += "@MainActor\npublic final class \(typeName): Service, GeneratedService {\n"
+        contents += "@Snapshotable\n@MainActor\npublic final class \(typeName): Service, GeneratedService {\n"
         contents += "    public static let serviceType: String = ServiceType.\(serviceConstant)\n"
 
         let requiredConstLines = makeCharacteristicArray(
@@ -250,6 +258,48 @@ struct ServiceGenerator {
 
         contents += "}\n"
 
+        try contents.write(to: fileURL, atomically: true, encoding: .utf8)
+    }
+
+    // MARK: - Macro mapping generation
+
+    private func generateMacroCharacteristicValueMapping(
+        at macroDirPath: String,
+        characteristicTypeNames: [String: String],
+        characteristicsByName: [String: CharacteristicEntryYAML]
+    ) throws {
+        let macroDir = URL(fileURLWithPath: macroDirPath, isDirectory: true)
+        if !fileManager.fileExists(atPath: macroDir.path) {
+            try fileManager.createDirectory(at: macroDir, withIntermediateDirectories: true)
+        }
+
+        // Build mapping: WrapperTypeName -> ValueType? (optionals in macro)
+        var entries: [String: String] = [:]
+        for (charName, wrapperTypeName) in characteristicTypeNames.sorted(by: { $0.key < $1.key }) {
+            guard let spec = characteristicsByName[charName] else { continue }
+            let base = characteristicValueType(for: spec.valueType)
+            let valueTypeOptionalized: String
+            switch base {
+            case "Bool", "Int", "Double", "String", "Data":
+                valueTypeOptionalized = "\(base)?"
+            default:
+                valueTypeOptionalized = "Any?"
+            }
+            entries[wrapperTypeName] = valueTypeOptionalized
+        }
+
+        // Render Swift source file
+        var contents = generatedFileHeader()
+        contents += "// Generated characteristic value type mapping for Snapshotable macro\n"
+        contents += "// Maps wrapper class name -> snapshot value type string (optional)\n\n"
+        contents += "internal let GeneratedCharacteristicValueMapping: [String: String] = [\n"
+        let lines = entries.sorted(by: { $0.key < $1.key }).map { key, value in
+            "    \"\(key)\": \"\(value)\""
+        }
+        contents += lines.joined(separator: ",\n")
+        contents += "\n]\n"
+
+        let fileURL = macroDir.appendingPathComponent("CharacteristicValueMappings.swift")
         try contents.write(to: fileURL, atomically: true, encoding: .utf8)
     }
 

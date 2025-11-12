@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2025-11-08
 
 ## Active Technologies
+- Swift 6.0 (per repo guidelines) + Apple HomeKit (conditional), Foundation (001-homeatlas-rebrand-encodable)
+- None (in-memory traversal; output to file/string as needed) (001-homeatlas-rebrand-encodable)
 
 - Swift 6.0 targeting Swift concurrency and macro capabilities. + Apple HomeKit framework; Swift Package Manager; Swift Argument Parser + SwiftSyntax for schema-driven generation; Developer Apple Context7 HomeKit metadata as authoritative reference. (001-create-homekit-wrapper)
 
@@ -22,6 +24,7 @@ tests/
 Swift 6.0 targeting Swift concurrency and macro capabilities.: Follow standard conventions
 
 ## Recent Changes
+- 001-homeatlas-rebrand-encodable: Added Swift 6.0 (per repo guidelines) + Apple HomeKit (conditional), Foundation
 - 002-swiftpm-deploy-encodable-naming: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
 - 001-create-homekit-wrapper: Added Swift 6.0 targeting Swift concurrency and macro capabilities. + Apple HomeKit framework; Swift Package Manager; Swift Argument Parser + SwiftSyntax for schema-driven generation; Developer Apple Context7 HomeKit metadata as authoritative reference.
