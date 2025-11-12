@@ -6,14 +6,13 @@ This guide shows how a developer will export a Home snapshot to JSON using the H
 
 ```swift
 import HomeAtlas
+import HomeKit
 
 @MainActor
-func exportSnapshot() async throws {
-    // Planned API shape
+func exportSnapshot(for home: HMHome) async throws {
     let options = SnapshotOptions(anonymize: false)
-    let data = try await HomeAtlas.encodeSnapshot(options: options)
+    let data = try await HomeAtlas.encodeSnapshot(home, options: options)
 
-    // Save to file
     let url = FileManager.default.temporaryDirectory.appendingPathComponent("home-snapshot.json")
     try data.write(to: url)
 }

@@ -9,7 +9,7 @@
 
 Primary requirement: Rebrand the project to HomeAtlas (library module: `HomeAtlas`; tooling documentation aligned with the brand) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
 
-Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlas.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
+Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlas.encodeSnapshot(_:options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
 
 ## Technical Context
 

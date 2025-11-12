@@ -63,7 +63,7 @@
 - [ ] T013 [US1] Implement Characteristic→CharacteristicSnapshot conversion reading values on `@MainActor` with null+reason for restricted/unavailable (depends on T009-T012)
 - [ ] T014 [US1] Add deterministic ordering to all snapshot conversions using helpers from T006
 - [ ] T015 [US1] Implement anonymization logic in `HomeSnapshotEncoder` when `SnapshotOptions.anonymize = true` (hash/redact names and IDs)
-- [ ] T016 [US1] Add public API method `encodeSnapshot(options:) async throws -> Data` in `Sources/HomeAtlas/HomeAtlas.swift` or dedicated export file
+- [ ] T016 [US1] Add public API method `encodeSnapshot(_:options:) async throws -> Data` in `Sources/HomeAtlas/HomeAtlas.swift` or dedicated export file
 - [ ] T017 [US1] Implement JSON encoding with stable key order using JSONEncoder with sortedKeys option
 - [ ] T018 [US1] Add unit test in `Tests/HomeAtlasTests/Encodable/SnapshotEncodingTests.swift` validating schema compliance against `contracts/home-snapshot.schema.json`
 - [ ] T019 [US1] Add integration test in `Tests/HomeAtlasTests/Integration/SnapshotIntegrationTests.swift` exporting a representative Home and verifying output

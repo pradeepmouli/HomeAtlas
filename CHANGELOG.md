@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
   - Includes nested snapshot structures with deterministic ordering
 - **AtlasSnapshot Encoder**: New bridging encoder for converting HMHome graphs to typed snapshots
   - `AtlasSnapshotEncoder` class for typed snapshot generation
-  - `HomeAtlas.encodeSnapshot()` API for JSON export
+  - `HomeAtlas.encodeSnapshot(_:options:)` API for JSON export
   - Deterministic JSON output with sorted keys
 - **Stable Anonymization**: FNV-1a-based deterministic anonymization for privacy
   - `StableAnonymizer` helper for reproducible hashing
