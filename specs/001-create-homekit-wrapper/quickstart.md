@@ -14,19 +14,19 @@
 .target(
     name: "MyApp",
     dependencies: [
-        .product(name: "SwiftHomeKit", package: "swift-homekit")
+    .product(name: "HomeAtlas", package: "swift-homekit")
     ]
 )
 ```
 
 ## Generate Typed Sources
 
-SwiftHomeKit uses a two-stage pipeline to stay synchronized with Apple's HomeKit SDK:
+HomeAtlas uses a two-stage pipeline to stay synchronized with Apple's HomeKit SDK:
 
 ### Stage 1: Extract Catalog from SDK
 
 ```bash
-swift run homekit-catalog-extractor \
+swift run HomeKitCatalogExtractor \
     /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
     --output Resources/homekit-services.yaml
 ```
@@ -39,15 +39,9 @@ This command:
 ### Stage 2: Generate Swift Wrappers
 
 ```bash
-swift run homekit-service-generator \
+swift run HomeKitServiceGenerator \
     Resources/homekit-services.yaml \
-    --output Sources/SwiftHomeKit/Generated
-```
-
-Or use the SwiftPM plugin:
-
-```bash
-swift package plugin generate-homekit
+    --output Sources/HomeAtlas/Generated
 ```
 
 Generated files contain:
@@ -59,7 +53,7 @@ For complete workflow details, see the [Service Extension Guide](../../docs/serv
 
 ## Using the Wrapper
 ```swift
-import SwiftHomeKit
+import HomeAtlas
 
 enum ToggleError: Error {
     case accessoryNotFound
@@ -90,7 +84,7 @@ func toggleLightbulb(named accessoryName: String, manager: HomeKitManager) async
 Organize accessories using strongly-typed wrappers for HomeKit context entities:
 
 ```swift
-import SwiftHomeKit
+import HomeAtlas
 
 @MainActor
 func manageHome(manager: HomeKitManager) async throws {
@@ -144,9 +138,9 @@ func optimizeCaching(manager: HomeKitManager) async {
 See [Developer Apple - Interacting with a home automation network](https://developer.apple.com/documentation/homekit/interacting-with-a-home-automation-network) for best practices.
 
 ## Testing Strategy
-- Run `swift test --filter SwiftHomeKitTests` to execute unit and integration tests.
+- Run `swift test --filter HomeAtlasTests` to execute unit and integration tests.
 - Use `swift test --enable-test-discovery` on Linux/macOS to verify fallback builds without HomeKit framework.
-- Execute `swift run homekit-schema-gen validate` before committing metadata changes.
+- Execute `swift run HomeKitServiceGenerator Resources/homekit-services.yaml --output Sources/HomeAtlas/Generated` after catalog updates to refresh generated wrappers.
 
 ## Error Handling & Diagnostics
 

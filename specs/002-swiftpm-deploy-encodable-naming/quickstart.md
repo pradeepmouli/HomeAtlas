@@ -8,7 +8,7 @@
 4. Select the version and add the package to your project.
 5. Import the module in your Swift files:
    ```swift
-   import SwiftHomeKit
+   import HomeAtlas
    ```
 
 ## Using Encodable Wrappers

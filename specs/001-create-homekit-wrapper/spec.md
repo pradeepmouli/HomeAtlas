@@ -96,7 +96,7 @@ Framework adopters want guidance and scaffolding to add new HomeKit services wit
 HomeKit developers want typed access to homes, rooms, and zones plus predictable cache lifecycle controls so wrapper instances remain stable and can be eagerly prepared when needed.
 
 **Implementation (planned)**:
-- Manual `HMHome`, `HMRoom`, and `HMZone` wrappers under `Sources/SwiftHomeKit/Context/` with `@MainActor` accessors mirroring Developer Apple naming.
+- Manual `HMHome`, `HMRoom`, and `HMZone` wrappers under `Sources/HomeAtlas/Context/` with `@MainActor` accessors mirroring Developer Apple naming.
 - Cache warm-up and reset APIs on `Service`, `Accessory`, and `HomeKitManager` so apps can eagerly initialize wrappers or clear stale state in response to delegate callbacks.
 - Diagnostics integration ensuring cache operations emit metadata when warm-up exceeds latency thresholds.
 

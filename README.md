@@ -1,13 +1,14 @@
-# SwiftHomeKit
+# HomeAtlas
 
-SwiftHomeKit delivers compile-time safe wrappers over Apple HomeKit services and characteristics. Metadata for every service originates from Developer Apple Context7 (`developer_apple`, HomeKit topic), ensuring generated Swift APIs remain aligned with the platform source of truth.
+HomeAtlas delivers compile-time safe wrappers over Apple HomeKit services and characteristics. Metadata for every service originates from Developer Apple Context7 (`developer_apple`, HomeKit topic), ensuring generated Swift APIs remain aligned with the platform source of truth.
 
 ## Highlights
 
 - Strongly typed descriptors for accessories, services, and characteristics (no `Any` leakage).
 - `@MainActor` async helpers that bridge HomeKit callbacks to structured Swift concurrency.
-- Schema-driven SwiftPM command plugin (`generate-homekit`) to regenerate sources whenever the HomeKit catalog evolves.
+- Schema-driven SwiftPM command plugin (`generate-homeatlas`) to regenerate sources whenever the HomeKit catalog evolves.
 - Deterministic error surface that captures accessory, service, and characteristic context for diagnostics.
+- Built-in snapshot export for diagnostics and monitoring with deterministic JSON serialization.
 
 ## Requirements
 
@@ -16,7 +17,7 @@ SwiftHomeKit delivers compile-time safe wrappers over Apple HomeKit services and
 
 ## Installation
 
-Add `SwiftHomeKit` to your package dependencies:
+Add `HomeAtlas` to your package dependencies:
 
 ```swift
 .package(url: "https://github.com/pradeepmouli/swift-homekit.git", from: "0.1.0")
@@ -26,7 +27,7 @@ Then add the library to your target:
 
 ```swift
 .target(name: "MyApp", dependencies: [
-    .product(name: "SwiftHomeKit", package: "swift-homekit")
+    .product(name: "HomeAtlas", package: "swift-homekit")
 ])
 ```
 
@@ -45,7 +46,7 @@ To publish a new release:
 ## Compile-Time Accessory Control
 
 ```swift
-import SwiftHomeKit
+import HomeAtlas
 
 enum ToggleError: Error {
     case accessoryNotFound
@@ -75,7 +76,7 @@ The example mirrors the [Developer Apple Context7 HomeKit Lightbulb service docu
 
 ## Serialization for Diagnostics
 
-SwiftHomeKit wrappers do not conform to `Encodable` because they wrap non-Encodable HomeKit framework types (`HMAccessory`, `HMService`, etc.). For diagnostics or logging that require serialization, use the DTO (Data Transfer Object) pattern to extract encodable snapshots:
+HomeAtlas wrappers do not conform to `Encodable` because they wrap non-Encodable HomeKit framework types (`HMAccessory`, `HMService`, etc.). For diagnostics or logging that require serialization, use the DTO (Data Transfer Object) pattern to extract encodable snapshots:
 
 ```swift
 struct AccessorySnapshot: Codable {
@@ -101,7 +102,7 @@ See `docs/encodable-exclusion-rationale.md` for detailed rationale and DTO examp
 
 ## Deterministic Error Insights
 
-SwiftHomeKit converts every fallible operation into a `HomeKitError`, enriching the error with the accessory, service, and characteristic metadata documented by [Developer Apple](https://developer.apple.com/documentation/homekit/hmerror).
+HomeAtlas converts every fallible operation into a `HomeKitError`, enriching the error with the accessory, service, and characteristic metadata documented by [Developer Apple](https://developer.apple.com/documentation/homekit/hmerror).
 
 ```swift
 do {
@@ -129,10 +130,10 @@ Pair the metadata with the relevant Developer Apple Context7 topic (e.g., access
 
 ## Context Entities & Organization
 
-SwiftHomeKit provides strongly-typed wrappers for HomeKit context entities that organize accessories:
+HomeAtlas provides strongly-typed wrappers for HomeKit context entities that organize accessories:
 
 ```swift
-import SwiftHomeKit
+import HomeAtlas
 
 @MainActor
 func listHomeRooms(manager: HomeKitManager) async {
@@ -166,7 +167,7 @@ These wrappers conform to the [Developer Apple HMHome](https://developer.apple.c
 
 ## Cache Lifecycle Management
 
-For performance optimization, SwiftHomeKit exposes cache warm-up and reset APIs:
+For performance optimization, HomeAtlas exposes cache warm-up and reset APIs:
 
 ```swift
 @MainActor
@@ -193,12 +194,12 @@ See [Developer Apple - Interacting with a home automation network](https://devel
 
 ## Generating Sources
 
-SwiftHomeKit uses a two-stage pipeline to keep service definitions synchronized with Apple's SDK:
+HomeAtlas uses a two-stage pipeline to keep service definitions synchronized with Apple's SDK:
 
 ### 1. Extract Catalog from iOS SDK
 
 ```bash
-swift run homekit-catalog-extractor \
+swift run HomeKitCatalogExtractor \
     /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk \
     --output Resources/homekit-services.yaml
 ```
@@ -208,21 +209,21 @@ This parses HomeKit framework headers and validates exported symbols against `Ho
 ### 2. Generate Swift Wrappers
 
 ```bash
-swift run homekit-service-generator \
+swift run HomeKitServiceGenerator \
     Resources/homekit-services.yaml \
-    --output Sources/SwiftHomeKit/Generated
+    --output Sources/HomeAtlas/Generated
 ```
 
 Or use the SwiftPM plugin for integrated builds:
 
 ```bash
-swift package plugin generate-homekit
+swift package plugin generate-homeatlas
 ```
 
 The plugin/generator emits typed Swift wrappers into:
 
-- `Sources/SwiftHomeKit/Generated/Services` for service classes such as `LightbulbService`.
-- `Sources/SwiftHomeKit/Generated/Characteristics` for characteristic wrappers such as `PowerStateCharacteristic`.
+- `Sources/HomeAtlas/Generated/Services` for service classes such as `LightbulbService`.
+- `Sources/HomeAtlas/Generated/Characteristics` for characteristic wrappers such as `PowerStateCharacteristic`.
 
 Every generated file includes `@MainActor` annotations and doc comments referencing the corresponding [Developer Apple HomeKit documentation](https://developer.apple.com/documentation/homekit) so the code stays aligned with the platform source of truth.
 
@@ -245,4 +246,4 @@ Smoke tests validate the schema pipeline and ensure integration logic compiles o
 
 ## License
 
-SwiftHomeKit is available under the MIT license. See [LICENSE](LICENSE) for details.
+HomeAtlas is available under the MIT license. See [LICENSE](LICENSE) for details.

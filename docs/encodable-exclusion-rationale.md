@@ -1,10 +1,10 @@
 # Encodable Exclusion Rationale
 
-This document explains why SwiftHomeKit wrapper classes cannot conform to `Encodable` and provides alternative approaches for serialization needs.
+This document explains why HomeAtlas wrapper classes cannot conform to `Encodable` and provides alternative approaches for serialization needs.
 
 ## Why Wrappers Are Not Encodable
 
-All SwiftHomeKit wrapper classes store `underlying` properties referencing Apple HomeKit framework types:
+All HomeAtlas wrapper classes store `underlying` properties referencing Apple HomeKit framework types:
 
 - `Accessory` → `HMAccessory`
 - `Service` → `HMService`
@@ -18,7 +18,7 @@ All SwiftHomeKit wrapper classes store `underlying` properties referencing Apple
 2. They contain delegates, callbacks, and runtime state
 3. They reference native Objective-C objects not designed for serialization
 
-Per SwiftHomeKit Constitution Principle I (Type-Safe APIs), we cannot:
+Per HomeAtlas Constitution Principle I (Type-Safe APIs), we cannot:
 - Leak `Any` types during encoding
 - Use custom serialization that loses type information
 - Bypass Swift's type system
@@ -84,6 +84,6 @@ Original **SC-002**: "At least 90% of wrapper classes conform to `Encodable` or 
 ## References
 
 - **Apple Developer**: HomeKit framework types (HMAccessory, HMService, etc.) do not conform to Codable
-- **SwiftHomeKit Constitution Principle I**: Type-Safe APIs without `Any` leakage
+- **HomeAtlas Constitution Principle I**: Type-Safe APIs without `Any` leakage
 - **Spec FR-002**: Conformance feasibility criteria
 - **Spec FR-003**: Document exclusion rationale (this file)

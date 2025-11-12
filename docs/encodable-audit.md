@@ -1,4 +1,4 @@
-# Encodable Audit: SwiftHomeKit
+# Encodable Audit: HomeAtlas
 
 **Status**: T011 Complete - Audit findings documented
 **Date**: 2025-11-10
@@ -16,20 +16,20 @@ Tracks Encodable feasibility and decisions for wrapper classes per Spec §FR-002
 
 | Type | File | Encodable | Stored Properties | Decision | Notes |
 |------|------|-----------|-------------------|----------|-------|
-| **Accessory** | `Sources/SwiftHomeKit/Accessory.swift` | ❌ No | `underlying: HMAccessory`, `serviceCache: [UUID: AnyObject]` | **Exclude** | `HMAccessory` is not Encodable; `serviceCache` contains `AnyObject`. Runtime state, not serializable data. |
-| **Service** | `Sources/SwiftHomeKit/Service.swift` | ❌ No | `underlying: HMService`, `characteristicCache: [UUID: CharacteristicCacheEntry]` | **Exclude** | `HMService` not Encodable; cache is runtime state. Base class for generated services. |
-| **Characteristic<Value>** | `Sources/SwiftHomeKit/Characteristic.swift` | ❌ No | `underlying: HMCharacteristic` | **Exclude** | `HMCharacteristic` not Encodable. Generic over `Value`, difficult to encode type-safely without custom strategy. |
-| **HomeKitManager** | `Sources/SwiftHomeKit/HomeKitManager.swift` | ❌ No | `underlying: HMHomeManager`, caches | **Exclude** | Manager/controller type, not a data model. |
-| **HomeKitError** | `Sources/SwiftHomeKit/HomeKitError.swift` | ⚠️ Consider | Associated values vary | **Defer** | Error types can be Encodable for diagnostics serialization. Requires careful handling of `Error`-typed payloads. Evaluate in future iteration. |
-| **DiagnosticsLogger** | `Sources/SwiftHomeKit/DiagnosticsLogger.swift` | ❌ No | Observers, state | **Exclude** | Logger/singleton, not a data model. |
+| **Accessory** | `Sources/HomeAtlas/Accessory.swift` | ❌ No | `underlying: HMAccessory`, `serviceCache: [UUID: AnyObject]` | **Exclude** | `HMAccessory` is not Encodable; `serviceCache` contains `AnyObject`. Runtime state, not serializable data. |
+| **Service** | `Sources/HomeAtlas/Service.swift` | ❌ No | `underlying: HMService`, `characteristicCache: [UUID: CharacteristicCacheEntry]` | **Exclude** | `HMService` not Encodable; cache is runtime state. Base class for generated services. |
+| **Characteristic<Value>** | `Sources/HomeAtlas/Characteristic.swift` | ❌ No | `underlying: HMCharacteristic` | **Exclude** | `HMCharacteristic` not Encodable. Generic over `Value`, difficult to encode type-safely without custom strategy. |
+| **HomeKitManager** | `Sources/HomeAtlas/HomeKitManager.swift` | ❌ No | `underlying: HMHomeManager`, caches | **Exclude** | Manager/controller type, not a data model. |
+| **HomeKitError** | `Sources/HomeAtlas/HomeKitError.swift` | ⚠️ Consider | Associated values vary | **Defer** | Error types can be Encodable for diagnostics serialization. Requires careful handling of `Error`-typed payloads. Evaluate in future iteration. |
+| **DiagnosticsLogger** | `Sources/HomeAtlas/DiagnosticsLogger.swift` | ❌ No | Observers, state | **Exclude** | Logger/singleton, not a data model. |
 
 ### Context Entities
 
 | Type | File | Encodable | Stored Properties | Decision | Notes |
 |------|------|-----------|-------------------|----------|-------|
-| **Home** | `Sources/SwiftHomeKit/Context/Home.swift` | ❌ No | `underlying: HMHome` | **Exclude** | `HMHome` not Encodable. Wrapper for runtime HomeKit state. |
-| **Room** | `Sources/SwiftHomeKit/Context/Room.swift` | ❌ No | `underlying: HMRoom` | **Exclude** | `HMRoom` not Encodable. Wrapper for runtime HomeKit state. |
-| **Zone** | `Sources/SwiftHomeKit/Context/Zone.swift` | ❌ No | `underlying: HMZone` | **Exclude** | `HMZone` not Encodable. Wrapper for runtime HomeKit state. |
+| **Home** | `Sources/HomeAtlas/Context/Home.swift` | ❌ No | `underlying: HMHome` | **Exclude** | `HMHome` not Encodable. Wrapper for runtime HomeKit state. |
+| **Room** | `Sources/HomeAtlas/Context/Room.swift` | ❌ No | `underlying: HMRoom` | **Exclude** | `HMRoom` not Encodable. Wrapper for runtime HomeKit state. |
+| **Zone** | `Sources/HomeAtlas/Context/Zone.swift` | ❌ No | `underlying: HMZone` | **Exclude** | `HMZone` not Encodable. Wrapper for runtime HomeKit state. |
 
 ## Generated Services
 
@@ -42,9 +42,9 @@ Generated service wrappers (e.g., `LightbulbService`, `ThermostatService`) all i
 
 | Type | File | Encodable | Inherits | Decision |
 |------|------|-----------|----------|----------|
-| LightbulbService | `Sources/SwiftHomeKit/Generated/Services/LightbulbService.swift` | ❌ No | Service | **Exclude** |
-| ThermostatService | `Sources/SwiftHomeKit/Generated/Services/ThermostatService.swift` | ❌ No | Service | **Exclude** |
-| *All 45 generated services* | `Sources/SwiftHomeKit/Generated/Services/*.swift` | ❌ No | Service | **Exclude** |
+| LightbulbService | `Sources/HomeAtlas/Generated/Services/LightbulbService.swift` | ❌ No | Service | **Exclude** |
+| ThermostatService | `Sources/HomeAtlas/Generated/Services/ThermostatService.swift` | ❌ No | Service | **Exclude** |
+| *All 45 generated services* | `Sources/HomeAtlas/Generated/Services/*.swift` | ❌ No | Service | **Exclude** |
 
 ## Generated Characteristics
 

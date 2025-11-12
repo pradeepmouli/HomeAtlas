@@ -1,30 +1,48 @@
-# swift-homekit Development Guidelines
+# HomeAtlas Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2025-11-08
+Auto-generated from all feature plans. Last updated: 2025-11-11
 
 ## Active Technologies
-
-- Swift 6.0 targeting Swift concurrency and macro capabilities. + Apple HomeKit framework; Swift Package Manager; Swift Argument Parser + SwiftSyntax for schema-driven generation; Developer Apple Context7 HomeKit metadata as authoritative reference. (001-create-homekit-wrapper)
+- Swift 6.0 with Apple HomeKit (conditional), Foundation
+- In-memory traversal with JSON export to file/string as needed
 
 ## Project Structure
 
 ```text
-src/
-tests/
+Sources/
+  HomeAtlas/
+  HomeAtlasMacros/
+  HomeKitCatalogExtractor/
+  HomeKitServiceGenerator/
+Tests/
+  HomeAtlasTests/
 ```
 
 ## Commands
 
-# Add commands for Swift 6.0 targeting Swift concurrency and macro capabilities.
+```bash
+# Build the package
+swift build
+
+# Run tests
+swift test
+
+# Generate service wrappers from HomeKit catalog
+swift run HomeKitCatalogExtractor
+swift run HomeKitServiceGenerator
+```
 
 ## Code Style
 
-Swift 6.0 targeting Swift concurrency and macro capabilities.: Follow standard conventions
+- Follow Swift API Design Guidelines
+- Use `@MainActor` for all HomeKit interactions
+- Prefer async/await over completion handlers
+- Use strongly typed wrappers (no `Any` leakage)
 
 ## Recent Changes
-- 002-swiftpm-deploy-encodable-naming: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
-
-- 001-create-homekit-wrapper: Added Swift 6.0 targeting Swift concurrency and macro capabilities. + Apple HomeKit framework; Swift Package Manager; Swift Argument Parser + SwiftSyntax for schema-driven generation; Developer Apple Context7 HomeKit metadata as authoritative reference.
+- 003-homeatlas-rebrand-encodable: Finalized HomeAtlas rebrand; added snapshot export with typed macros
+- 002-swiftpm-deploy-encodable-naming: Naming research and migration to HomeAtlas identity
+- 001-create-homekit-wrapper: Initial HomeKit wrapper infrastructure with type-safe APIs
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

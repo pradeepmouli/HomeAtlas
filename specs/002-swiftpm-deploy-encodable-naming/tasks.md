@@ -6,8 +6,8 @@
 - [X] T003 Update README.md with SwiftPM deployment instructions
 
 ## Phase 2: Foundational
-- [X] T004 Add initial encode/decode test infrastructure in Tests/SwiftHomeKitTests/Encodable/
-- [X] T004b [Constitution IV] Create encode/decode parity test template in Tests/SwiftHomeKitTests/Encodable/ParityTestTemplate.swift (validates round-trip property value equality for all Encodable wrappers)
+- [X] T004 Add initial encode/decode test infrastructure in `Tests/HomeAtlasTests/Encodable/`
+- [X] T004b [Constitution IV] Create encode/decode parity test template in `Tests/HomeAtlasTests/Encodable/ParityTestTemplate.swift` (validates round-trip property value equality for all Encodable wrappers)
 - [X] T005 Document current wrapper classes and their properties in docs/reference-index.md (See also docs/encodable-audit.md)
 
 ## Phase 3: User Story 1 - SwiftPM Deployment (P1)
@@ -18,20 +18,20 @@
 - [X] T010 [US1] Update documentation for release (README.md, CHANGELOG.md)
 
 ## Phase 4: User Story 2 - Encodable Evaluation (P2)
-- [X] T011 [US2] Audit all wrapper classes in Sources/SwiftHomeKit for Encodable conformance (See docs/encodable-audit.md: 0% feasible - all wrappers store non-Encodable HMKit types)
-- [X] T012 [P] [US2] Implement Encodable for eligible wrappers in Sources/SwiftHomeKit (N/A - 0 eligible per audit)
-- [X] T012b [Constitution I] Validate no `Any` types leaked in Encodable implementations (scan Sources/SwiftHomeKit for `Any` in encode() methods, fail if found) (N/A - no implementations)
+- [X] T011 [US2] Audit all wrapper classes in `Sources/HomeAtlas` for Encodable conformance (See docs/encodable-audit.md: 0% feasible - all wrappers store non-Encodable HMKit types)
+- [X] T012 [P] [US2] Implement Encodable for eligible wrappers in `Sources/HomeAtlas` (N/A - 0 eligible per audit)
+- [X] T012b [Constitution I] Validate no `Any` types leaked in Encodable implementations (scan `Sources/HomeAtlas` for `Any` in encode() methods, fail if found) (N/A - no implementations)
 - [X] T013 [P] [US2] Document and exclude non-encodable properties/types in docs/reference-index.md (See docs/encodable-exclusion-rationale.md)
-- [X] T014 [US2] Add encode/decode tests for wrappers in Tests/SwiftHomeKitTests/Encodable/ (DTO pattern tests added: AccessorySnapshotTests)
+- [X] T014 [US2] Add encode/decode tests for wrappers in `Tests/HomeAtlasTests/Encodable/` (DTO pattern tests added: AccessorySnapshotTests)
 - [X] T015 [US2] Update API documentation to reflect serialization support (README updated with DTO pattern guidance)
 - [ ] T013 [P] [US2] Document and exclude non-encodable properties/types in docs/reference-index.md
-- [ ] T014 [US2] Add encode/decode tests for wrappers in Tests/SwiftHomeKitTests/Encodable/
+- [ ] T014 [US2] Add encode/decode tests for wrappers in `Tests/HomeAtlasTests/Encodable/`
 - [ ] T015 [US2] Update API documentation to reflect serialization support
 
 ## Phase 5: User Story 3 - Package Naming Options (P3)
-- [X] T016 [US3] Research alternative package names and check for conflicts in Swift Package Index (See naming-research.md: "SwiftHomeKit" recommended - no conflicts)
-- [X] T017 [US3] Review naming options with stakeholders and select final name (Solo maintainer: "SwiftHomeKit" confirmed)
-- [X] T018 [US3] Update Package.swift and documentation with chosen name (Already "SwiftHomeKit" throughout)
+- [X] T016 [US3] Research alternative package names and check for conflicts in Swift Package Index (See `naming-research.md`: "HomeAtlas" adopted, legacy SwiftHomeKit documented)
+- [X] T017 [US3] Review naming options with stakeholders and select final name (Solo maintainer: "HomeAtlas" confirmed)
+- [X] T018 [US3] Update Package.swift and documentation with chosen name (HomeAtlas references now canonical)
 - [X] T019 [US3] Verify no conflicts exist after publishing with new name (Pre-verified via SPI search)
 
 ## Final Phase: Polish & Cross-Cutting Concerns
@@ -54,3 +54,4 @@
 ## Implementation Strategy
 - MVP: Complete all tasks for User Story 1 (SwiftPM Deployment) to enable basic package distribution and integration.
 - Incremental: Add Encodable support and finalize naming in subsequent phases, ensuring each user story is independently testable and deliverable.
+- Rebrand Alignment: Confirm every reference migrates from `SwiftHomeKit` to `HomeAtlas` except where documenting historical context.
