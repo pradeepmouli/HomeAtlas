@@ -10,7 +10,7 @@ final class MacroIntegrationTests: XCTestCase {
         _ = LightbulbServiceAtlasSnapshot.self
     }
     
-    func testSnapshotConformsToCodeble() {
+    func testSnapshotConformsToCodable() {
         // Verify Codable conformance via encoding a minimal instance
         struct Dummy: Encodable { let id: String; let name: String }
         let encoder = JSONEncoder()
