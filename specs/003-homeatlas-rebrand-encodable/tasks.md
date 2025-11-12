@@ -15,8 +15,8 @@
 
 ## Path Conventions
 
-- **Module**: `Sources/SwiftHomeKit/` (to be renamed to `Sources/HomeAtlasKit/`)
-- **Tests**: `Tests/SwiftHomeKitTests/` (to be renamed to `Tests/HomeAtlasKitTests/`)
+- **Module**: `Sources/HomeAtlas/` (formerly `Sources/SwiftHomeKit/`)
+- **Tests**: `Tests/HomeAtlasTests/` (formerly `Tests/SwiftHomeKitTests/`)
 - **Tools**: `Sources/HomeKitServiceGenerator/`, `Sources/HomeKitCatalogExtractor/`
 - **Docs**: `docs/`, `README.md`, `CHANGELOG.md`
 
@@ -26,9 +26,9 @@
 
 **Purpose**: Project initialization and basic structure for snapshot encoding
 
-- [ ] T001 Create `Sources/SwiftHomeKit/Encoding/` directory for snapshot logic
-- [ ] T002 [P] Create `Tests/SwiftHomeKitTests/Encodable/` directory for snapshot tests
-- [ ] T003 [P] Create `Tests/SwiftHomeKitTests/Integration/` directory if not exists
+- [ ] T001 Create `Sources/HomeAtlas/Encoding/` directory for snapshot logic
+- [ ] T002 [P] Create `Tests/HomeAtlasTests/Encodable/` directory for snapshot tests
+- [ ] T003 [P] Create `Tests/HomeAtlasTests/Integration/` directory if not exists
 
 ---
 
@@ -38,10 +38,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create `SnapshotOptions` struct in `Sources/SwiftHomeKit/Encoding/SnapshotOptions.swift` with anonymize flag
-- [ ] T005 [P] Create base snapshot model types in `Sources/SwiftHomeKit/Encoding/SnapshotModels.swift`: `HomeSnapshot`, `RoomSnapshot`, `ZoneSnapshot`, `AccessorySnapshot`, `ServiceSnapshot`, `CharacteristicSnapshot` conforming to Codable
-- [ ] T006 [P] Add deterministic ordering helpers in `Sources/SwiftHomeKit/Encoding/SnapshotHelpers.swift` for sorting Rooms, Accessories, Services, Characteristics per research.md
-- [ ] T007 Create `HomeSnapshotEncoder` entry point in `Sources/SwiftHomeKit/Encoding/HomeSnapshotEncoder.swift` with `@MainActor` annotation and async signature
+- [ ] T004 Create `SnapshotOptions` struct in `Sources/HomeAtlas/Encoding/SnapshotOptions.swift` with anonymize flag
+- [ ] T005 [P] Create base snapshot model types in `Sources/HomeAtlas/Encoding/SnapshotModels.swift`: `HomeSnapshot`, `RoomSnapshot`, `ZoneSnapshot`, `AccessorySnapshot`, `ServiceSnapshot`, `CharacteristicSnapshot` conforming to Codable
+- [ ] T006 [P] Add deterministic ordering helpers in `Sources/HomeAtlas/Encoding/SnapshotHelpers.swift` for sorting Rooms, Accessories, Services, Characteristics per research.md
+- [ ] T007 Create `HomeSnapshotEncoder` entry point in `Sources/HomeAtlas/Encoding/HomeSnapshotEncoder.swift` with `@MainActor` annotation and async signature
 - [ ] T008 Add error handling in `HomeSnapshotEncoder` mapping to `HomeKitError` with context (home/room/accessory/service/characteristic IDs)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
@@ -63,10 +63,10 @@
 - [ ] T013 [US1] Implement Characteristic→CharacteristicSnapshot conversion reading values on `@MainActor` with null+reason for restricted/unavailable (depends on T009-T012)
 - [ ] T014 [US1] Add deterministic ordering to all snapshot conversions using helpers from T006
 - [ ] T015 [US1] Implement anonymization logic in `HomeSnapshotEncoder` when `SnapshotOptions.anonymize = true` (hash/redact names and IDs)
-- [ ] T016 [US1] Add public API method `encodeSnapshot(options:) async throws -> Data` in `Sources/SwiftHomeKit/SwiftHomeKit.swift` or dedicated export file
+- [ ] T016 [US1] Add public API method `encodeSnapshot(options:) async throws -> Data` in `Sources/HomeAtlas/HomeAtlas.swift` or dedicated export file
 - [ ] T017 [US1] Implement JSON encoding with stable key order using JSONEncoder with sortedKeys option
-- [ ] T018 [US1] Add unit test in `Tests/SwiftHomeKitTests/Encodable/SnapshotEncodingTests.swift` validating schema compliance against `contracts/home-snapshot.schema.json`
-- [ ] T019 [US1] Add integration test in `Tests/SwiftHomeKitTests/Integration/SnapshotIntegrationTests.swift` exporting a representative Home and verifying output
+- [ ] T018 [US1] Add unit test in `Tests/HomeAtlasTests/Encodable/SnapshotEncodingTests.swift` validating schema compliance against `contracts/home-snapshot.schema.json`
+- [ ] T019 [US1] Add integration test in `Tests/HomeAtlasTests/Integration/SnapshotIntegrationTests.swift` exporting a representative Home and verifying output
 - [ ] T020 [US1] Add edge case tests: empty Home, no Rooms, restricted characteristics, large Home (100+ accessories), anonymization with `SnapshotOptions.anonymize = true`
 - [ ] T021 [US1] Add performance test validating export ≤ 2 seconds for ~100 accessories with ~1000 characteristics
 - [ ] T022 [US1] Document snapshot API in `docs/reference-index.md` with examples, privacy options, performance notes
@@ -84,8 +84,8 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Rename `Sources/SwiftHomeKit/` → `Sources/HomeAtlasKit/`
-- [ ] T025 [P] [US2] Rename `Tests/SwiftHomeKitTests/` → `Tests/HomeAtlasKitTests/`
+- [ ] T024 [P] [US2] Rename legacy `Sources/SwiftHomeKit/` → `Sources/HomeAtlas/`
+- [ ] T025 [P] [US2] Rename legacy `Tests/SwiftHomeKitTests/` → `Tests/HomeAtlasTests/`
 - [ ] T026 [P] [US2] Update `Package.swift` product and target names to `HomeAtlasKit`
 - [ ] T027 [P] [US2] Update tool display names in `Sources/HomeKitServiceGenerator/main.swift` and docs to reference `HomeAtlasGen`
 - [ ] T028 [P] [US2] Update `README.md` with HomeAtlas branding, import examples using `import HomeAtlasKit`

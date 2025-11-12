@@ -12,7 +12,7 @@ Sync Impact Report:
 - Follow-up TODOs: None
 -->
 
-# SwiftHomeKit Constitution
+# HomeAtlas Constitution
 
 ## Core Principles
 
@@ -56,7 +56,7 @@ Rationale: Updated guidance keeps downstream adopters unblocked and reduces supp
 
 - Supported platforms are iOS 26+, macOS 26+, tvOS 26+, and watchOS 26+; deviations require explicit maintainer approval.
 - New dependencies beyond Apple frameworks MUST be justified with measurable benefit and reviewed for platform compatibility.
-- Module structure MUST remain single-target (`SwiftHomeKit`) unless a new target is proven essential for testing isolation.
+- Module structure MUST remain single-target (`HomeAtlas`) unless a new target is proven essential for testing isolation.
 - Code style MUST follow Swift API design guidelines, using PascalCase types and lowerCamelCase members.
 
 ## Development Workflow
@@ -68,7 +68,7 @@ Rationale: Updated guidance keeps downstream adopters unblocked and reduces supp
 
 ## Governance
 
-- This constitution supersedes prior informal practices for SwiftHomeKit.
+- This constitution supersedes prior informal practices for HomeAtlas (formerly SwiftHomeKit).
 - Amendments require agreement from the maintainer group and MUST document rationale plus migration expectations.
 - Versioning follows SemVer on the constitution: MAJOR for principle changes/removals, MINOR for new principles or guardrails, PATCH for clarifications.
 - Compliance reviews MUST occur before releasing new library versions; non-compliant changes block release until resolved.

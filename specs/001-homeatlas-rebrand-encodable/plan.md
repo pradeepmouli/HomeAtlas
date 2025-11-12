@@ -7,7 +7,7 @@
 
 ## Summary
 
-Primary requirement: Rebrand the project to HomeAtlas (module: HomeAtlasKit; tools: HomeAtlasGen, HomeAtlasCLI) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
+Primary requirement: Rebrand the project to HomeAtlas (library module: `HomeAtlas`; tooling slated for HomeAtlasGen/HomeAtlasCLI) and provide a deterministic JSON snapshot export of the Home graph (Home → Rooms → Accessories → Services → Characteristics), with platform-safe behavior when HomeKit is unavailable.
 
 Technical approach (subject to Phase 0 validation): Implement a generic snapshot encoder entry point that walks the typed wrappers and emits a well-defined JSON structure. Prefer a lightweight Encodable snapshot model with a single public API (e.g., `HomeAtlasKit.encodeSnapshot(options:)`) and internal helpers. Consider a macro in a later iteration for compile-time conformance synthesis if needed for coverage; not required for MVP.
 
@@ -58,21 +58,21 @@ specs/001-homeatlas-rebrand-encodable/
 
 ```text
 Sources/
-├── SwiftHomeKit/                # Will be renamed to HomeAtlasKit in rebrand phase
+├── HomeAtlas/
 │   ├── Context/
-│   ├── Generated/
 │   ├── Encoding/
-│   │   └── HomeSnapshotEncoder.swift        # New: snapshot entry points and options
+│   │   └── HomeSnapshotEncoder.swift        # Snapshot entry points and options
+│   ├── Generated/
 │   └── …
-├── HomeKitServiceGenerator/     # Will become HomeAtlasGen (tool name)
+├── HomeKitServiceGenerator/     # Rebrand to HomeAtlasGen in follow-up phase
 └── HomeKitCatalogExtractor/     # Tooling kept; docs update for naming
 
 Tests/
-├── SwiftHomeKitTests/           # Will be renamed to HomeAtlasKitTests in rebrand phase
+├── HomeAtlasTests/
 │   ├── Encodable/
-│   │   └── SnapshotEncodingTests.swift      # New: validates schema and edge cases
+│   │   └── SnapshotEncodingTests.swift      # Validates schema and edge cases
 │   └── Integration/
-│       └── SnapshotIntegrationTests.swift   # New: end-to-end export
+│       └── SnapshotIntegrationTests.swift   # End-to-end export
 └── …
 ```
 
