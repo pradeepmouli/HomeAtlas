@@ -96,7 +96,8 @@ struct AccessoryDetail: View {
                 let services = accessory.allServices()
                 if services.isEmpty { Text("No services") }
                 ForEach(services, id: \.uniqueIdentifier) { svc in
-                    Text(svc.name)
+                    // svc.name is optional; provide a sensible fallback for display
+                    Text(svc.name ?? "Unnamed service")
                 }
             }
         }

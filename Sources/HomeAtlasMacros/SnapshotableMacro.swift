@@ -85,8 +85,9 @@ public struct SnapshotableMacro: PeerMacro {
                 "    let readable: Bool",
                 "    let writable: Bool",
                 "    #if canImport(HomeKit)",
-                "    readable = c.underlying.properties.contains(.readable)",
-                "    writable = c.underlying.properties.contains(.writable)",
+                "    let props = c.underlying.properties",
+                "    readable = props.contains(\"readable\") || props.contains(\"HMCharacteristicPropertyReadable\")",
+                "    writable = props.contains(\"writable\") || props.contains(\"HMCharacteristicPropertyWritable\")",
                 "    #else",
                 "    readable = false",
                 "    writable = false",
@@ -221,7 +222,7 @@ public struct SnapshotableMacro: PeerMacro {
             \(raw: memberLines.joined(separator: "\n    "))
 
             @MainActor
-            public init(from original: \(raw: className), anonymize: @escaping @Sendable (String) -> String = { $0 }) async throws {
+            public init(from original: \(raw: className), anonymize: @MainActor @escaping @Sendable (String) -> String = { $0 }) async throws {
                 let anonymizeFn = anonymize
                 \(raw: initLines.joined(separator: "\n        "))
             }

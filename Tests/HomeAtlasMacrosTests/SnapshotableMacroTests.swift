@@ -36,7 +36,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let brightness: Int?
 
                 @MainActor
-                public init(from original: LightbulbService, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: LightbulbService, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
@@ -67,7 +67,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let characteristics: [CharacteristicSnapshot]
 
                 @MainActor
-                public init(from original: Service, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: Service, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
@@ -85,8 +85,9 @@ final class SnapshotableMacroTests: XCTestCase {
                         let readable: Bool
                         let writable: Bool
                         #if canImport(HomeKit)
-                        readable = c.underlying.properties.contains(.readable)
-                        writable = c.underlying.properties.contains(.writable)
+                        let props = c.underlying.properties
+                        readable = props.contains("readable") || props.contains("HMCharacteristicPropertyReadable")
+                        writable = props.contains("writable") || props.contains("HMCharacteristicPropertyWritable")
                         #else
                         readable = false
                         writable = false
@@ -140,7 +141,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let services: [ServiceAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Accessory, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: Accessory, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
@@ -183,7 +184,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let zones: [ZoneAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Home, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: Home, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
@@ -239,7 +240,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let accessories: [AccessoryAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Room, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: Room, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
@@ -281,7 +282,7 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let roomIds: [String]
 
                 @MainActor
-                public init(from original: Zone, anonymize: @escaping @Sendable (String) -> String = {
+                public init(from original: Zone, anonymize: @MainActor @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
                     let anonymizeFn = anonymize
