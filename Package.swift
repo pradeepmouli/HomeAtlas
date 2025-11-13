@@ -7,9 +7,9 @@ let package = Package(
     name: "HomeAtlas",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v18),
         .macOS(.v13),
-        .tvOS(.v16),
+        .tvOS(.v18),
         .watchOS(.v9)
     ],
     products: [
@@ -24,6 +24,11 @@ let package = Package(
         .executable(
             name: "HomeKitServiceGenerator",
             targets: ["HomeKitServiceGenerator"]
+        ),
+        // SwiftUI demo application showcasing basic HomeAtlas usage.
+        .executable(
+            name: "HomeAtlasSwiftUIExample",
+            targets: ["HomeAtlasSwiftUIExample"]
         )
     ],
     dependencies: [
@@ -53,6 +58,12 @@ let package = Package(
         .executableTarget(
             name: "HomeKitServiceGenerator",
             path: "Sources/HomeKitServiceGenerator"
+        ),
+        // Example SwiftUI application (macOS/iOS) demonstrating library usage.
+        .executableTarget(
+            name: "HomeAtlasSwiftUIExample",
+            dependencies: ["HomeAtlas"],
+            path: "Examples/SwiftUIExample/Sources/SwiftUIExample"
         ),
         .testTarget(
             name: "HomeAtlasTests",

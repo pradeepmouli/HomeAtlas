@@ -57,7 +57,7 @@ public struct SnapshotableMacro: PeerMacro {
             memberLines.append("public let serviceType: String")
             memberLines.append("public let name: String?")
             initLines.append("self.serviceType = original.serviceType")
-            initLines.append("self.name = original.name.map(anonymize)")
+            initLines.append("self.name = original.name.map(anonymizeFn)")
             for prop in characteristicProps {
                 memberLines.append("public let \(prop.name): \(prop.mappedType)")
                 initLines.append("self.\(prop.name) = try? await original.\(prop.name)?.read()")
@@ -71,19 +71,26 @@ public struct SnapshotableMacro: PeerMacro {
                 "public let characteristics: [CharacteristicSnapshot]"
             ])
             initLines.append(contentsOf: [
-                "self.id = anonymize(original.uniqueIdentifier.uuidString)",
-                "self.name = original.name.map(anonymize)",
+                "self.id = anonymizeFn(original.uniqueIdentifier.uuidString)",
+                "self.name = original.name.map(anonymizeFn)",
                 "self.serviceType = original.serviceType",
                 "self.characteristics = original.allCharacteristics().map { c in",
-                "    let id = anonymize(c.underlying.uniqueIdentifier.uuidString)",
+                "    let id = anonymizeFn(c.underlying.uniqueIdentifier.uuidString)",
                 "    let characteristicType = c.underlying.characteristicType",
                 "    let displayName = c.underlying.localizedDescription",
                 "    let unit = c.underlying.metadata?.units?.description",
                 "    let min = c.underlying.metadata?.minimumValue as? Double",
                 "    let max = c.underlying.metadata?.maximumValue as? Double",
                 "    let step = c.underlying.metadata?.stepValue as? Double",
-                "    let readable = c.underlying.properties.contains(.readable)",
-                "    let writable = c.underlying.properties.contains(.writable)",
+                "    let readable: Bool",
+                "    let writable: Bool",
+                "    #if canImport(HomeKit)",
+                "    readable = c.underlying.properties.contains(.readable)",
+                "    writable = c.underlying.properties.contains(.writable)",
+                "    #else",
+                "    readable = false",
+                "    writable = false",
+                "    #endif",
                 "    var value: CharacteristicSnapshot.AnyCodable? = nil",
                 "    var reason: String? = nil",
                 "    if readable {",
@@ -108,7 +115,7 @@ public struct SnapshotableMacro: PeerMacro {
                 "        value: value,",
                 "        reason: reason",
                 "    )",
-                "}.sorted(by: { $0.displayName < $1.displayName })"
+                "}.sorted(by: { ($0.displayName ?? \"\") < ($1.displayName ?? \"\") })"
             ])
 
         } else if classIsHome {
@@ -120,10 +127,28 @@ public struct SnapshotableMacro: PeerMacro {
                 "public let zones: [ZoneAtlasSnapshot]"
             ])
             initLines.append(contentsOf: [
-                "self.id = anonymize(original.uniqueIdentifier.uuidString)",
-                "self.name = anonymize(original.name)",
-                "self.rooms = try await original.rooms.map { try await RoomAtlasSnapshot(from: Room($0), anonymize: anonymize) }.sorted(by: { $0.name < $1.name })",
-                "self.zones = try await original.zones.map { try await ZoneAtlasSnapshot(from: Zone($0), anonymize: anonymize) }.sorted(by: { $0.name < $1.name })"
+                "self.id = anonymizeFn(original.uniqueIdentifier.uuidString)",
+                "self.name = anonymizeFn(original.name)",
+                "self.rooms = try await withThrowingTaskGroup(of: RoomAtlasSnapshot.self) { group in",
+                "    for room in original.rooms {",
+                "        group.addTask { try await RoomAtlasSnapshot(from: Room(room), anonymize: anonymizeFn) }",
+                "    }",
+                "    var results: [RoomAtlasSnapshot] = []",
+                "    for try await snapshot in group {",
+                "        results.append(snapshot)",
+                "    }",
+                "    return results.sorted(by: { $0.name < $1.name })",
+                "}",
+                "self.zones = try await withThrowingTaskGroup(of: ZoneAtlasSnapshot.self) { group in",
+                "    for zone in original.zones {",
+                "        group.addTask { try await ZoneAtlasSnapshot(from: Zone(zone), anonymize: anonymizeFn) }",
+                "    }",
+                "    var results: [ZoneAtlasSnapshot] = []",
+                "    for try await snapshot in group {",
+                "        results.append(snapshot)",
+                "    }",
+                "    return results.sorted(by: { $0.name < $1.name })",
+                "}"
             ])
         } else if classIsRoom {
             // Room snapshot: id, name, accessories
@@ -133,9 +158,18 @@ public struct SnapshotableMacro: PeerMacro {
                 "public let accessories: [AccessoryAtlasSnapshot]"
             ])
             initLines.append(contentsOf: [
-                "self.id = anonymize(original.uniqueIdentifier.uuidString)",
-                "self.name = anonymize(original.name)",
-                "self.accessories = try await original.accessories.map { try await AccessoryAtlasSnapshot(from: Accessory($0), anonymize: anonymize) }.sorted(by: { $0.name < $1.name })"
+                "self.id = anonymizeFn(original.uniqueIdentifier.uuidString)",
+                "self.name = anonymizeFn(original.name)",
+                "self.accessories = try await withThrowingTaskGroup(of: AccessoryAtlasSnapshot.self) { group in",
+                "    for accessory in original.accessories {",
+                "        group.addTask { try await AccessoryAtlasSnapshot(from: Accessory(accessory), anonymize: anonymizeFn) }",
+                "    }",
+                "    var results: [AccessoryAtlasSnapshot] = []",
+                "    for try await snapshot in group {",
+                "        results.append(snapshot)",
+                "    }",
+                "    return results.sorted(by: { $0.name < $1.name })",
+                "}"
             ])
         } else if classIsZone {
             // Zone snapshot: id, name, roomIds
@@ -145,9 +179,9 @@ public struct SnapshotableMacro: PeerMacro {
                 "public let roomIds: [String]"
             ])
             initLines.append(contentsOf: [
-                "self.id = anonymize(original.uniqueIdentifier.uuidString)",
-                "self.name = anonymize(original.name)",
-                "self.roomIds = original.rooms.map { anonymize($0.uniqueIdentifier.uuidString) }.sorted()"
+                "self.id = anonymizeFn(original.uniqueIdentifier.uuidString)",
+                "self.name = anonymizeFn(original.name)",
+                "self.roomIds = original.rooms.map { anonymizeFn($0.uniqueIdentifier.uuidString) }.sorted()"
             ])
         } else if classIsAccessory {
             // Accessory snapshot: id, name, services (typed where possible)
@@ -157,10 +191,18 @@ public struct SnapshotableMacro: PeerMacro {
                 "public let services: [ServiceAtlasSnapshot]"
             ])
             initLines.append(contentsOf: [
-                "self.id = anonymize(original.uniqueIdentifier.uuidString)",
-                "self.name = anonymize(original.name)",
-                // Bridge underlying services to base Service wrapper then to snapshot
-                "self.services = try await original.allServices().map { try await ServiceAtlasSnapshot(from: $0, anonymize: anonymize) }.sorted(by: { ($0.name ?? \"\") < ($1.name ?? \"\") })"
+                "self.id = anonymizeFn(original.uniqueIdentifier.uuidString)",
+                "self.name = anonymizeFn(original.name)",
+                "self.services = try await withThrowingTaskGroup(of: ServiceAtlasSnapshot.self) { group in",
+                "    for service in original.allServices() {",
+                "        group.addTask { try await ServiceAtlasSnapshot(from: service, anonymize: anonymizeFn) }",
+                "    }",
+                "    var results: [ServiceAtlasSnapshot] = []",
+                "    for try await snapshot in group {",
+                "        results.append(snapshot)",
+                "    }",
+                "    return results.sorted(by: { ($0.name ?? \"\") < ($1.name ?? \"\") })",
+                "}"
             ])
         } else {
             // Fallback minimal for unknown classes
@@ -179,7 +221,8 @@ public struct SnapshotableMacro: PeerMacro {
             \(raw: memberLines.joined(separator: "\n    "))
 
             @MainActor
-            public init(from original: \(raw: className), anonymize: (String) -> String = { $0 }) async throws {
+            public init(from original: \(raw: className), anonymize: @escaping @Sendable (String) -> String = { $0 }) async throws {
+                let anonymizeFn = anonymize
                 \(raw: initLines.joined(separator: "\n        "))
             }
         }

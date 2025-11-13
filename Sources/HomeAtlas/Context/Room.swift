@@ -99,6 +99,7 @@ public final class Room {
 /// such as rooms or custom categories.
 ///
 /// - Reference: [Apple Developer - Interacting with a home automation network](https://developer.apple.com/documentation/homekit/interacting-with-a-home-automation-network)
+@MainActor
 public protocol AccessoryGroup {
     var name: String { get }
     var accessories: [HMAccessory] { get }

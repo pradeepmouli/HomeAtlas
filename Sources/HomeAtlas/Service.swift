@@ -113,13 +113,13 @@ open class Service {
                 return nil
             case .placeholder(let placeholder):
                 let wrapper = C(underlying: placeholder)
-                characteristicCache[key] = .wrapper(wrapper)
+                characteristicCache[key] = .wrapper(wrapper as AnyObject)
                 return wrapper
             }
         }
 
         let wrapper = C(underlying: hmCharacteristic)
-        characteristicCache[key] = .wrapper(wrapper)
+        characteristicCache[key] = .wrapper(wrapper as AnyObject)
         return wrapper
     }
 
@@ -161,7 +161,7 @@ public extension Service {
     /// Warms the characteristic cache by preparing placeholder entries for every characteristic on this service.
     ///
     /// Reference: https://developer.apple.com/documentation/homekit/hmservice
-    public func warmUpCharacteristicCache() {
+    func warmUpCharacteristicCache() {
         let clock = ContinuousClock()
         let start = clock.now
 
@@ -173,7 +173,7 @@ public extension Service {
             characteristicCache[key] = .placeholder(characteristic)
         }
 
-        let duration = clock.now.duration(since: start).hkTimeInterval
+        let duration = start.duration(to: clock.now).hkTimeInterval
         DiagnosticsLogger.shared.record(
             operation: .cacheWarmUp,
             context: DiagnosticsContext(
@@ -191,7 +191,7 @@ public extension Service {
     }
 
     /// Clears cached characteristic wrappers and emits a diagnostics event describing the reset.
-    public func resetCharacteristicCache() {
+    func resetCharacteristicCache() {
         let removedCount = characteristicCache.count
         characteristicCache.removeAll()
 

@@ -36,11 +36,12 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let brightness: Int?
 
                 @MainActor
-                public init(from original: LightbulbService, anonymize: (String) -> String = {
+                public init(from original: LightbulbService, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
+                    let anonymizeFn = anonymize
                     self.serviceType = original.serviceType
-                    self.name = original.name.map(anonymize)
+                    self.name = original.name.map(anonymizeFn)
                     self.powerState = try? await original.powerState?.read()
                     self.brightness = try? await original.brightness?.read()
                 }
@@ -66,22 +67,30 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let characteristics: [CharacteristicSnapshot]
 
                 @MainActor
-                public init(from original: Service, anonymize: (String) -> String = {
+                public init(from original: Service, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
-                    self.id = anonymize(original.uniqueIdentifier.uuidString)
-                    self.name = original.name.map(anonymize)
+                    let anonymizeFn = anonymize
+                    self.id = anonymizeFn(original.uniqueIdentifier.uuidString)
+                    self.name = original.name.map(anonymizeFn)
                     self.serviceType = original.serviceType
                     self.characteristics = original.allCharacteristics().map { c in
-                        let id = anonymize(c.underlying.uniqueIdentifier.uuidString)
+                        let id = anonymizeFn(c.underlying.uniqueIdentifier.uuidString)
                         let characteristicType = c.underlying.characteristicType
                         let displayName = c.underlying.localizedDescription
                         let unit = c.underlying.metadata?.units?.description
                         let min = c.underlying.metadata?.minimumValue as? Double
                         let max = c.underlying.metadata?.maximumValue as? Double
                         let step = c.underlying.metadata?.stepValue as? Double
-                        let readable = c.underlying.properties.contains(.readable)
-                        let writable = c.underlying.properties.contains(.writable)
+                        let readable: Bool
+                        let writable: Bool
+                        #if canImport(HomeKit)
+                        readable = c.underlying.properties.contains(.readable)
+                        writable = c.underlying.properties.contains(.writable)
+                        #else
+                        readable = false
+                        writable = false
+                        #endif
                         var value: CharacteristicSnapshot.AnyCodable? = nil
                         var reason: String? = nil
                         if readable {
@@ -107,7 +116,7 @@ final class SnapshotableMacroTests: XCTestCase {
                             reason: reason
                         )
                     } .sorted(by: {
-                            $0.displayName < $1.displayName
+                            ($0.displayName ?? "") < ($1.displayName ?? "")
                         })
                 }
             }
@@ -131,16 +140,26 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let services: [ServiceAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Accessory, anonymize: (String) -> String = {
+                public init(from original: Accessory, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
-                    self.id = anonymize(original.uniqueIdentifier.uuidString)
-                    self.name = anonymize(original.name)
-                    self.services = try await original.allServices().map {
-                        try await ServiceAtlasSnapshot(from: $0, anonymize: anonymize)
-                    } .sorted(by: {
-                            ($0.name ?? "") < ($1.name ?? "")
-                        })
+                    let anonymizeFn = anonymize
+                    self.id = anonymizeFn(original.uniqueIdentifier.uuidString)
+                    self.name = anonymizeFn(original.name)
+                    self.services = try await withThrowingTaskGroup(of: ServiceAtlasSnapshot.self) { group in
+                        for service in original.allServices() {
+                            group.addTask {
+                                try await ServiceAtlasSnapshot(from: service, anonymize: anonymizeFn)
+                            }
+                        }
+                        var results: [ServiceAtlasSnapshot] = []
+                        for try await snapshot in group {
+                            results.append(snapshot)
+                        }
+                        return results.sorted(by: {
+                                ($0.name ?? "") < ($1.name ?? "")
+                            })
+                    }
                 }
             }
             """,
@@ -164,21 +183,40 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let zones: [ZoneAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Home, anonymize: (String) -> String = {
+                public init(from original: Home, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
-                    self.id = anonymize(original.uniqueIdentifier.uuidString)
-                    self.name = anonymize(original.name)
-                    self.rooms = try await original.rooms.map {
-                        try await RoomAtlasSnapshot(from: Room($0), anonymize: anonymize)
-                    } .sorted(by: {
-                            $0.name < $1.name
-                        })
-                    self.zones = try await original.zones.map {
-                        try await ZoneAtlasSnapshot(from: Zone($0), anonymize: anonymize)
-                    } .sorted(by: {
-                            $0.name < $1.name
-                        })
+                    let anonymizeFn = anonymize
+                    self.id = anonymizeFn(original.uniqueIdentifier.uuidString)
+                    self.name = anonymizeFn(original.name)
+                    self.rooms = try await withThrowingTaskGroup(of: RoomAtlasSnapshot.self) { group in
+                        for room in original.rooms {
+                            group.addTask {
+                                try await RoomAtlasSnapshot(from: Room(room), anonymize: anonymizeFn)
+                            }
+                        }
+                        var results: [RoomAtlasSnapshot] = []
+                        for try await snapshot in group {
+                            results.append(snapshot)
+                        }
+                        return results.sorted(by: {
+                                $0.name < $1.name
+                            })
+                    }
+                    self.zones = try await withThrowingTaskGroup(of: ZoneAtlasSnapshot.self) { group in
+                        for zone in original.zones {
+                            group.addTask {
+                                try await ZoneAtlasSnapshot(from: Zone(zone), anonymize: anonymizeFn)
+                            }
+                        }
+                        var results: [ZoneAtlasSnapshot] = []
+                        for try await snapshot in group {
+                            results.append(snapshot)
+                        }
+                        return results.sorted(by: {
+                                $0.name < $1.name
+                            })
+                    }
                 }
             }
             """,
@@ -201,16 +239,26 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let accessories: [AccessoryAtlasSnapshot]
 
                 @MainActor
-                public init(from original: Room, anonymize: (String) -> String = {
+                public init(from original: Room, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
-                    self.id = anonymize(original.uniqueIdentifier.uuidString)
-                    self.name = anonymize(original.name)
-                    self.accessories = try await original.accessories.map {
-                        try await AccessoryAtlasSnapshot(from: Accessory($0), anonymize: anonymize)
-                    } .sorted(by: {
-                            $0.name < $1.name
-                        })
+                    let anonymizeFn = anonymize
+                    self.id = anonymizeFn(original.uniqueIdentifier.uuidString)
+                    self.name = anonymizeFn(original.name)
+                    self.accessories = try await withThrowingTaskGroup(of: AccessoryAtlasSnapshot.self) { group in
+                        for accessory in original.accessories {
+                            group.addTask {
+                                try await AccessoryAtlasSnapshot(from: Accessory(accessory), anonymize: anonymizeFn)
+                            }
+                        }
+                        var results: [AccessoryAtlasSnapshot] = []
+                        for try await snapshot in group {
+                            results.append(snapshot)
+                        }
+                        return results.sorted(by: {
+                                $0.name < $1.name
+                            })
+                    }
                 }
             }
             """,
@@ -233,13 +281,14 @@ final class SnapshotableMacroTests: XCTestCase {
                 public let roomIds: [String]
 
                 @MainActor
-                public init(from original: Zone, anonymize: (String) -> String = {
+                public init(from original: Zone, anonymize: @escaping @Sendable (String) -> String = {
                         $0
                     }) async throws {
-                    self.id = anonymize(original.uniqueIdentifier.uuidString)
-                    self.name = anonymize(original.name)
+                    let anonymizeFn = anonymize
+                    self.id = anonymizeFn(original.uniqueIdentifier.uuidString)
+                    self.name = anonymizeFn(original.name)
                     self.roomIds = original.rooms.map {
-                        anonymize($0.uniqueIdentifier.uuidString)
+                        anonymizeFn($0.uniqueIdentifier.uuidString)
                     } .sorted()
                 }
             }

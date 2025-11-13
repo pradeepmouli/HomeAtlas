@@ -221,7 +221,7 @@ struct ServiceGenerator {
             contents += "\n" + optionalConstLines
         }
 
-        contents += "\n#if canImport(HomeKit)\n    public init(underlying: HMService) {\n        super.init(underlying: underlying)\n    }\n\n    public convenience init?(service: Service) {\n        guard service.serviceType == Self.serviceType else { return nil }\n        self.init(underlying: service.underlying)\n    }\n#endif\n"
+        contents += "\n#if canImport(HomeKit)\n    override public init(underlying: HMService) {\n        super.init(underlying: underlying)\n    }\n\n    public convenience init?(service: Service) {\n        guard service.serviceType == Self.serviceType else { return nil }\n        self.init(underlying: service.underlying)\n    }\n#endif\n"
 
         var usedPropertyNames = Set<String>()
         let orderedCharacteristics = orderedCharacteristicEntries(

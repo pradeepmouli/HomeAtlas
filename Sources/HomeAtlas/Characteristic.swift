@@ -49,17 +49,30 @@ open class Characteristic<Value> {
 
     /// Indicates whether the characteristic supports reading.
     public var supportsRead: Bool {
-        underlying.properties.contains(.readable)
+        #if canImport(HomeKit)
+        // Older SDKs expose characteristic properties as raw String values, not typed constants.
+        return underlying.properties.contains("readable")
+        #else
+        return false
+        #endif
     }
 
     /// Indicates whether the characteristic supports writing.
     public var supportsWrite: Bool {
-        underlying.properties.contains(.writable)
+        #if canImport(HomeKit)
+        return underlying.properties.contains("writable")
+        #else
+        return false
+        #endif
     }
 
     /// Indicates whether the characteristic supports event notifications.
     public var supportsEventNotification: Bool {
-        underlying.properties.contains(.supportsEventNotification)
+        #if canImport(HomeKit)
+        return underlying.properties.contains("supportsEventNotification")
+        #else
+        return false
+        #endif
     }
 
     public init(underlying: HMCharacteristic) {
@@ -272,7 +285,7 @@ private extension Characteristic {
         outcome: DiagnosticsEvent.Outcome,
         error: HomeKitError? = nil
     ) {
-        let duration = clock.now.duration(since: start)
+        let duration = start.duration(to: clock.now)
         DiagnosticsLogger.shared.record(
             operation: operation,
             context: DiagnosticsContext(context),

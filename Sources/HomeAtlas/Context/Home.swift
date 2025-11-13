@@ -38,8 +38,9 @@ public final class Home {
     /// The current user's privilege level for this home.
     ///
     /// - Reference: [Apple Developer - HMHome homeAccessControl](https://developer.apple.com/documentation/homekit/hmhome/homeaccesscontrol)
+    @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, *)
     public var homeAccessControl: HMHomeAccessControl {
-        underlying.homeAccessControlForUser()
+        underlying.homeAccessControl(for: underlying.currentUser)
     }
 
     /// An array of accessories in the home.
@@ -144,7 +145,7 @@ public final class Home {
         var createdRoom: HMRoom?
 
         let duration = try await clock.measure {
-            createdRoom = try await underlying.addRoom(withName: roomName)
+            createdRoom = try await underlying.addRoom(named: roomName)
         }
 
         recordDiagnostics(operation: .homeUpdate, duration: duration, error: nil)
@@ -185,7 +186,7 @@ public final class Home {
         var createdZone: HMZone?
 
         let duration = try await clock.measure {
-            createdZone = try await underlying.addZone(withName: zoneName)
+            createdZone = try await underlying.addZone(named: zoneName)
         }
 
         recordDiagnostics(operation: .homeUpdate, duration: duration, error: nil)

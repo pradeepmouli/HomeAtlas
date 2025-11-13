@@ -42,6 +42,8 @@ public final class HomeKitManager: NSObject, ObservableObject {
     }
 
     /// Returns the primary home, if one is configured.
+    @available(iOS, deprecated: 16.1, message: "primaryHome is deprecated by Apple; use homes.first or user selection instead")
+    @available(macOS, deprecated: 13.0, message: "primaryHome is deprecated by Apple; use homes.first or user selection instead")
     public var primaryHome: HMHome? {
         homeManager.primaryHome
     }
@@ -94,7 +96,7 @@ public final class HomeKitManager: NSObject, ObservableObject {
             }
         }
 
-        let duration = clock.now.duration(since: start).hkTimeInterval
+        let duration = start.duration(to: clock.now).hkTimeInterval
         DiagnosticsLogger.shared.record(
             operation: .cacheWarmUp,
             context: DiagnosticsContext(),
@@ -176,9 +178,9 @@ private extension HomeKitManager {
 
 /// A stub HomeKit manager for non-HomeKit platforms.
 @MainActor
-public final class HomeKitManager {
-    public private(set) var homes: [String] = []
-    public private(set) var isReady: Bool = true
+public final class HomeKitManager: ObservableObject {
+    @Published public private(set) var homes: [String] = []
+    @Published public private(set) var isReady: Bool = true
 
     public init() {}
 

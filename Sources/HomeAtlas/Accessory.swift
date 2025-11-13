@@ -40,11 +40,6 @@ public final class Accessory {
         underlying.room
     }
 
-    /// Information identifying the accessory.
-    public var identifierForVendor: UUID? {
-        underlying.identifierForVendor
-    }
-
     /// The category of the accessory.
     public var category: HMAccessoryCategory {
         underlying.category
@@ -111,7 +106,7 @@ public final class Accessory {
             services.forEach { $0.warmUpCharacteristicCache() }
         }
 
-        let duration = clock.now.duration(since: start).hkTimeInterval
+        let duration = start.duration(to: clock.now).hkTimeInterval
         DiagnosticsLogger.shared.record(
             operation: .cacheWarmUp,
             context: DiagnosticsContext(AccessoryContext(accessory: underlying)),
@@ -168,7 +163,7 @@ public final class Accessory {
         }
 
         let wrapper = T(underlying: hmService)
-        serviceCache[key] = wrapper
+        serviceCache[key] = wrapper as AnyObject
         return wrapper
     }
 
@@ -299,7 +294,7 @@ private extension Accessory {
         outcome: DiagnosticsEvent.Outcome,
         error: HomeKitError? = nil
     ) {
-        let duration = clock.now.duration(since: start)
+        let duration = start.duration(to: clock.now)
         DiagnosticsLogger.shared.record(
             operation: operation,
             context: DiagnosticsContext(context),

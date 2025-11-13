@@ -125,7 +125,7 @@ public final class Zone {
             metadata: [
                 "zoneId": uniqueIdentifier.uuidString,
                 "zoneName": name,
-                "roomCount": rooms.count
+                "roomCount": String(rooms.count)
             ]
         )
     }

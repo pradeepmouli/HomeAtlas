@@ -39,6 +39,26 @@
 			"target": "HomeKitServiceGenerator",
 			"configuration": "release",
 			"preLaunchTask": "swift: Build Release HomeKitServiceGenerator"
+		},
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Debug HomeAtlasSwiftUIExample",
+			"target": "HomeAtlasSwiftUIExample",
+			"configuration": "debug",
+			"preLaunchTask": "swift: Build Debug HomeAtlasSwiftUIExample"
+		},
+		{
+			"type": "swift",
+			"request": "launch",
+			"args": [],
+			"cwd": "${workspaceFolder:swift-homekit}",
+			"name": "Release HomeAtlasSwiftUIExample",
+			"target": "HomeAtlasSwiftUIExample",
+			"configuration": "release",
+			"preLaunchTask": "swift: Build Release HomeAtlasSwiftUIExample"
 		}
 	]
 }
