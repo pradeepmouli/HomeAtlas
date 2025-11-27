@@ -1,29 +1,4 @@
 {
-
-    // Use Xcode's SourceKit-LSP binary so editor indexing includes Apple system frameworks
-
-    // NOTE: Removed `swift.buildArguments` — passing SDK/target via buildArguments
-    // can cause `swift build` to receive unexpected positional args. If you need
-    // to set an SDK for the compiler, prefer exporting SDKROOT in your shell
-    // (see Tools/dev-setup.sh) or pass properly-formed -Xswiftc entries.
-	"swift.path": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
-	"swift.sourcekit-lsp.serverPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp",
-	// Swift LSP arguments for iOS development with HomeKit
-	"swift.sourcekit-lsp.serverArguments": [
-		"-Xswiftc",
-		"-sdk",
-		"-Xswiftc",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk",
-		"-Xswiftc",
-		"-target",
-		"-Xswiftc",
-		"arm64-apple-ios26.0",
-		"-Xswiftc",
-		"-F",
-		"-Xswiftc",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks"
-	],
-    // Copilot chat configuration
     "chat.promptFilesRecommendations": {
         "speckit.constitution": true,
         "speckit.specify": true,
@@ -34,35 +9,5 @@
     "chat.tools.terminal.autoApprove": {
         ".specify/scripts/bash/": true,
         ".specify/scripts/powershell/": true
-    },
-
-    // Swift LSP Configuration - use defaults, auto-detect toolchain
-    "swift.buildPath": "${workspaceFolder}/.build",
-    "swift.backgroundCompilation": true,
-
-    // Reduce LSP log noise (optional)
-
-    // Editor settings for Swift
-    "editor.formatOnSave": false,
-    "editor.rulers": [120],
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-
-    // Search exclusions (keep build artifacts out of search results)
-    "search.exclude": {
-        "**/.build": true,
-        "**/.swiftpm": true,
-        "**/DerivedData": true,
-        "**/*.xcworkspace": true
-    },
-
-    // File watcher exclusions (improve LSP performance)
-    "files.watcherExclude": {
-        "**/.build/**": true,
-        "**/.swiftpm/**": true,
-        "**/DerivedData/**": true
-	},
-	"editor.dropIntoEditor.preferences": [
-
-	]
+    }
 }

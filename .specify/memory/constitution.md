@@ -1,76 +1,50 @@
-<!--
-Sync Impact Report:
-- Version change: 1.0.0 -> 1.1.0
-- Modified principles:
-	- Principle V: Documentation Stewardship -> Principle V: Documentation Stewardship
-- Added sections: None
-- Removed sections: None
-- Templates requiring updates:
-	- ✅ .specify/templates/plan-template.md
-	- ✅ .specify/templates/spec-template.md
-	- ✅ .specify/templates/tasks-template.md
-- Follow-up TODOs: None
--->
-
-# HomeAtlas Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### Principle I: Type-Safe HomeKit Interfaces
-- Public APIs MUST expose concrete Swift types; avoid leaking `Any`, type-erased wrappers, or raw HomeKit metadata.
-- Characteristic descriptors MUST validate and encode ranges that match HomeKit semantics before publishing values.
-- Wrappers MUST mirror HomeKit naming while adhering to Swift capitalization so Xcode autocompletion stays intuitive.
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-Rationale: Compile-time guarantees lower runtime crashes, document expectations, and encourage discoverability for integrators.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### Principle II: MainActor Concurrency Discipline
-- Interactions with HomeKit objects MUST be confined to `@MainActor` contexts unless Apple documentation explicitly allows otherwise.
-- Async/await bridges MUST replace completion handlers; callbacks MAY remain only as private glue code.
-- State mutations MUST respect HomeKit delegate lifecycles, capturing continuations exactly once to avoid deadlock.
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-Rationale: HomeKit requires main-thread coordination; enforcing it prevents race conditions and UI update violations.
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### Principle III: Deterministic Error Surface
-- All fallible operations MUST map to `HomeKitError` (or an extension thereof) with actionable case data.
-- Errors returned from Apple frameworks MUST retain diagnostic context (service ID, characteristic type, accessory name).
-- Logging or diagnostic metadata MUST be captured when async operations exceed expected latency or fail unexpectedly.
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-Rationale: Predictable errors simplify recovery strategies for client apps and accelerate production debugging.
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-### Principle IV: Service Coverage Evidence
-- Introducing a new service wrapper MUST include characteristic descriptors, MainActor helpers, and parity tests for encode/decode paths.
-- Platform fallbacks (`#if canImport(HomeKit)` guards) MUST compile; placeholder tests MUST pass on unsupported platforms.
-- Integration examples MUST demonstrate toggling or reading values end-to-end for each supported service type.
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
 
-Rationale: Evidence-based coverage ensures wrappers stay honest reflections of HomeKit behaviour across platforms.
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
 
-### Principle V: Documentation Stewardship
-- README sections covering features, requirements, and usage MUST be updated with every public API addition or breaking change.
-- Documentation references MUST prioritize Developer Apple Context7 docs (`developer_apple`) under the HomeKit topic as the authoritative external source when citing platform behaviours.
-- Example snippets MUST compile with current APIs and highlight concurrency plus error-handling expectations.
-- Changes that alter platform support or minimum OS versions MUST include migration notes in `CHANGELOG.md` or README.
-
-Rationale: Updated guidance keeps downstream adopters unblocked and reduces support churn.
-
-## Engineering Guardrails
-
-- Supported platforms are iOS 26+, macOS 26+, tvOS 26+, and watchOS 26+; deviations require explicit maintainer approval.
-- New dependencies beyond Apple frameworks MUST be justified with measurable benefit and reviewed for platform compatibility.
-- Module structure MUST remain single-target (`HomeAtlas`) unless a new target is proven essential for testing isolation.
-- Code style MUST follow Swift API design guidelines, using PascalCase types and lowerCamelCase members.
-
-## Development Workflow
-
-- Feature specs MUST document how each principle is satisfied, referencing expected typed APIs, concurrency model, tests, and docs.
-- Implementation plans MUST pass the Constitution Check: type safety scope, MainActor strategy, error handling, coverage tests, and documentation updates.
-- Tasks MUST include entries for tests, fallback code paths, and documentation updates before marking stories complete.
-- `swift test` MUST run in environments with and without HomeKit availability flags to verify guard paths.
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-- This constitution governs the HomeAtlas library and supersedes prior informal practices.
-- Amendments require agreement from the maintainer group and MUST document rationale plus migration expectations.
-- Versioning follows SemVer on the constitution: MAJOR for principle changes/removals, MINOR for new principles or guardrails, PATCH for clarifications.
-- Compliance reviews MUST occur before releasing new library versions; non-compliant changes block release until resolved.
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-**Version**: 1.1.0 | **Ratified**: 2025-11-08 | **Last Amended**: 2025-11-08
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
