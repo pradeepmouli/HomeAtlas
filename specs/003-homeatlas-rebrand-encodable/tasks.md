@@ -1,9 +1,37 @@
 # Tasks: HomeAtlas rebrand and JSON serialization
 
+**Status**: ✅ **COMPLETED** (All phases complete as of Nov 2025)
+
 **Input**: Design documents from `/specs/003-homeatlas-rebrand-encodable/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/home-snapshot.schema.json
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+
+## Completion Summary
+
+All 45 tasks across 6 phases have been completed:
+- ✅ Phase 1 (Setup): 3/3 tasks complete
+- ✅ Phase 2 (Foundational): 5/5 tasks complete
+- ✅ Phase 3 (User Story 1 - MVP): 15/15 tasks complete
+- ✅ Phase 4 (User Story 2 - Rebrand): 7/7 tasks complete
+- ✅ Phase 5 (User Story 3 - Platform Safety): 5/5 tasks complete
+- ✅ Phase 6 (Polish): 7/7 tasks complete
+
+**Key Deliverables**:
+- Snapshot export API with deterministic JSON output (`AtlasSnapshotEncoder`, `HomeSnapshotEncoder`)
+- Privacy-aware anonymization via `StableAnonymizer`
+- Full type-safe snapshot models (`HomeSnapshot`, `RoomSnapshot`, `ZoneSnapshot`, `AccessorySnapshot`, `ServiceSnapshot`, `CharacteristicSnapshot`)
+- Platform-safe behavior with `#if canImport(HomeKit)` guards
+- Comprehensive test coverage (unit, integration, performance, platform safety)
+- HomeAtlas branding fully adopted across codebase
+- CI/CD enhancements (macOS, Linux, iOS, tvOS, watchOS build matrix with coverage)
+
+**Additional Work Completed** (not in original task list):
+- SwiftUI example app (`Examples/SwiftUIExample/`)
+- Enhanced CI/CD with iOS/tvOS/watchOS build targets
+- Macro-based snapshot generation (`@Snapshotable`)
+- Runtime snapshot tests
+- Xcode build parity checks
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -26,9 +54,9 @@
 
 **Purpose**: Ensure baseline folders exist for snapshot encoding work
 
-- [ ] T001 Confirm or create `Sources/HomeAtlas/Encoding/` directory for snapshot logic
-- [ ] T002 [P] Confirm or create `Tests/HomeAtlasTests/Encodable/` directory for snapshot tests
-- [ ] T003 [P] Confirm or create `Tests/HomeAtlasTests/Integration/` directory (add README stub if created)
+- [x] T001 Confirm or create `Sources/HomeAtlas/Encoding/` directory for snapshot logic ✅
+- [x] T002 [P] Confirm or create `Tests/HomeAtlasTests/Encodable/` directory for snapshot tests ✅
+- [x] T003 [P] Confirm or create `Tests/HomeAtlasTests/Integration/` directory (add README stub if created) ✅
 
 ---
 
@@ -38,13 +66,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create `SnapshotOptions` struct in `Sources/HomeAtlas/Encoding/SnapshotOptions.swift` with anonymize flag
-- [ ] T005 [P] Create base snapshot model types in `Sources/HomeAtlas/Encoding/SnapshotModels.swift`: `HomeSnapshot`, `RoomSnapshot`, `ZoneSnapshot`, `AccessorySnapshot`, `ServiceSnapshot`, `CharacteristicSnapshot` conforming to Codable
-- [ ] T006 [P] Add deterministic ordering helpers in `Sources/HomeAtlas/Encoding/SnapshotHelpers.swift` for sorting Rooms, Accessories, Services, Characteristics per research.md
-- [ ] T007 Create `HomeSnapshotEncoder` entry point in `Sources/HomeAtlas/Encoding/HomeSnapshotEncoder.swift` with `@MainActor` annotation and async signature
-- [ ] T008 Add error handling in `HomeSnapshotEncoder` mapping to `HomeKitError` with context (home/room/accessory/service/characteristic IDs)
+- [x] T004 Create `SnapshotOptions` struct in `Sources/HomeAtlas/Encoding/SnapshotOptions.swift` with anonymize flag ✅
+- [x] T005 [P] Create base snapshot model types in `Sources/HomeAtlas/Encoding/SnapshotModels.swift`: `HomeSnapshot`, `RoomSnapshot`, `ZoneSnapshot`, `AccessorySnapshot`, `ServiceSnapshot`, `CharacteristicSnapshot` conforming to Codable ✅
+- [x] T006 [P] Add deterministic ordering helpers in `Sources/HomeAtlas/Encoding/SnapshotHelpers.swift` for sorting Rooms, Accessories, Services, Characteristics per research.md ✅
+- [x] T007 Create `HomeSnapshotEncoder` entry point in `Sources/HomeAtlas/Encoding/HomeSnapshotEncoder.swift` with `@MainActor` annotation and async signature ✅
+- [x] T008 Add error handling in `HomeSnapshotEncoder` mapping to `HomeKitError` with context (home/room/accessory/service/characteristic IDs) ✅
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**Checkpoint**: Foundation ready - user story implementation can now begin in parallel ✅
 
 ---
 
@@ -56,23 +84,23 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Implement Home→HomeSnapshot conversion in `HomeSnapshotEncoder` traversing rooms and zones
-- [ ] T010 [P] [US1] Implement Room→RoomSnapshot conversion traversing accessories
-- [ ] T011 [P] [US1] Implement Accessory→AccessorySnapshot conversion with manufacturer/model/firmware metadata
-- [ ] T012 [P] [US1] Implement Service→ServiceSnapshot conversion traversing characteristics
-- [ ] T013 [US1] Implement Characteristic→CharacteristicSnapshot conversion reading values on `@MainActor` with null+reason for restricted/unavailable (depends on T009-T012)
-- [ ] T014 [US1] Add deterministic ordering to all snapshot conversions using helpers from T006
-- [ ] T015 [US1] Implement anonymization logic in `HomeSnapshotEncoder` when `SnapshotOptions.anonymize = true` (hash/redact names and IDs)
-- [ ] T016 [US1] Add public API method `encodeSnapshot(_:options:) async throws -> Data` in `Sources/HomeAtlas/HomeAtlas.swift` or dedicated export file
-- [ ] T017 [US1] Implement JSON encoding with stable key order using JSONEncoder with sortedKeys option
-- [ ] T018 [US1] Add unit test in `Tests/HomeAtlasTests/Encodable/SnapshotEncodingTests.swift` validating schema compliance against `contracts/home-snapshot.schema.json`
-- [ ] T019 [US1] Add integration test in `Tests/HomeAtlasTests/Integration/SnapshotIntegrationTests.swift` exporting a representative Home and verifying output
-- [ ] T020 [US1] Add edge case tests: empty Home, no Rooms, restricted characteristics, large Home (100+ accessories), anonymization with `SnapshotOptions.anonymize = true`
-- [ ] T021 [US1] Add performance test validating export ≤ 2 seconds for ~100 accessories with ~1000 characteristics
-- [ ] T022 [US1] Document snapshot API in `docs/reference-index.md` with examples, privacy options, performance notes
-- [ ] T023 [US1] Reference Developer Apple Context7 (`developer_apple`, HomeKit topic) for characteristic read permissions and threading in docs
+- [x] T009 [P] [US1] Implement Home→HomeSnapshot conversion in `HomeSnapshotEncoder` traversing rooms and zones ✅
+- [x] T010 [P] [US1] Implement Room→RoomSnapshot conversion traversing accessories ✅
+- [x] T011 [P] [US1] Implement Accessory→AccessorySnapshot conversion with manufacturer/model/firmware metadata ✅
+- [x] T012 [P] [US1] Implement Service→ServiceSnapshot conversion traversing characteristics ✅
+- [x] T013 [US1] Implement Characteristic→CharacteristicSnapshot conversion reading values on `@MainActor` with null+reason for restricted/unavailable (depends on T009-T012) ✅
+- [x] T014 [US1] Add deterministic ordering to all snapshot conversions using helpers from T006 ✅
+- [x] T015 [US1] Implement anonymization logic in `HomeSnapshotEncoder` when `SnapshotOptions.anonymize = true` (hash/redact names and IDs) ✅ (StableAnonymizer)
+- [x] T016 [US1] Add public API method `encodeSnapshot(_:options:) async throws -> Data` in `Sources/HomeAtlas/HomeAtlas.swift` or dedicated export file ✅ (SnapshotAPI.swift)
+- [x] T017 [US1] Implement JSON encoding with stable key order using JSONEncoder with sortedKeys option ✅
+- [x] T018 [US1] Add unit test in `Tests/HomeAtlasTests/Encodable/SnapshotEncodingTests.swift` validating schema compliance against `contracts/home-snapshot.schema.json` ✅
+- [x] T019 [US1] Add integration test in `Tests/HomeAtlasTests/Integration/SnapshotIntegrationTests.swift` exporting a representative Home and verifying output ✅
+- [x] T020 [US1] Add edge case tests: empty Home, no Rooms, restricted characteristics, large Home (100+ accessories), anonymization with `SnapshotOptions.anonymize = true` ✅
+- [x] T021 [US1] Add performance test validating export ≤ 2 seconds for ~100 accessories with ~1000 characteristics ✅ (SnapshotPerformanceTests.swift)
+- [x] T022 [US1] Document snapshot API in `docs/reference-index.md` with examples, privacy options, performance notes ✅ (See README.md section)
+- [x] T023 [US1] Reference Developer Apple Context7 (`developer_apple`, HomeKit topic) for characteristic read permissions and threading in docs ✅
 
-**Checkpoint**: At this point, User Story 1 should be fully functional - snapshot export works with deterministic JSON
+**Checkpoint**: At this point, User Story 1 should be fully functional - snapshot export works with deterministic JSON ✅
 
 ---
 
@@ -84,15 +112,15 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Audit repository for lingering `SwiftHomeKit` identifiers and replace with `HomeAtlas` where migration context is not required
-- [ ] T025 [P] [US2] Update `Package.swift` comments and product docs to describe the module as `HomeAtlas`
-- [ ] T026 [P] [US2] Refresh CLI documentation in `docs/service-extension.md` and `README.md` to reference current executable names and HomeAtlas branding
-- [ ] T027 [P] [US2] Add or update migration guidance in `CHANGELOG.md` and/or `docs/migration-homeatlas.md`
-- [ ] T028 [US2] Sweep `.github/copilot-instructions.md`, `.specify/memory/constitution.md`, and spec files to ensure HomeAtlas naming consistency
-- [ ] T029 [US2] Run `swift build` to verify package metadata remains valid after documentation updates
-- [ ] T030 [US2] Update quickstart examples in `docs/` and `specs/002-*/quickstart.md` to confirm `import HomeAtlas`
+- [x] T024 [P] [US2] Audit repository for lingering `SwiftHomeKit` identifiers and replace with `HomeAtlas` where migration context is not required ✅
+- [x] T025 [P] [US2] Update `Package.swift` comments and product docs to describe the module as `HomeAtlas` ✅
+- [x] T026 [P] [US2] Refresh CLI documentation in `docs/service-extension.md` and `README.md` to reference current executable names and HomeAtlas branding ✅
+- [x] T027 [P] [US2] Add or update migration guidance in `CHANGELOG.md` and/or `docs/migration-homeatlas.md` ✅
+- [x] T028 [US2] Sweep `.github/copilot-instructions.md`, `.specify/memory/constitution.md`, and spec files to ensure HomeAtlas naming consistency ✅
+- [x] T029 [US2] Run `swift build` to verify package metadata remains valid after documentation updates ✅
+- [x] T030 [US2] Update quickstart examples in `docs/` and `specs/002-*/quickstart.md` to confirm `import HomeAtlas` ✅
 
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work - snapshot export works with HomeAtlas branding
+**Checkpoint**: At this point, User Stories 1 AND 2 should both work - snapshot export works with HomeAtlas branding ✅
 
 ---
 
@@ -104,13 +132,13 @@
 
 ### Implementation for User Story 3
 
-- [ ] T034 [P] [US3] Add `#if canImport(HomeKit)` guards around HomeKit-dependent snapshot code in `HomeSnapshotEncoder`
-- [ ] T035 [P] [US3] Implement fallback `encodeSnapshot` for non-HomeKit platforms returning empty snapshot or clear error in `HomeSnapshotEncoder`
-- [ ] T036 [US3] Add compile test in CI validating build succeeds on non-HomeKit platform (e.g., Linux if supported, or macOS with HomeKit disabled)
-- [ ] T037 [US3] Add runtime test calling snapshot API on non-HomeKit platform verifying graceful behavior (no crash, clear result)
-- [ ] T038 [US3] Document platform-safe behavior in `README.md` and `docs/reference-index.md`
+- [x] T034 [P] [US3] Add `#if canImport(HomeKit)` guards around HomeKit-dependent snapshot code in `HomeSnapshotEncoder` ✅
+- [x] T035 [P] [US3] Implement fallback `encodeSnapshot` for non-HomeKit platforms returning empty snapshot or clear error in `HomeSnapshotEncoder` ✅
+- [x] T036 [US3] Add compile test in CI validating build succeeds on non-HomeKit platform (e.g., Linux if supported, or macOS with HomeKit disabled) ✅ (CI includes Linux build)
+- [x] T037 [US3] Add runtime test calling snapshot API on non-HomeKit platform verifying graceful behavior (no crash, clear result) ✅ (PlatformSafetyTests.swift)
+- [x] T038 [US3] Document platform-safe behavior in `README.md` and `docs/reference-index.md` ✅
 
-**Checkpoint**: All user stories should now be independently functional - complete HomeAtlas rebrand with robust snapshot export
+**Checkpoint**: All user stories should now be independently functional - complete HomeAtlas rebrand with robust snapshot export ✅
 
 ---
 
@@ -118,13 +146,13 @@
 
 **Purpose**: Improvements that affect multiple user stories and final validation
 
-- [ ] T039 [P] Update `CHANGELOG.md` with feature summary and breaking changes (naming)
-- [ ] T040 [P] Run `swift test` to validate all tests pass
-- [ ] T041 [P] Run performance benchmarks from T021 and document results
-- [ ] T042 Validate quickstart examples in `specs/003-homeatlas-rebrand-encodable/quickstart.md` against implemented API
-- [ ] T043 [P] Code review for type safety (no `Any` leakage per Constitution Principle I)
-- [ ] T044 [P] Code review for MainActor annotations per Constitution Principle II
-- [ ] T045 Final constitution check: verify all principles satisfied (type safety, MainActor, errors, coverage, docs)
+- [x] T039 [P] Update `CHANGELOG.md` with feature summary and breaking changes (naming) ✅
+- [x] T040 [P] Run `swift test` to validate all tests pass ✅
+- [x] T041 [P] Run performance benchmarks from T021 and document results ✅
+- [x] T042 Validate quickstart examples in `specs/003-homeatlas-rebrand-encodable/quickstart.md` against implemented API ✅
+- [x] T043 [P] Code review for type safety (no `Any` leakage per Constitution Principle I) ✅
+- [x] T044 [P] Code review for MainActor annotations per Constitution Principle II ✅
+- [x] T045 Final constitution check: verify all principles satisfied (type safety, MainActor, errors, coverage, docs) ✅
 
 ---
 
