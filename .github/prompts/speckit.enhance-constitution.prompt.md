@@ -1,45 +1,39 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Constitution Enhancement (One-Time Use)
 
-## Core Principles
+**IMPORTANT**: This is a one-time prompt. After using it, delete this file to prevent accidental re-use.
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## Your Task
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+You are enhancing the project's constitution file (`.specify/memory/constitution.md`) with workflow-specific quality gates.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Steps:
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+1. **Read the current constitution**: `.specify/memory/constitution.md`
+2. **Review the template below**: Contains workflow selection guidelines and quality gates
+3. **Intelligently merge the content**:
+   - Preserve all existing constitution content
+   - Add missing workflow selection guidance
+   - Add missing quality gates for each workflow type
+   - Match the existing writing style, tone, and section numbering
+   - Avoid duplicating content that already exists
+   - Ensure smooth integration without jarring transitions
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+4. **Self-destruct**: After updating the constitution, DELETE all enhance-constitution files
+   - Delete `.github/prompts/speckit.enhance-constitution.prompt.md` (if exists)
+   - Delete `.github/agents/speckit.enhance-constitution.md` (if exists)
+   - Delete any `speckit.enhance-constitution.*` files in agent command directories:
+     * `.claude/commands/speckit.enhance-constitution.md`
+     * `.cursor/commands/speckit.enhance-constitution.md`
+     * `.windsurf/workflows/speckit.enhance-constitution.md`
+     * `.opencode/prompts/speckit.enhance-constitution.md`
+     * `.amazon-q/commands/speckit.enhance-constitution.md`
+     * `.codex/commands/speckit.enhance-constitution.md`
+     * Or any other agent directories in use
+   - This prevents accidental re-use
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Template Content to Integrate
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
-
+```markdown
 ## Development Workflow
 
 ### Core Workflow (Feature Development)
@@ -58,6 +52,7 @@
 - **Deprecation**: `/speckit.deprecate <feature_num> "<reason>"` → deprecation.md + dependency scan + phased tasks.md
 - **Review**: `/speckit.review <task_id>` → review implementation against spec + update tasks.md + generate report
 - **Cleanup**: `/speckit.cleanup` → organize specs/ directory + archive old branches + update documentation
+
 
 ### Workflow Selection
 Development activities SHALL use the appropriate workflow type based on the nature of the work. Each workflow enforces specific quality gates and documentation requirements tailored to its purpose:
@@ -122,12 +117,19 @@ The wrong workflow SHALL NOT be used - features must not bypass specification, b
 - Migration guide MUST be created before Phase 1
 - All three phases MUST complete in sequence (no skipping)
 - Stakeholder approvals MUST be obtained before starting
+```
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+## Important Notes
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- **Preserve existing content**: Don't remove or significantly alter existing constitution sections
+- **Match style**: Adapt template language to match existing constitution's tone
+- **Section numbering**: Continue existing numbering scheme (Roman numerals, numeric, or none)
+- **No duplication**: If workflow guidance already exists, enhance rather than duplicate
+- **One-time only**: This prompt deletes itself after use to prevent confusion
+- **Multi-agent setups**: If you have multiple agents configured, delete enhance-constitution files from all agent directories
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+---
+
+**After completion**:
+1. Verify that `.specify/memory/constitution.md` contains both the original content and the new workflow quality gates, properly integrated
+2. Delete ALL enhance-constitution files from all agent/prompt directories
