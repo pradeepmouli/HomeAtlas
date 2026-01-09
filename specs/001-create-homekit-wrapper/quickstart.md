@@ -8,13 +8,13 @@
 ## Installation
 ```bash
 # Add dependency in Package.swift
-.package(url: "https://github.com/pradeepmouli/swift-homekit.git", from: "0.1.0")
+.package(url: "https://github.com/pradeepmouli/HomeAtlas.git", from: "0.1.0")
 
 # Add to target dependencies
 .target(
     name: "MyApp",
     dependencies: [
-    .product(name: "HomeAtlas", package: "swift-homekit")
+    .product(name: "HomeAtlas", package: "HomeAtlas")
     ]
 )
 ```

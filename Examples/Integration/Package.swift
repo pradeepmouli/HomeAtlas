@@ -16,7 +16,7 @@ let package = Package(
         .executableTarget(
             name: "IntegrationExample",
             dependencies: [
-                .product(name: "HomeAtlas", package: "swift-homekit")
+                .product(name: "HomeAtlas", package: "HomeAtlas")
             ]
         )
     ]

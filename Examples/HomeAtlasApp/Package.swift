@@ -19,7 +19,7 @@ let package = Package(
         .executableTarget(
             name: "HomeAtlasApp",
             dependencies: [
-                .product(name: "HomeAtlas", package: "swift-homekit")
+                .product(name: "HomeAtlas", package: "HomeAtlas")
             ],
             path: "Sources",
             linkerSettings: [

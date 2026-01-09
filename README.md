@@ -20,14 +20,14 @@ HomeAtlas delivers compile-time safe wrappers over Apple HomeKit services and ch
 Add `HomeAtlas` to your package dependencies:
 
 ```swift
-.package(url: "https://github.com/pradeepmouli/swift-homekit.git", from: "0.1.0")
+.package(url: "https://github.com/pradeepmouli/HomeAtlas.git", from: "0.1.0")
 ```
 
 Then add the library to your target:
 
 ```swift
 .target(name: "MyApp", dependencies: [
-    .product(name: "HomeAtlas", package: "swift-homekit")
+    .product(name: "HomeAtlas", package: "HomeAtlas")
 ])
 ```
 
