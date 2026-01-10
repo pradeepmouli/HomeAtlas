@@ -5,6 +5,7 @@ let package = Package(
     name: "HomeAtlasSwiftUIExample",
     platforms: [
         .macOS(.v15)
+        
     ],
     products: [
         .executable(
@@ -23,7 +24,10 @@ let package = Package(
             ],
             path: "Sources/SwiftUIExample",
             linkerSettings: [
-                .unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks"])
+                .unsafeFlags([
+                    "-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks",
+                    "-Xlinker", "-sectcreate", "-Xlinker", "__TEXT", "-Xlinker", "__info_plist", "-Xlinker", "Sources/SwiftUIExample/Info.plist"
+                ])
             ]
         )
     ]

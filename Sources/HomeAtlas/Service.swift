@@ -40,6 +40,11 @@ open class Service {
         underlying.name
     }
 
+    /// A localized description of the service type.
+    public var localizedDescription: String {
+        underlying.localizedDescription
+    }
+
     /// The accessory that provides this service.
     public var accessory: Accessory? {
         guard let hmAccessory = underlying.accessory else { return nil }
@@ -219,6 +224,7 @@ public extension Service {
 open class Service {
     public var serviceType: String { "" }
     public var name: String? { nil }
+    public var localizedDescription: String { "" }
     public var isPrimaryService: Bool { false }
     public var isUserInteractive: Bool { false }
     public var uniqueIdentifier: UUID { UUID() }

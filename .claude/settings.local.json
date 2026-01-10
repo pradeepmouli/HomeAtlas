@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore: replace swift-homekit references with HomeAtlas\n\n- Update package dependency references from \"swift-homekit\" to \"HomeAtlas\"\n- Update GitHub repository URL to HomeAtlas\n- Update README.md and documentation files\n- Align all examples with new package name\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git tag:*)",
+      "Bash(swift build:*)",
+      "Bash(swift test:*)",
+      "Bash(swift package:*)",
+      "Bash(swift package resolve:*)",
+      "Bash(swift run)",
+      "Bash(swift run:*)",
+      "Skill(axiom:fix-build)",
+      "Skill(axiom:fix-build:*)",
+      "Bash(ps:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(open:*)"
+    ]
+  }
+}

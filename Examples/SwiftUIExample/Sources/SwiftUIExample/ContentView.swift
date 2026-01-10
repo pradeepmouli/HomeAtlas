@@ -94,14 +94,104 @@ struct AccessoryDetail: View {
             }
             Section("Services") {
                 let services = accessory.allServices()
-                if services.isEmpty { Text("No services") }
-                ForEach(services, id: \.uniqueIdentifier) { svc in
-                    // svc.name is optional; provide a sensible fallback for display
-                    Text(svc.name ?? "Unnamed service")
+                if services.isEmpty {
+                    Text("No services")
+                } else {
+                    ForEach(services, id: \.uniqueIdentifier) { svc in
+                        NavigationLink(destination: ServiceDetail(service: svc)) {
+                            HStack {
+                                Text(svc.localizedDescription)
+                                Spacer()
+                                if svc.isPrimaryService {
+                                    Text("Primary")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(.secondary.opacity(0.2))
+                                        .cornerRadius(4)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
         .navigationTitle(accessory.name)
+    }
+}
+
+// Detail view for a single service showing its characteristics.
+@MainActor
+struct ServiceDetail: View {
+    let service: Service
+
+    var body: some View {
+        List {
+            Section("Service Info") {
+                Text("Name: \(service.name ?? "Unnamed service")")
+                Text("Type: \(service.serviceType)")
+                Text("Primary: \(service.isPrimaryService ? "Yes" : "No")")
+                Text("User Interactive: \(service.isUserInteractive ? "Yes" : "No")")
+            }
+
+            let characteristics = service.allCharacteristics()
+            Section("Characteristics (\(characteristics.count))") {
+                if characteristics.isEmpty {
+                    Text("No characteristics")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(0..<characteristics.count, id: \.self) { index in
+                        CharacteristicRow(characteristic: characteristics[index])
+                    }
+                }
+            }
+        }
+        .navigationTitle(service.name ?? "Service")
+    }
+}
+
+// Row displaying a single characteristic's information.
+@MainActor
+struct CharacteristicRow: View {
+    let characteristic: Characteristic<Any>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(characteristic.localizedDescription)
+                .font(.headline)
+
+            HStack {
+                Text("Type:")
+                    .foregroundStyle(.secondary)
+                Text(characteristic.characteristicType)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            // Access the underlying HMCharacteristic to get the value
+            #if canImport(HomeKit)
+            if let underlyingValue = Mirror(reflecting: characteristic).descendant("underlying", "value") {
+                HStack {
+                    Text("Value:")
+                        .foregroundStyle(.secondary)
+                    Text("\(String(describing: underlyingValue))")
+                        .font(.body)
+                }
+            }
+            #endif
+
+            if let metadata = characteristic.metadata {
+                HStack {
+                    Text("Format:")
+                        .foregroundStyle(.secondary)
+                    Text(metadata.format ?? "Unknown")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .padding(.vertical, 4)
     }
 }
 #endif
