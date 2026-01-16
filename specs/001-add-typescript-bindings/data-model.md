@@ -134,7 +134,7 @@ Represents a readable/writable property of a service.
 | Field | Type | Description | Validation |
 |-------|------|-------------|------------|
 | `id` | `string` | Unique identifier (UUID) | Required, UUID format |
-| `type` | `string` | Characteristic type identifier | Required |
+| `type` | `string` | Characteristic type identifier; must correspond to a HomeKit characteristic type constant (see `CharacteristicTypes` enum in tasks.md, T054/T160) | Required |
 | `value` | `CharacteristicValue` | Current value | Required for readable |
 | `supportsRead` | `boolean` | Can be read | Required |
 | `supportsWrite` | `boolean` | Can be written | Required |
