@@ -73,17 +73,34 @@ public class HomeAtlasModule: Module {
 
 ## 3. TypeScript Type Generation
 
-### Decision: Manual TypeScript definitions with code generation for services
+### Decision: Extend HomeKitServiceGenerator to output TypeScript alongside Swift
 
 **Approach**:
 1. **Core types**: Manually written TypeScript interfaces matching HomeAtlas Swift types
-2. **Generated service types**: Extend existing HomeKitServiceGenerator to output TypeScript alongside Swift
+2. **Generated service types**: Extend existing `HomeKitServiceGenerator` to output TypeScript from the same YAML catalog
 
 **Rationale**:
-- HomeAtlas already has a code generation pipeline (`HomeKitServiceGenerator`)
-- TypeScript definitions must match Swift API exactly
+- **No mature Swift→TypeScript tool exists** - ecosystem gap confirmed via research
+- **Expo Modules API has no built-in codegen** - TypeScript types must be maintained separately
+- HomeAtlas already has a code generation pipeline (`HomeKitServiceGenerator`) using `homekit-services.yaml`
+- Single source of truth ensures Swift and TypeScript types stay in sync automatically
 - ~100 services and ~200 characteristics benefit from automation
 - Manual core types ensure API stability
+
+**Research Findings**:
+
+| Tool | Direction | Status |
+|------|-----------|--------|
+| Quicktype | JSON→TS | Not applicable (no Swift input) |
+| Nitro Modules | TS→Swift | Opposite direction |
+| React Native Codegen | TS→ObjC++ | Opposite direction |
+| ts-gyb (Microsoft) | TS→Swift | Opposite direction |
+| Typeshare (1Password) | Rust→Multi | Swift as output only |
+
+**Implementation**: Add `TypeScriptGenerator.swift` to `Sources/HomeKitServiceGenerator/` that:
+- Reads from `homekit-services.yaml` (same as Swift generator)
+- Outputs to `packages/react-native-homeatlas/src/generated/`
+- Runs via SwiftPM command plugin alongside Swift generation
 
 **Type Mapping**:
 
@@ -206,12 +223,18 @@ packages/react-native-homeatlas/
 
 ## 7. Velox Compatibility
 
-### Decision: Standard React Native module (Velox compatible by default)
+### Decision: Not applicable - Velox is unrelated to React Native
 
-**Rationale**:
-- Velox uses standard React Native native module conventions
-- Expo Modules API produces compatible native modules
-- No special Velox-specific code needed
+**Research Findings**:
+- **Velox (velox-apps)** is a Swift port of Tauri for desktop applications, not a React Native tool
+- Uses webview-based rendering (via Wry) with Swift backends
+- Has no connection to React Native ecosystem
+- Target platform is macOS desktop, not mobile
+
+**Conclusion**:
+- The original feature request mentioned "Velox" but this appears to be unrelated to our use case
+- No Velox-specific compatibility work is needed
+- The module will work with standard React Native and Expo projects
 
 ---
 
@@ -221,11 +244,11 @@ packages/react-native-homeatlas/
 |-------|----------|
 | Module Architecture | Expo Modules API |
 | Async Pattern | AsyncFunction with Swift async/await |
-| Type Generation | Manual core types + generated service types |
+| Type Generation | Extend HomeKitServiceGenerator for TypeScript output |
 | Permissions | Expo Config Plugin + runtime check |
 | Events | Expo Events API |
 | Package Structure | Standalone package in `packages/` |
-| Velox Support | Compatible by default |
+| Velox Support | Not applicable (unrelated to React Native) |
 
 ---
 

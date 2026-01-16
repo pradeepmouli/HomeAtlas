@@ -70,7 +70,7 @@ packages/
     │   ├── HomeAtlasModule.m           # Objective-C bridge header
     │   └── HomeAtlas-Bridging-Header.h # Swift bridging header
     ├── android/                        # Stub with unsupported platform error
-    │   └── src/main/java/.../HomeAtlasModule.java
+    │   └── src/main/java/.../HomeAtlasModule.kt
     └── __tests__/
         ├── index.test.ts               # Unit tests
         └── types.test.ts               # Type tests

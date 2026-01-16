@@ -155,16 +155,18 @@ Based on plan.md structure:
 
 ### Implementation for User Story 4
 
-- [ ] T053 [US4] Create ServiceTypes enum at packages/react-native-homeatlas/src/types/service.ts with all HomeKit service type constants
-- [ ] T054 [US4] Create CharacteristicTypes enum at packages/react-native-homeatlas/src/types/characteristic.ts with all characteristic type constants
-- [ ] T055 [P] [US4] Create LightbulbService interface at packages/react-native-homeatlas/src/types/services/lightbulb.ts with typed on/brightness/hue/saturation
-- [ ] T056 [P] [US4] Create ThermostatService interface at packages/react-native-homeatlas/src/types/services/thermostat.ts with typed temperature characteristics
-- [ ] T057 [P] [US4] Create LockMechanismService interface at packages/react-native-homeatlas/src/types/services/lock.ts with typed lock state
-- [ ] T058 [P] [US4] Create SwitchService interface at packages/react-native-homeatlas/src/types/services/switch.ts
-- [ ] T059 [P] [US4] Create OutletService interface at packages/react-native-homeatlas/src/types/services/outlet.ts
-- [ ] T060 [P] [US4] Create FanService interface at packages/react-native-homeatlas/src/types/services/fan.ts
-- [ ] T061 [US4] Create services index at packages/react-native-homeatlas/src/types/services/index.ts re-exporting all service types
-- [ ] T062 [US4] Add typed service helper getTypedService<T>() at packages/react-native-homeatlas/src/index.ts for compile-time safe service access
+**TypeScript Generator Extension** (ensures 100% service type coverage per SC-003):
+
+- [ ] T053 [US4] Extend HomeKitServiceGenerator to add TypeScript output alongside Swift in Sources/HomeKitServiceGenerator/TypeScriptGenerator.swift
+- [ ] T054 [US4] Add Swift-to-TypeScript type mapping (Bool→boolean, Int→number, Double→number, String→string, UUID→string, Optional<T>→T|null) in TypeScriptGenerator.swift
+- [ ] T055 [US4] Generate ServiceTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/serviceTypes.ts
+- [ ] T056 [US4] Generate CharacteristicTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/characteristicTypes.ts
+- [ ] T057 [US4] Generate all ~100 service interfaces from homekit-services.yaml to packages/react-native-homeatlas/src/generated/services/*.ts
+- [ ] T058 [US4] Generate all ~200 characteristic type definitions to packages/react-native-homeatlas/src/generated/characteristics.ts
+- [ ] T059 [US4] Create generated index at packages/react-native-homeatlas/src/generated/index.ts re-exporting all generated types
+- [ ] T060 [US4] Add SwiftPM command plugin to run TypeScript generation alongside Swift generation
+- [ ] T061 [US4] Add typed service helper getTypedService<T>() at packages/react-native-homeatlas/src/index.ts for compile-time safe service access
+- [ ] T062 [US4] Re-export generated types from packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 4 complete - developers have full TypeScript autocomplete for services
 
@@ -337,11 +339,13 @@ With multiple developers:
 | US1: Discovery | 17 | 4 |
 | US2: Read | 6 | 2 |
 | US3: Write | 7 | 2 |
-| US4: Types | 12 | 8 |
+| US4: Types | 12 | 2 |
 | US5: Subscribe | 10 | 2 |
 | US6: Errors | 8 | 2 |
 | Polish | 7 | 2 |
-| **Total** | **87** | **35** |
+| **Total** | **87** | **29** |
+
+**Note**: US4 tasks now use code generation to achieve 100% service type coverage (SC-003) by extending HomeKitServiceGenerator.
 
 ---
 
