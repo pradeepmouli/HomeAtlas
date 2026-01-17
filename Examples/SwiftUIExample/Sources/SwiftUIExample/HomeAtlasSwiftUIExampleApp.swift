@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 import HomeAtlas
 
@@ -19,3 +20,14 @@ struct HomeAtlasSwiftUIExampleApp: App {
         }
     }
 }
+#else
+// SwiftUI not available on this platform
+import Foundation
+
+@main
+struct HomeAtlasSwiftUIExampleApp {
+    static func main() {
+        print("SwiftUI is not available on this platform. This example requires SwiftUI.")
+    }
+}
+#endif

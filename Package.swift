@@ -63,7 +63,10 @@ let package = Package(
         .executableTarget(
             name: "HomeAtlasSwiftUIExample",
             dependencies: ["HomeAtlas"],
-            path: "Examples/SwiftUIExample/Sources/SwiftUIExample"
+            path: "Examples/SwiftUIExample/Sources/SwiftUIExample",
+            swiftSettings: [
+                .define("SWIFTUI_AVAILABLE", .when(platforms: [.iOS, .macOS, .tvOS, .watchOS]))
+            ]
         ),
         .testTarget(
             name: "HomeAtlasTests",
