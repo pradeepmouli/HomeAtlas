@@ -9,8 +9,15 @@ Auto-generated from all feature plans. Last updated: 2026-01-16
 ## Project Structure
 
 ```text
-src/
-tests/
+Sources/
+  HomeAtlas/
+  HomeAtlasMacros/
+  HomeKitCatalogExtractor/
+  HomeKitServiceGenerator/
+Tests/
+  HomeAtlasTests/
+packages/
+  react-native-homeatlas/
 ```
 
 ## Commands
