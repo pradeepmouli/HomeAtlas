@@ -345,13 +345,18 @@ export interface HomeAtlasAPI {
    * @param accessoryId - Accessory UUID
    * @param characteristicType - Characteristic type to monitor
    * @param callback - Function called when value changes
+   * @param serviceType - Optional service type to disambiguate when multiple
+   *   services on the same accessory expose the same characteristic type.
+   *   If omitted, the implementation MAY subscribe to all matching
+   *   characteristics on the accessory or apply its own resolution strategy.
    * @returns Subscription handle for unsubscribing
    * @throws {HomeAtlasError} with code 'operationNotSupported' if not notifiable
    */
   subscribe(
     accessoryId: UUID,
     characteristicType: string,
-    callback: (event: CharacteristicChangeEvent) => void
+    callback: (event: CharacteristicChangeEvent) => void,
+    serviceType?: string
   ): Subscription;
 
   /**
