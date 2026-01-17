@@ -76,8 +76,11 @@ jobs:
         run: swift build --verbose
 
       - name: Run Tests
-        # Linux test discovery has issues with mixed MainActor/non-MainActor tests
-        # Skip tests on Linux for now - they're primarily for HomeKit functionality anyway
+        # Linux test discovery fails due to Swift 6 concurrency issue:
+        # Test classes with mixed @MainActor and non-@MainActor methods create
+        # conflicting generic parameter types in the auto-generated test discovery array.
+        # This is a known limitation on Linux. Skip tests for now - the build validates
+        # stub implementations work correctly.
         if: false
         run: swift test --verbose
 
