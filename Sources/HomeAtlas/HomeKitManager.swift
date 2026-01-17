@@ -176,7 +176,8 @@ private extension HomeKitManager {
 
 #else
 
-// Non-HomeKit platform stub
+/// Stub implementations for platforms without HomeKit support.
+/// Provides conditional compilation based on Combine availability.
 
 #if canImport(Combine)
 import Combine
