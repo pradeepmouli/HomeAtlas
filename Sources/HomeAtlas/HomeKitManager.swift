@@ -179,6 +179,36 @@ private extension HomeKitManager {
 /// Stub implementations for platforms without HomeKit support.
 /// Provides conditional compilation based on Combine availability.
 
+/// Private helper for shared stub implementation logic.
+@MainActor
+private enum StubHelpers {
+    static func warmUpCache(includeServices: Bool, includeCharacteristics: Bool) {
+        DiagnosticsLogger.shared.record(
+            operation: .cacheWarmUp,
+            context: DiagnosticsContext(),
+            duration: 0.001, // Stub duration
+            outcome: .success,
+            metadata: [
+                "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
+                "accessories.count": "0"
+            ]
+        )
+    }
+    
+    static func resetCache(includeCharacteristics: Bool) {
+        DiagnosticsLogger.shared.record(
+            operation: .cacheReset,
+            context: DiagnosticsContext(),
+            duration: 0.001, // Stub duration
+            outcome: .success,
+            metadata: [
+                "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
+                "accessories.removed": "0"
+            ]
+        )
+    }
+}
+
 #if canImport(Combine)
 import Combine
 
@@ -209,29 +239,11 @@ public final class HomeKitManager: ObservableObject {
     }
 
     public func warmUpCache(includeServices: Bool = false, includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheWarmUp,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
-                "accessories.count": "0"
-            ]
-        )
+        StubHelpers.warmUpCache(includeServices: includeServices, includeCharacteristics: includeCharacteristics)
     }
 
     public func resetCache(includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheReset,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
-                "accessories.removed": "0"
-            ]
-        )
+        StubHelpers.resetCache(includeCharacteristics: includeCharacteristics)
     }
 }
 
@@ -264,29 +276,11 @@ public final class HomeKitManager {
     }
 
     public func warmUpCache(includeServices: Bool = false, includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheWarmUp,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
-                "accessories.count": "0"
-            ]
-        )
+        StubHelpers.warmUpCache(includeServices: includeServices, includeCharacteristics: includeCharacteristics)
     }
 
     public func resetCache(includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheReset,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
-                "accessories.removed": "0"
-            ]
-        )
+        StubHelpers.resetCache(includeCharacteristics: includeCharacteristics)
     }
 }
 
