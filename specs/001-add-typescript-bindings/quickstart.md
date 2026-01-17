@@ -72,7 +72,12 @@ async function discoverDevices() {
       }
     }
   } catch (error) {
-    if (error.code === 'permissionDenied') {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      (error as { code?: string }).code === 'permissionDenied'
+    ) {
       console.error('HomeKit permission denied');
     }
   }
