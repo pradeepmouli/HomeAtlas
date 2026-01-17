@@ -182,11 +182,14 @@ private extension HomeKitManager {
 /// Private helper for shared stub implementation logic.
 @MainActor
 private enum StubHelpers {
+    /// Stub duration for cache operations on non-HomeKit platforms (1ms)
+    private static let stubDuration: TimeInterval = 0.001
+    
     static func warmUpCache(includeServices: Bool, includeCharacteristics: Bool) {
         DiagnosticsLogger.shared.record(
             operation: .cacheWarmUp,
             context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
+            duration: stubDuration,
             outcome: .success,
             metadata: [
                 "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
@@ -199,7 +202,7 @@ private enum StubHelpers {
         DiagnosticsLogger.shared.record(
             operation: .cacheReset,
             context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
+            duration: stubDuration,
             outcome: .success,
             metadata: [
                 "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
