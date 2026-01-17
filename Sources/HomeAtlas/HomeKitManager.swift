@@ -176,7 +176,46 @@ private extension HomeKitManager {
 
 #else
 
-/// A stub HomeKit manager for non-HomeKit platforms.
+/// Stub implementations for platforms without HomeKit support.
+/// Provides conditional compilation based on Combine availability.
+
+/// Private helper for shared stub implementation logic.
+@MainActor
+private enum StubHelpers {
+    /// Stub duration for cache operations on non-HomeKit platforms (1ms)
+    private static let stubDuration: TimeInterval = 0.001
+    
+    static func warmUpCache(includeServices: Bool, includeCharacteristics: Bool) {
+        DiagnosticsLogger.shared.record(
+            operation: .cacheWarmUp,
+            context: DiagnosticsContext(),
+            duration: stubDuration,
+            outcome: .success,
+            metadata: [
+                "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
+                "accessories.count": "0"
+            ]
+        )
+    }
+    
+    static func resetCache(includeCharacteristics: Bool) {
+        DiagnosticsLogger.shared.record(
+            operation: .cacheReset,
+            context: DiagnosticsContext(),
+            duration: stubDuration,
+            outcome: .success,
+            metadata: [
+                "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
+                "accessories.removed": "0"
+            ]
+        )
+    }
+}
+
+#if canImport(Combine)
+import Combine
+
+/// A stub HomeKit manager for non-HomeKit platforms with Combine support.
 @MainActor
 public final class HomeKitManager: ObservableObject {
     @Published public private(set) var homes: [String] = []
@@ -203,30 +242,51 @@ public final class HomeKitManager: ObservableObject {
     }
 
     public func warmUpCache(includeServices: Bool = false, includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheWarmUp,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : (includeServices ? "manager+services" : "manager"),
-                "accessories.count": "0"
-            ]
-        )
+        StubHelpers.warmUpCache(includeServices: includeServices, includeCharacteristics: includeCharacteristics)
     }
 
     public func resetCache(includeCharacteristics: Bool = false) {
-        DiagnosticsLogger.shared.record(
-            operation: .cacheReset,
-            context: DiagnosticsContext(),
-            duration: 0.001, // Stub duration
-            outcome: .success,
-            metadata: [
-                "scope": includeCharacteristics ? "manager+services+characteristics" : "manager",
-                "accessories.removed": "0"
-            ]
-        )
+        StubHelpers.resetCache(includeCharacteristics: includeCharacteristics)
     }
 }
+
+#else
+
+/// A stub HomeKit manager for non-HomeKit platforms without Combine.
+@MainActor
+public final class HomeKitManager {
+    public private(set) var homes: [String] = []
+    public private(set) var isReady: Bool = true
+
+    public init() {}
+
+    public func waitUntilReady() async {
+        // Already ready
+    }
+
+    public var primaryHome: String? { nil }
+
+    public func allAccessories() -> [Accessory] {
+        []
+    }
+
+    public func accessory(named name: String) -> Accessory? {
+        nil
+    }
+
+    public func home(named name: String) -> String? {
+        nil
+    }
+
+    public func warmUpCache(includeServices: Bool = false, includeCharacteristics: Bool = false) {
+        StubHelpers.warmUpCache(includeServices: includeServices, includeCharacteristics: includeCharacteristics)
+    }
+
+    public func resetCache(includeCharacteristics: Bool = false) {
+        StubHelpers.resetCache(includeCharacteristics: includeCharacteristics)
+    }
+}
+
+#endif
 
 #endif

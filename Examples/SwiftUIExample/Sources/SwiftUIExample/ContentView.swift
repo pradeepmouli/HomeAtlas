@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 import HomeAtlas
 #if canImport(HomeKit)
@@ -211,3 +212,5 @@ struct ReachabilityDot: View {
 #Preview("Empty") {
     ContentView(manager: HomeKitManager(), isReady: true)
 }
+
+#endif // canImport(SwiftUI)
