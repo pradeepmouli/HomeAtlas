@@ -81,6 +81,8 @@ jobs:
         # conflicting generic parameter types in the auto-generated test discovery array.
         # This is a known limitation on Linux. Skip tests for now - the build validates
         # stub implementations work correctly.
+        # TODO(homeatlas): Re-enable Linux tests once the Swift concurrency test discovery
+        # issue is resolved on Linux and this limitation no longer applies.
         if: false
         run: swift test --verbose
 
