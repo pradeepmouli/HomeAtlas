@@ -164,14 +164,14 @@ Structured error with context for debugging.
 
 | Field | Type | Description | Validation |
 |-------|------|-------------|------------|
-| `code` | `ErrorCode` | Error classification | Required |
+| `code` | `HomeAtlasErrorCode` | Error classification | Required |
 | `message` | `string` | Human-readable description | Required, non-empty |
 | `accessoryId` | `string \| null` | Related accessory (if applicable) | Optional, UUID |
 | `accessoryName` | `string \| null` | Accessory name for display | Optional |
 | `characteristicType` | `string \| null` | Related characteristic | Optional |
 | `underlyingError` | `string \| null` | Original error message | Optional |
 
-**ErrorCode Enumeration**:
+**HomeAtlasErrorCode Enumeration**:
 
 | Code | Description | User-Facing Message |
 |------|-------------|---------------------|
