@@ -10,6 +10,7 @@
 ### Session 2026-01-18
 
 - Q: What lifecycle states should the HomeAtlas module transition through during initialization and operation? → A: Four-state: uninitialized, ready, permission denied, error (explicit error states)
+- Q: How should write operations handle confirmation of device state changes? → A: Configurable: Support both optimistic (immediate) and confirmed (wait for acknowledgment) modes
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -58,6 +59,8 @@ As a React Native/Expo developer, I want to write new values to HomeKit accessor
 1. **Given** an accessory with a writable characteristic, **When** the developer writes a valid value, **Then** the device state changes and the operation completes successfully.
 2. **Given** an accessory with a writable characteristic, **When** the developer writes an invalid value (out of range, wrong type), **Then** a descriptive error is returned without crashing.
 3. **Given** multiple write operations are issued simultaneously, **When** all operations complete, **Then** each operation succeeds or fails independently with appropriate status.
+4. **Given** a write operation is issued with optimistic mode, **When** the method is called, **Then** it returns immediately without waiting for device confirmation.
+5. **Given** a write operation is issued with confirmed mode, **When** the method is called, **Then** it waits for and returns the device acknowledgment result.
 
 ---
 
@@ -130,6 +133,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - **FR-006**: System MUST allow querying specific service types (e.g., Lightbulb, Thermostat)
 - **FR-007**: System MUST allow reading characteristic values with proper type mapping
 - **FR-008**: System MUST allow writing characteristic values with validation
+- **FR-008a**: System MUST support both optimistic (immediate return) and confirmed (wait for device acknowledgment) write modes, configurable per operation
 - **FR-009**: System MUST provide TypeScript type definitions for all HomeKit service types
 - **FR-010**: System MUST provide TypeScript type definitions for all characteristic value types
 - **FR-011**: System MUST support subscribing to characteristic change notifications
