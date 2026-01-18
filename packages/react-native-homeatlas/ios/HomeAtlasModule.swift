@@ -306,10 +306,10 @@ public class HomeAtlasModule: Module {
             throw HomeAtlasError.unknown("Home manager not initialized")
         }
         
-        let lowerName = name.lowercased()
+        let lowercasedName = name.lowercased()
         
         for home in homeManager.homes {
-            if let accessory = home.accessories.first(where: { $0.name.lowercased() == lowerName }) {
+            if let accessory = home.accessories.first(where: { $0.name.lowercased() == lowercasedName }) {
                 return Serialization.serializeAccessory(accessory)
             }
         }
