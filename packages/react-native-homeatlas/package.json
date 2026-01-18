@@ -45,7 +45,7 @@
     "react-native": ">=0.73.0"
   },
   "dependencies": {
-    "expo-modules-core": "^1.11.0"
+    "expo-modules-core": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
