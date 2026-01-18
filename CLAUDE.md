@@ -22,7 +22,7 @@ packages/
 
 ## Commands
 
-npm test && npm run lint
+swift build && swift test
 
 ## Code Style
 

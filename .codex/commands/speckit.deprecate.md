@@ -1,16 +1,6 @@
 ---
 description: "Initiate a feature deprecation workflow with phased sunset process (warnings\
   \ \u2192 disabled \u2192 removed)."
-hooks:
-  Stop:
-  - hooks:
-    - type: prompt
-      prompt: "After completing this workflow, consider these next steps:\n\n1. **Create\
-        \ Deprecation Plan**\n   - Run: `/speckit.plan` or use the `speckit.plan`\
-        \ subagent\n   - Context: Create a detailed plan for the deprecation phases.\
-        \ I am deprecating...\n2. **Break Down Into Tasks**\n   - Run: `/speckit.tasks`\
-        \ or use the `speckit.tasks` subagent\n   - Context: Break the deprecation\
-        \ plan into tasks for each phase"
 ---
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
@@ -109,11 +99,7 @@ Given that input, do this:
 
 ---
 
-## Recommended Next Steps
+## Next Steps
 
-After completing this workflow, consider these next steps:
-
-1. **Create Deprecation Plan**: Run `/speckit.plan`
-   - Suggested prompt: Create a detailed plan for the deprecation phases. I am deprecating...
-2. **Break Down Into Tasks**: Run `/speckit.tasks`
-   - Suggested prompt: Break the deprecation plan into tasks for each phase
+1. Create Deprecation Plan
+2. Break Down Into Tasks
