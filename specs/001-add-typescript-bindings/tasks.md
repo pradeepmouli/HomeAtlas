@@ -64,8 +64,7 @@ Based on plan.md structure:
 
 ### Type Reference Research
 
-- [ ] T020 [P] Review hap-fluent library types at https://github.com/pradeepmouli/hap-fluent for TypeScript type definition patterns and structure to inform bindings design
-
+- [ ] T019 [P] Review hap-fluent library types at https://github.com/pradeepmouli/hap-fluent for TypeScript type definition patterns and structure to inform bindings design
 
 ### Utility Infrastructure (New from clarifications)
 
