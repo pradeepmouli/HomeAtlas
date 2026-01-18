@@ -12,6 +12,7 @@
 - Q: What lifecycle states should the HomeAtlas module transition through during initialization and operation? → A: Four-state: uninitialized, ready, permission denied, error (explicit error states)
 - Q: How should write operations handle confirmation of device state changes? → A: Configurable: Support both optimistic (immediate) and confirmed (wait for acknowledgment) modes
 - Q: What level of observability should the module provide for debugging and monitoring? → A: Standard: Structured errors with semantic error codes + optional developer-facing debug logs
+- Q: How should the module handle transient network or communication failures when interacting with HomeKit devices? → A: Auto-retry with exponential backoff: Attempt 1-3 retries with increasing delays for transient failures
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -44,6 +45,7 @@ As a React Native/Expo developer, I want to read the current state of HomeKit ac
 1. **Given** an accessory with a readable characteristic, **When** the developer requests the characteristic value, **Then** the current value is returned with its correct type (boolean, number, string).
 2. **Given** an accessory is unreachable, **When** the developer attempts to read a characteristic, **Then** an appropriate error is returned indicating the device is offline.
 3. **Given** a service has multiple characteristics, **When** the developer queries all characteristics, **Then** each characteristic is returned with its type, current value, and read/write capabilities.
+4. **Given** a transient network failure occurs during a read operation, **When** the system retries with exponential backoff, **Then** the operation succeeds on retry or returns error after exhausting retry attempts.
 
 ---
 
@@ -121,6 +123,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - How does the system handle accessories added/removed while app is running? Re-query required; real-time home structure changes not automatically pushed.
 - What happens when reading a write-only characteristic? Error indicating operation not supported.
 - How are unsupported platforms handled? Clear error at initialization time indicating platform requirements.
+- How are transient network failures handled? System automatically retries with exponential backoff (1-3 attempts); if all retries fail, error is returned to caller.
 
 ## Requirements *(mandatory)*
 
@@ -142,6 +145,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - **FR-012**: System MUST support unsubscribing from notifications (individually and globally)
 - **FR-013**: System MUST return structured errors with semantic error codes, human-readable message, and contextual metadata
 - **FR-013a**: System MUST provide optional developer-facing debug logging that can be enabled for troubleshooting
+- **FR-013b**: System MUST automatically retry transient failures (network timeouts, device temporarily unreachable) with exponential backoff (1-3 attempts with increasing delays)
 - **FR-014**: System MUST work with React Native and Expo managed workflow projects
 - **FR-015**: System MUST gracefully handle unsupported platforms with clear error messaging
 
