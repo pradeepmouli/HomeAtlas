@@ -1,0 +1,62 @@
+{
+  "name": "react-native-homeatlas",
+  "version": "0.1.0",
+  "description": "TypeScript bindings for HomeAtlas - HomeKit control for React Native and Expo",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "files": [
+    "src",
+    "build",
+    "ios",
+    "android",
+    "app.plugin.js",
+    "expo-module.config.json",
+    "*.podspec"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "homekit",
+    "smart-home",
+    "iot",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pradeepmouli/HomeAtlas.git",
+    "directory": "packages/react-native-homeatlas"
+  },
+  "author": "Pradeep Mouli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pradeepmouli/HomeAtlas/issues"
+  },
+  "homepage": "https://github.com/pradeepmouli/HomeAtlas#readme",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": ">=0.73.0"
+  },
+  "dependencies": {
+    "expo-modules-core": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/react": "^18.2.45",
+    "@types/react-native": "^0.73.0",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "typescript": "^5.3.3"
+  }
+}

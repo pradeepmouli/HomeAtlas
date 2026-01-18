@@ -1,0 +1,7 @@
+{
+  "name": "HomeAtlas",
+  "platforms": ["ios"],
+  "ios": {
+    "modules": ["HomeAtlasModule"]
+  }
+}
