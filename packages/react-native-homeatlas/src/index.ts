@@ -25,5 +25,11 @@ export { CacheManager } from './utils/CacheManager';
 // Native module interface (for reference only)
 export type { NativeHomeAtlas } from './NativeHomeAtlas';
 
-// Export main API as default
-export { default } from './HomeAtlasAPI';
+// Integrate RetryHelper with the main API and export it as default
+import HomeAtlasAPI from './HomeAtlasAPI';
+import { RetryHelper as InternalRetryHelper } from './utils/RetryHelper';
+
+const defaultRetryHelper = new InternalRetryHelper();
+(HomeAtlasAPI as any).retryHelper = defaultRetryHelper;
+
+export default HomeAtlasAPI;
