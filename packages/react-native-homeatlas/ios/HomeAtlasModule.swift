@@ -375,9 +375,13 @@ public class HomeAtlasModule: Module {
         
         // Write based on mode
         if mode == "optimistic" {
-            // Fire and forget
+            // Fire and forget, but log any errors for debugging
             Task {
-                try? await characteristic.writeValue(writeValue)
+                do {
+                    try await characteristic.writeValue(writeValue)
+                } catch {
+                    NSLog("HomeAtlasModule.writeCharacteristic(optimistic) failed for accessoryId=%@, serviceType=%@, characteristicType=%@: %@", accessoryId, serviceType, characteristicType, String(describing: error))
+                }
             }
         } else {
             // Wait for confirmation
