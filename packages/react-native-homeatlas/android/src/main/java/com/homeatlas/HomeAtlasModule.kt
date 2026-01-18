@@ -62,7 +62,7 @@ class HomeAtlasModule : Module() {
       throw PlatformUnavailableException()
     }
 
-    Function("subscribe") { _: String, _: String ->
+    Function("subscribe") { _: String, _: String, _: String? ->
       throw PlatformUnavailableException()
     }
 
