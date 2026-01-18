@@ -5,6 +5,12 @@
 **Status**: Draft
 **Input**: User description: "Add TypeScript bindings for use in React Native/Expo and/or Velox"
 
+## Clarifications
+
+### Session 2026-01-18
+
+- Q: What lifecycle states should the HomeAtlas module transition through during initialization and operation? → A: Four-state: uninitialized, ready, permission denied, error (explicit error states)
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Discover and List Smart Home Devices (Priority: P1)
@@ -116,6 +122,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 ### Functional Requirements
 
 - **FR-001**: System MUST provide a method to initialize HomeAtlas and request HomeKit permissions
+- **FR-001a**: System MUST expose module state with four distinct states: uninitialized, ready, permission denied, error
 - **FR-002**: System MUST expose home discovery with name, identifier, and accessory enumeration
 - **FR-003**: System MUST allow querying accessories by name or unique identifier
 - **FR-004**: System MUST expose accessory properties: name, identifier, reachability status, category
@@ -133,6 +140,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 
 ### Key Entities
 
+- **ModuleState**: Represents the current operational state of the HomeAtlas module with four states: uninitialized (not yet initialized), ready (initialized and HomeKit permissions granted), permission denied (HomeKit access denied by user), error (initialization or runtime failure)
 - **Home**: Represents a HomeKit home with name, unique identifier, and collections of accessories and rooms
 - **Room**: Represents a room within a home with name and unique identifier
 - **Accessory**: A physical or bridged HomeKit device with name, identifier, reachability, category, room assignment, and services
