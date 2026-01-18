@@ -47,7 +47,7 @@ enum Serialization {
             "isReachable": accessory.isReachable,
             "isBlocked": accessory.isBlocked,
             "category": serializeAccessoryCategory(accessory.category),
-            "roomId": accessory.room?.uniqueIdentifier.uuidString as Any,
+            "roomId": accessory.room.map { $0.uniqueIdentifier.uuidString } ?? NSNull(),
             "services": accessory.services.map { serializeService($0) }
         ]
     }
