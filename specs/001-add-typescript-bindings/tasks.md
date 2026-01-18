@@ -62,18 +62,23 @@ Based on plan.md structure:
 - [ ] T017 [P] Create ModuleState type at packages/react-native-homeatlas/src/types/state.ts with four states (uninitialized, ready, permissionDenied, error) per FR-001a
 - [ ] T018 [P] Create WriteMode type at packages/react-native-homeatlas/src/types/write.ts with 'optimistic' | 'confirmed' per FR-008a
 
+### Type Reference Research
+
+- [ ] T020 [P] Review hap-fluent library types at https://github.com/pradeepmouli/hap-fluent for TypeScript type definition patterns and structure to inform bindings design
+
+
 ### Utility Infrastructure (New from clarifications)
 
-- [ ] T019 [P] Create RetryHelper utility at packages/react-native-homeatlas/src/utils/RetryHelper.ts with exponential backoff (1-3 attempts) per FR-013b
-- [ ] T020 [P] Create DebugLogger utility at packages/react-native-homeatlas/src/utils/DebugLogger.ts with enable/disable toggle per FR-013a
-- [ ] T021 [P] Create CacheManager utility at packages/react-native-homeatlas/src/utils/CacheManager.ts for in-memory home structure storage per FR-002a
+- [ ] T020 [P] Create RetryHelper utility at packages/react-native-homeatlas/src/utils/RetryHelper.ts with exponential backoff (1-3 attempts) per FR-013b
+- [ ] T021 [P] Create DebugLogger utility at packages/react-native-homeatlas/src/utils/DebugLogger.ts with enable/disable toggle per FR-013a
+- [ ] T022 [P] Create CacheManager utility at packages/react-native-homeatlas/src/utils/CacheManager.ts for in-memory home structure storage per FR-002a
 
 ### Native Module Scaffold
 
-- [ ] T022 Create NativeHomeAtlas interface at packages/react-native-homeatlas/src/NativeHomeAtlas.ts defining native module methods
-- [ ] T023 Create base HomeAtlasModule.swift skeleton at packages/react-native-homeatlas/ios/HomeAtlasModule.swift with Expo module definition
-- [ ] T024 Create Serialization.swift at packages/react-native-homeatlas/ios/Serialization.swift with HomeKit→JSON conversion helpers
-- [ ] T025 Create main index.ts at packages/react-native-homeatlas/src/index.ts re-exporting types and default HomeAtlas API
+- [ ] T023 Create NativeHomeAtlas interface at packages/react-native-homeatlas/src/NativeHomeAtlas.ts defining native module methods
+- [ ] T024 Create base HomeAtlasModule.swift skeleton at packages/react-native-homeatlas/ios/HomeAtlasModule.swift with Expo module definition
+- [ ] T025 Create Serialization.swift at packages/react-native-homeatlas/ios/Serialization.swift with HomeKit→JSON conversion helpers
+- [ ] T026 Create main index.ts at packages/react-native-homeatlas/src/index.ts re-exporting types and default HomeAtlas API
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -87,31 +92,31 @@ Based on plan.md structure:
 
 ### Tests for User Story 1
 
-- [ ] T026 [P] [US1] Write type test for initialize() return type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T027 [P] [US1] Write type test for getHomes() return type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T028 [P] [US1] Write type test for getAllAccessories() return type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T029 [P] [US1] Write type test for getState() return type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T030 [US1] Write unit test for Home/Accessory serialization in packages/react-native-homeatlas/__tests__/index.test.ts
-- [ ] T031 [US1] Write unit test for cache hit/miss behavior in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T027 [P] [US1] Write type test for initialize() return type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T028 [P] [US1] Write type test for getHomes() return type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T029 [P] [US1] Write type test for getAllAccessories() return type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T030 [P] [US1] Write type test for getState() return type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T031 [US1] Write unit test for Home/Accessory serialization in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T032 [US1] Write unit test for cache hit/miss behavior in packages/react-native-homeatlas/__tests__/index.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T032 [US1] Implement module state management in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with 4-state transitions per FR-001a
-- [ ] T033 [US1] Implement CacheManager integration in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to cache home structure per FR-002a
-- [ ] T034 [US1] Implement initialize() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift bridging to HomeKitManager.waitUntilReady() with cache initialization
-- [ ] T035 [US1] Implement isReady() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T036 [US1] Implement getState() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift returning current ModuleState per FR-001a
-- [ ] T037 [US1] Implement getHomes() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift returning cached data per FR-002a
-- [ ] T038 [US1] Implement getHome(homeId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T039 [US1] Implement getAllAccessories() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T040 [US1] Implement getAccessory(accessoryId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T041 [US1] Implement findAccessoryByName(name) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T042 [US1] Implement refresh() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to clear cache and re-query per FR-002a
-- [ ] T043 [US1] Add serializeHome() helper in packages/react-native-homeatlas/ios/Serialization.swift converting HMHome to dictionary
-- [ ] T044 [US1] Add serializeAccessory() helper in packages/react-native-homeatlas/ios/Serialization.swift converting HMAccessory to dictionary
-- [ ] T045 [US1] Add serializeRoom() helper in packages/react-native-homeatlas/ios/Serialization.swift
-- [ ] T046 [US1] Add serializeService() helper in packages/react-native-homeatlas/ios/Serialization.swift
-- [ ] T047 [US1] Export initialize, isReady, getState, getHomes, getHome, getAllAccessories, getAccessory, findAccessoryByName, refresh in packages/react-native-homeatlas/src/index.ts
+- [ ] T033 [US1] Implement module state management in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with 4-state transitions per FR-001a
+- [ ] T034 [US1] Implement CacheManager integration in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to cache home structure per FR-002a
+- [ ] T035 [US1] Implement initialize() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift bridging to HomeKitManager.waitUntilReady() with cache initialization
+- [ ] T036 [US1] Implement isReady() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T037 [US1] Implement getState() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift returning current ModuleState per FR-001a
+- [ ] T038 [US1] Implement getHomes() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift returning cached data per FR-002a
+- [ ] T039 [US1] Implement getHome(homeId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T040 [US1] Implement getAllAccessories() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T041 [US1] Implement getAccessory(accessoryId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T042 [US1] Implement findAccessoryByName(name) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T043 [US1] Implement refresh() AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to clear cache and re-query per FR-002a
+- [ ] T044 [US1] Add serializeHome() helper in packages/react-native-homeatlas/ios/Serialization.swift converting HMHome to dictionary
+- [ ] T045 [US1] Add serializeAccessory() helper in packages/react-native-homeatlas/ios/Serialization.swift converting HMAccessory to dictionary
+- [ ] T046 [US1] Add serializeRoom() helper in packages/react-native-homeatlas/ios/Serialization.swift
+- [ ] T047 [US1] Add serializeService() helper in packages/react-native-homeatlas/ios/Serialization.swift
+- [ ] T048 [US1] Export initialize, isReady, getState, getHomes, getHome, getAllAccessories, getAccessory, findAccessoryByName, refresh in packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 1 complete - developers can discover all HomeKit devices and check module state
 
@@ -125,17 +130,17 @@ Based on plan.md structure:
 
 ### Tests for User Story 2
 
-- [ ] T048 [P] [US2] Write type test for readCharacteristic() return type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T049 [US2] Write unit test for characteristic value type mapping in packages/react-native-homeatlas/__tests__/index.test.ts
-- [ ] T050 [US2] Write unit test for retry behavior on transient failures in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T049 [P] [US2] Write type test for readCharacteristic() return type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T050 [US2] Write unit test for characteristic value type mapping in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T051 [US2] Write unit test for retry behavior on transient failures in packages/react-native-homeatlas/__tests__/index.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T051 [US2] Implement readCharacteristic(accessoryId, serviceType, characteristicType) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with RetryHelper integration per FR-013b
-- [ ] T052 [US2] Add findCharacteristic() helper in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to locate characteristic by accessory/service/type
-- [ ] T053 [US2] Add serializeCharacteristicValue() helper in packages/react-native-homeatlas/ios/Serialization.swift handling Bool/Int/Double/String/Data
-- [ ] T054 [US2] Add debug logging to readCharacteristic using DebugLogger per FR-013a
-- [ ] T055 [US2] Export readCharacteristic in packages/react-native-homeatlas/src/index.ts
+- [ ] T052 [US2] Implement readCharacteristic(accessoryId, serviceType, characteristicType) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with RetryHelper integration per FR-013b
+- [ ] T053 [US2] Add findCharacteristic() helper in packages/react-native-homeatlas/ios/HomeAtlasModule.swift to locate characteristic by accessory/service/type
+- [ ] T054 [US2] Add serializeCharacteristicValue() helper in packages/react-native-homeatlas/ios/Serialization.swift handling Bool/Int/Double/String/Data
+- [ ] T055 [US2] Add debug logging to readCharacteristic using DebugLogger per FR-013a
+- [ ] T056 [US2] Export readCharacteristic in packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 2 complete - developers can read device states with automatic retry
 
@@ -149,21 +154,21 @@ Based on plan.md structure:
 
 ### Tests for User Story 3
 
-- [ ] T056 [P] [US3] Write type test for writeCharacteristic() signature with optional mode parameter in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T057 [US3] Write unit test for value validation (range, type) in packages/react-native-homeatlas/__tests__/index.test.ts
-- [ ] T058 [US3] Write unit test for optimistic vs confirmed write modes in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T057 [P] [US3] Write type test for writeCharacteristic() signature with optional mode parameter in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T058 [US3] Write unit test for value validation (range, type) in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T059 [US3] Write unit test for optimistic vs confirmed write modes in packages/react-native-homeatlas/__tests__/index.test.ts
 
 ### Implementation for User Story 3
 
-- [ ] T059 [US3] Implement writeCharacteristic(accessoryId, serviceType, characteristicType, value, mode?) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with optional mode parameter per FR-008a
-- [ ] T060 [US3] Add optimistic write mode implementation (immediate return) in writeCharacteristic per FR-008a
-- [ ] T061 [US3] Add confirmed write mode implementation (wait for acknowledgment) in writeCharacteristic per FR-008a
-- [ ] T062 [US3] Add deserializeCharacteristicValue() helper in packages/react-native-homeatlas/ios/Serialization.swift converting JS value to HomeKit type
-- [ ] T063 [US3] Add value validation in writeCharacteristic checking minValue/maxValue/stepValue constraints
-- [ ] T064 [US3] Add RetryHelper integration to writeCharacteristic per FR-013b
-- [ ] T065 [US3] Add debug logging to writeCharacteristic using DebugLogger per FR-013a
-- [ ] T066 [US3] Implement identify(accessoryId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T067 [US3] Export writeCharacteristic, identify in packages/react-native-homeatlas/src/index.ts
+- [ ] T060 [US3] Implement writeCharacteristic(accessoryId, serviceType, characteristicType, value, mode?) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift with optional mode parameter per FR-008a
+- [ ] T061 [US3] Add optimistic write mode implementation (immediate return) in writeCharacteristic per FR-008a
+- [ ] T062 [US3] Add confirmed write mode implementation (wait for acknowledgment) in writeCharacteristic per FR-008a
+- [ ] T063 [US3] Add deserializeCharacteristicValue() helper in packages/react-native-homeatlas/ios/Serialization.swift converting JS value to HomeKit type
+- [ ] T064 [US3] Add value validation in writeCharacteristic checking minValue/maxValue/stepValue constraints
+- [ ] T065 [US3] Add RetryHelper integration to writeCharacteristic per FR-013b
+- [ ] T066 [US3] Add debug logging to writeCharacteristic using DebugLogger per FR-013a
+- [ ] T067 [US3] Implement identify(accessoryId) AsyncFunction in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T068 [US3] Export writeCharacteristic, identify in packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 3 complete - developers can control smart home devices with configurable write modes
 
@@ -177,23 +182,23 @@ Based on plan.md structure:
 
 ### Tests for User Story 4
 
-- [ ] T068 [P] [US4] Write compile-time type tests for LightbulbService in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T069 [P] [US4] Write compile-time type tests for ThermostatService in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T069 [P] [US4] Write compile-time type tests for LightbulbService in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T070 [P] [US4] Write compile-time type tests for ThermostatService in packages/react-native-homeatlas/__tests__/types.test.ts
 
 ### Implementation for User Story 4
 
 **TypeScript Generator Extension** (ensures 100% service type coverage per SC-003):
 
-- [ ] T070 [US4] Extend HomeKitServiceGenerator to add TypeScript output alongside Swift in Sources/HomeKitServiceGenerator/TypeScriptGenerator.swift
-- [ ] T071 [US4] Add Swift-to-TypeScript type mapping (Bool→boolean, Int→number, Double→number, String→string, UUID→string, Optional<T>→T|null) in TypeScriptGenerator.swift
-- [ ] T072 [US4] Generate ServiceTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/serviceTypes.ts
-- [ ] T073 [US4] Generate CharacteristicTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/characteristicTypes.ts
-- [ ] T074 [US4] Generate all ~100 service interfaces from homekit-services.yaml to packages/react-native-homeatlas/src/generated/services/*.ts
-- [ ] T075 [US4] Generate all ~200 characteristic type definitions to packages/react-native-homeatlas/src/generated/characteristics.ts
-- [ ] T076 [US4] Create generated index at packages/react-native-homeatlas/src/generated/index.ts re-exporting all generated types
-- [ ] T077 [US4] Add SwiftPM command plugin to run TypeScript generation alongside Swift generation
-- [ ] T078 [US4] Add typed service helper getTypedService<T>() at packages/react-native-homeatlas/src/index.ts for compile-time safe service access
-- [ ] T079 [US4] Re-export generated types from packages/react-native-homeatlas/src/index.ts
+- [ ] T071 [US4] Extend HomeKitServiceGenerator to add TypeScript output alongside Swift in Sources/HomeKitServiceGenerator/TypeScriptGenerator.swift
+- [ ] T072 [US4] Add Swift-to-TypeScript type mapping (Bool→boolean, Int→number, Double→number, String→string, UUID→string, Optional<T>→T|null) in TypeScriptGenerator.swift
+- [ ] T073 [US4] Generate ServiceTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/serviceTypes.ts
+- [ ] T074 [US4] Generate CharacteristicTypes enum from homekit-services.yaml to packages/react-native-homeatlas/src/generated/characteristicTypes.ts
+- [ ] T075 [US4] Generate all ~100 service interfaces from homekit-services.yaml to packages/react-native-homeatlas/src/generated/services/*.ts
+- [ ] T076 [US4] Generate all ~200 characteristic type definitions to packages/react-native-homeatlas/src/generated/characteristics.ts
+- [ ] T077 [US4] Create generated index at packages/react-native-homeatlas/src/generated/index.ts re-exporting all generated types
+- [ ] T078 [US4] Add SwiftPM command plugin to run TypeScript generation alongside Swift generation
+- [ ] T079 [US4] Add typed service helper getTypedService<T>() at packages/react-native-homeatlas/src/index.ts for compile-time safe service access
+- [ ] T080 [US4] Re-export generated types from packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 4 complete - developers have full TypeScript autocomplete for services
 
@@ -207,21 +212,21 @@ Based on plan.md structure:
 
 ### Tests for User Story 5
 
-- [ ] T080 [P] [US5] Write type test for subscribe() signature and Subscription type in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T081 [P] [US5] Write type test for CharacteristicChangeEvent in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T082 [US5] Write unit test for individual unsubscribe behavior in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T081 [P] [US5] Write type test for subscribe() signature and Subscription type in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T082 [P] [US5] Write type test for CharacteristicChangeEvent in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T083 [US5] Write unit test for individual unsubscribe behavior in packages/react-native-homeatlas/__tests__/index.test.ts
 
 ### Implementation for User Story 5
 
-- [ ] T083 [US5] Create CharacteristicChangeEvent type at packages/react-native-homeatlas/src/types/events.ts per contracts/api.ts
-- [ ] T084 [US5] Create Subscription interface at packages/react-native-homeatlas/src/types/events.ts per contracts/api.ts
-- [ ] T085 [US5] Add Events("onCharacteristicChange") declaration in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T086 [US5] Implement subscribe(accessoryId, characteristicType) Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift using HMCharacteristic.enableNotification
-- [ ] T087 [US5] Implement HMHomeManagerDelegate characteristic notification handler in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T088 [US5] Implement unsubscribe(subscriptionId) Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift for individual subscription removal per FR-012
-- [ ] T089 [US5] Implement unsubscribeAll() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
-- [ ] T090 [US5] Create TypeScript subscribe() wrapper at packages/react-native-homeatlas/src/index.ts using EventEmitter from expo-modules-core
-- [ ] T091 [US5] Export subscribe, unsubscribeAll, CharacteristicChangeEvent, Subscription in packages/react-native-homeatlas/src/index.ts
+- [ ] T084 [US5] Create CharacteristicChangeEvent type at packages/react-native-homeatlas/src/types/events.ts per contracts/api.ts
+- [ ] T085 [US5] Create Subscription interface at packages/react-native-homeatlas/src/types/events.ts per contracts/api.ts
+- [ ] T086 [US5] Add Events("onCharacteristicChange") declaration in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T087 [US5] Implement subscribe(accessoryId, characteristicType) Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift using HMCharacteristic.enableNotification
+- [ ] T088 [US5] Implement HMHomeManagerDelegate characteristic notification handler in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T089 [US5] Implement unsubscribe(subscriptionId) Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift for individual subscription removal per FR-012
+- [ ] T090 [US5] Implement unsubscribeAll() Function in packages/react-native-homeatlas/ios/HomeAtlasModule.swift
+- [ ] T091 [US5] Create TypeScript subscribe() wrapper at packages/react-native-homeatlas/src/index.ts using EventEmitter from expo-modules-core
+- [ ] T092 [US5] Export subscribe, unsubscribeAll, CharacteristicChangeEvent, Subscription in packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 5 complete - developers can receive real-time device updates
 
@@ -235,19 +240,19 @@ Based on plan.md structure:
 
 ### Tests for User Story 6
 
-- [ ] T092 [P] [US6] Write type test for HomeAtlasError structure in packages/react-native-homeatlas/__tests__/types.test.ts
-- [ ] T093 [US6] Write unit test for error code mapping in packages/react-native-homeatlas/__tests__/index.test.ts
-- [ ] T094 [US6] Write unit test for debug logging in error paths in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T093 [P] [US6] Write type test for HomeAtlasError structure in packages/react-native-homeatlas/__tests__/types.test.ts
+- [ ] T094 [US6] Write unit test for error code mapping in packages/react-native-homeatlas/__tests__/index.test.ts
+- [ ] T095 [US6] Write unit test for debug logging in error paths in packages/react-native-homeatlas/__tests__/index.test.ts
 
 ### Implementation for User Story 6
 
-- [ ] T095 [US6] Create HomeAtlasError class at packages/react-native-homeatlas/src/HomeAtlasError.ts extending Error with code, accessoryId, accessoryName, characteristicType, underlyingError
-- [ ] T096 [US6] Create error factory functions (permissionDenied, deviceUnreachable, etc.) at packages/react-native-homeatlas/src/HomeAtlasError.ts
-- [ ] T097 [US6] Add createError() helper in packages/react-native-homeatlas/ios/HomeAtlasModule.swift mapping HomeKit errors to structured error dictionaries
-- [ ] T098 [US6] Add error context enrichment to all AsyncFunctions in packages/react-native-homeatlas/ios/HomeAtlasModule.swift (accessory name, characteristic type)
-- [ ] T099 [US6] Add platform check at module load in packages/react-native-homeatlas/ios/HomeAtlasModule.swift throwing platformUnavailable on non-iOS
-- [ ] T100 [US6] Add debug logging to error paths using DebugLogger per FR-013a
-- [ ] T101 [US6] Export HomeAtlasError, HomeAtlasErrorCode, isHomeAtlasError() type guard in packages/react-native-homeatlas/src/index.ts
+- [ ] T096 [US6] Create HomeAtlasError class at packages/react-native-homeatlas/src/HomeAtlasError.ts extending Error with code, accessoryId, accessoryName, characteristicType, underlyingError
+- [ ] T097 [US6] Create error factory functions (permissionDenied, deviceUnreachable, etc.) at packages/react-native-homeatlas/src/HomeAtlasError.ts
+- [ ] T098 [US6] Add createError() helper in packages/react-native-homeatlas/ios/HomeAtlasModule.swift mapping HomeKit errors to structured error dictionaries
+- [ ] T099 [US6] Add error context enrichment to all AsyncFunctions in packages/react-native-homeatlas/ios/HomeAtlasModule.swift (accessory name, characteristic type)
+- [ ] T100 [US6] Add platform check at module load in packages/react-native-homeatlas/ios/HomeAtlasModule.swift throwing platformUnavailable on non-iOS
+- [ ] T101 [US6] Add debug logging to error paths using DebugLogger per FR-013a
+- [ ] T102 [US6] Export HomeAtlasError, HomeAtlasErrorCode, isHomeAtlasError() type guard in packages/react-native-homeatlas/src/index.ts
 
 **Checkpoint**: User Story 6 complete - developers have rich error diagnostics
 
@@ -257,14 +262,14 @@ Based on plan.md structure:
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T102 [P] Add JSDoc comments to all exported functions in packages/react-native-homeatlas/src/index.ts
-- [ ] T103 [P] Add inline documentation to HomeAtlasModule.swift
-- [ ] T104 [P] Implement setDebugLoggingEnabled(enabled: boolean) API in packages/react-native-homeatlas/src/index.ts per FR-013a
-- [ ] T105 Create README.md at packages/react-native-homeatlas/README.md with installation and usage instructions
-- [ ] T106 Validate package against quickstart.md scenarios
-- [ ] T107 Add .npmignore at packages/react-native-homeatlas/.npmignore excluding tests and dev files
-- [ ] T108 Run TypeScript compiler to verify all types compile without errors
-- [ ] T109 Create Example app scaffold at Examples/ReactNativeExample/ demonstrating all user stories
+- [ ] T103 [P] Add JSDoc comments to all exported functions in packages/react-native-homeatlas/src/index.ts
+- [ ] T104 [P] Add inline documentation to HomeAtlasModule.swift
+- [ ] T105 [P] Implement setDebugLoggingEnabled(enabled: boolean) API in packages/react-native-homeatlas/src/index.ts per FR-013a
+- [ ] T106 Create README.md at packages/react-native-homeatlas/README.md with installation and usage instructions
+- [ ] T107 Validate package against quickstart.md scenarios
+- [ ] T108 Add .npmignore at packages/react-native-homeatlas/.npmignore excluding tests and dev files
+- [ ] T109 Run TypeScript compiler to verify all types compile without errors
+- [ ] T110 Create Example app scaffold at Examples/ReactNativeExample/ demonstrating all user stories
 
 ---
 
@@ -298,14 +303,14 @@ Based on plan.md structure:
 ### Parallel Opportunities
 
 - T003-T008 can all run in parallel (different files)
-- T009-T021 can all run in parallel (different type/utility files)
-- T026-T031 can run in parallel (different test files)
-- T048-T050 can run in parallel
-- T056-T058 can run in parallel
-- T068-T069 can run in parallel
-- T080-T082 can run in parallel
-- T092-T094 can run in parallel
-- T102-T104 can run in parallel
+- T009-T022 can all run in parallel (different type/utility files)
+- T027-T032 can run in parallel (different test files)
+- T049-T051 can run in parallel
+- T057-T059 can run in parallel
+- T069-T070 can run in parallel
+- T081-T083 can run in parallel
+- T093-T095 can run in parallel
+- T103-T105 can run in parallel
 
 ---
 
@@ -372,7 +377,7 @@ With multiple developers:
 | Phase | Tasks | Parallel Opportunities |
 |-------|-------|----------------------|
 | Setup | 8 | 5 |
-| Foundational | 17 | 13 |
+| Foundational | 18 | 14 |
 | US1: Discovery | 22 | 5 |
 | US2: Read | 8 | 3 |
 | US3: Write | 12 | 3 |
@@ -380,14 +385,15 @@ With multiple developers:
 | US5: Subscribe | 12 | 3 |
 | US6: Errors | 10 | 3 |
 | Polish | 8 | 3 |
-| **Total** | **109** | **40** |
+| **Total** | **110** | **41** |
 
-**Note**: This updated task list incorporates 5 clarifications from 2026-01-18:
+**Note**: This updated task list incorporates 6 clarifications from 2026-01-18:
 - FR-001a: Module state management (4 states)
 - FR-008a: Write confirmation modes (optimistic/confirmed)
 - FR-013a: Debug logging infrastructure
 - FR-013b: Auto-retry with exponential backoff
 - FR-002a: In-memory caching
+- hap-fluent reference: Review hap-fluent library types as reference implementation
 
 ---
 
