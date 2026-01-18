@@ -317,10 +317,14 @@ public class HomeAtlasModule: Module {
         return nil
     }
     
+    /// No-op refresh hook kept for API compatibility.
+    ///
+    /// HomeKit keeps accessories and characteristics up to date automatically
+    /// via `HMHomeManager` and its delegate callbacks, so there is no explicit
+    /// cache to refresh on the native layer. This method is intentionally left
+    /// empty and should not be relied upon to force a state update.
     private func refresh() async throws {
-        // Clear any cached data and reload
-        // Note: HomeKit automatically refreshes, so this is a no-op
-        // but we keep it for API compatibility
+        // Intentionally left blank: HomeKit handles state updates automatically.
     }
     
     // MARK: - Characteristic Operations Implementation
