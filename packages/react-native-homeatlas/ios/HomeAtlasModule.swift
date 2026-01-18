@@ -419,30 +419,96 @@ public class HomeAtlasModule: Module {
     private func subscribe(accessoryId: String, characteristicType: String, serviceType: String?) -> String {
         let subscriptionId = UUID().uuidString
         
-        subscriptions[subscriptionId] = CharacteristicSubscription(
+        let subscription = CharacteristicSubscription(
             accessoryId: UUID(uuidString: accessoryId) ?? UUID(),
             characteristicType: characteristicType,
             serviceType: serviceType
         )
         
-        // TODO: Enable notification on characteristic
+        subscriptions[subscriptionId] = subscription
+        
+        // Enable notification on characteristic asynchronously.
+        Task { [weak self] in
+            await self?.updateNotification(for: subscription, enabled: true)
+        }
         
         return subscriptionId
     }
     
     private func unsubscribe(subscriptionId: String) {
-        subscriptions.removeValue(forKey: subscriptionId)
-        
-        // TODO: Disable notification on characteristic
+        // Remove local subscription and disable notifications if we had one.
+        if let subscription = subscriptions.removeValue(forKey: subscriptionId) {
+            Task { [weak self] in
+                await self?.updateNotification(for: subscription, enabled: false)
+            }
+        }
     }
     
     private func unsubscribeAll() {
+        // Capture current subscriptions so we can disable notifications for each.
+        let currentSubscriptions = Array(subscriptions.values)
         subscriptions.removeAll()
         
-        // TODO: Disable all notifications
+       for subscription in currentSubscriptions {
+            Task { [weak self] in
+                await self?.updateNotification(for: subscription, enabled: false)
+            }
+        }
     }
     
     // MARK: - Helper Methods
+    
+    /// Enable or disable HomeKit notifications for a given subscription's characteristic.
+    ///
+    /// This method is fire-and-forget from the caller's perspective; it silently
+    /// returns if the accessory or characteristic cannot be found or if the
+    /// home manager is not ready yet.
+    private func updateNotification(for subscription: CharacteristicSubscription, enabled: Bool) async {
+        guard let homeManager = self.homeManager else {
+            return
+        }
+        
+        // Find accessory
+        var targetAccessory: HMAccessory?
+        for home in homeManager.homes {
+            if let accessory = home.accessories.first(where: { $0.uniqueIdentifier == subscription.accessoryId }) {
+                targetAccessory = accessory
+                break
+            }
+        }
+        
+        guard let accessory = targetAccessory else {
+            return
+        }
+        
+        // Find characteristic, optionally via a specific service type.
+        var targetCharacteristic: HMCharacteristic?
+        
+        if let serviceType = subscription.serviceType {
+            if let service = accessory.services.first(where: { $0.serviceType == serviceType }) {
+                targetCharacteristic = service.characteristics.first(where: { $0.characteristicType == subscription.characteristicType })
+            }
+        } else {
+            // If no service type is specified, search all services on the accessory.
+            searchLoop: for service in accessory.services {
+                if let characteristic = service.characteristics.first(where: { $0.characteristicType == subscription.characteristicType }) {
+                    targetCharacteristic = characteristic
+                    break searchLoop
+                }
+            }
+        }
+        
+        guard let characteristic = targetCharacteristic else {
+            return
+        }
+        
+        // Bridge HomeKit's completion-handler API to async/await and ignore errors.
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            characteristic.enableNotification(enabled) { _ in
+                continuation.resume()
+            }
+        }
+    }
     
     private func ensureInitialized() throws {
         guard self.isManagerReady && self.moduleState == .ready else {
