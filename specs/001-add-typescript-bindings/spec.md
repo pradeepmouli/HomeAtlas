@@ -13,6 +13,7 @@
 - Q: How should write operations handle confirmation of device state changes? → A: Configurable: Support both optimistic (immediate) and confirmed (wait for acknowledgment) modes
 - Q: What level of observability should the module provide for debugging and monitoring? → A: Standard: Structured errors with semantic error codes + optional developer-facing debug logs
 - Q: How should the module handle transient network or communication failures when interacting with HomeKit devices? → A: Auto-retry with exponential backoff: Attempt 1-3 retries with increasing delays for transient failures
+- Q: Should the module cache HomeKit data (homes, accessories, characteristics) or fetch fresh data on every request? → A: In-memory only: Cache data in memory during app session, cleared when module reinitializes
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -29,6 +30,7 @@ As a React Native/Expo developer, I want to discover all HomeKit accessories in 
 1. **Given** a user has granted HomeKit permissions, **When** the developer calls the initialization method, **Then** the module returns a list of all accessible homes and their accessories.
 2. **Given** a user has multiple homes configured, **When** the developer queries for homes, **Then** each home is returned with its name, unique identifier, and accessory count.
 3. **Given** accessories are organized into rooms, **When** the developer queries a home, **Then** room assignments are included for each accessory.
+4. **Given** home structure has been queried once, **When** the developer queries again during the same session, **Then** cached data is returned without re-querying HomeKit (until module reinitializes).
 
 ---
 
@@ -124,6 +126,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - What happens when reading a write-only characteristic? Error indicating operation not supported.
 - How are unsupported platforms handled? Clear error at initialization time indicating platform requirements.
 - How are transient network failures handled? System automatically retries with exponential backoff (1-3 attempts); if all retries fail, error is returned to caller.
+- How is cached data managed? Home structure data is cached in-memory only during the app session; no persistent storage. Cache is cleared when module reinitializes or app restarts.
 
 ## Requirements *(mandatory)*
 
@@ -132,6 +135,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - **FR-001**: System MUST provide a method to initialize HomeAtlas and request HomeKit permissions
 - **FR-001a**: System MUST expose module state with four distinct states: uninitialized, ready, permission denied, error
 - **FR-002**: System MUST expose home discovery with name, identifier, and accessory enumeration
+- **FR-002a**: System MUST cache home structure data (homes, accessories, rooms, services) in memory during app session; cache is cleared on module reinitialization
 - **FR-003**: System MUST allow querying accessories by name or unique identifier
 - **FR-004**: System MUST expose accessory properties: name, identifier, reachability status, category
 - **FR-005**: System MUST allow enumerating all services on an accessory
