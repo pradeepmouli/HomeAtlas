@@ -216,7 +216,7 @@ public class HomeAtlasModule: Module {
     
     private func waitForHomeManager() async throws {
         guard let homeManager = self.homeManager else {
-            throw HomeAtlasError.unknown("Home manager not initialized")
+            throw HomeAtlasError.unknown("Home manager not initialized. Call initialize() first.")
         }
         
         // Check if already ready (homes are loaded)
