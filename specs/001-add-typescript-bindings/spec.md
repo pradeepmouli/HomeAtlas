@@ -11,6 +11,7 @@
 
 - Q: What lifecycle states should the HomeAtlas module transition through during initialization and operation? → A: Four-state: uninitialized, ready, permission denied, error (explicit error states)
 - Q: How should write operations handle confirmation of device state changes? → A: Configurable: Support both optimistic (immediate) and confirmed (wait for acknowledgment) modes
+- Q: What level of observability should the module provide for debugging and monitoring? → A: Standard: Structured errors with semantic error codes + optional developer-facing debug logs
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -106,9 +107,10 @@ As a React Native/Expo developer, I want rich error information when operations 
 
 **Acceptance Scenarios**:
 
-1. **Given** an operation fails, **When** the error is caught, **Then** it includes error type, human-readable message, and relevant context (accessory name, characteristic type).
-2. **Given** a permission is denied, **When** the error is returned, **Then** it clearly indicates the permission issue and suggests resolution.
-3. **Given** network/transport errors occur, **When** the error is returned, **Then** it distinguishes between temporary and permanent failures.
+1. **Given** an operation fails, **When** the error is caught, **Then** it includes semantic error code, human-readable message, and relevant context (accessory name, characteristic type).
+2. **Given** a permission is denied, **When** the error is returned, **Then** it returns a PERMISSION_DENIED error code with a message suggesting resolution.
+3. **Given** network/transport errors occur, **When** the error is returned, **Then** it uses distinct error codes for temporary (DEVICE_UNREACHABLE) and permanent failures.
+4. **Given** debug logging is enabled, **When** operations execute, **Then** detailed diagnostic information is logged for developer troubleshooting.
 
 ---
 
@@ -138,7 +140,8 @@ As a React Native/Expo developer, I want rich error information when operations 
 - **FR-010**: System MUST provide TypeScript type definitions for all characteristic value types
 - **FR-011**: System MUST support subscribing to characteristic change notifications
 - **FR-012**: System MUST support unsubscribing from notifications (individually and globally)
-- **FR-013**: System MUST return structured errors with type, message, and contextual metadata
+- **FR-013**: System MUST return structured errors with semantic error codes, human-readable message, and contextual metadata
+- **FR-013a**: System MUST provide optional developer-facing debug logging that can be enabled for troubleshooting
 - **FR-014**: System MUST work with React Native and Expo managed workflow projects
 - **FR-015**: System MUST gracefully handle unsupported platforms with clear error messaging
 
@@ -150,7 +153,7 @@ As a React Native/Expo developer, I want rich error information when operations 
 - **Accessory**: A physical or bridged HomeKit device with name, identifier, reachability, category, room assignment, and services
 - **Service**: A functional unit of an accessory (e.g., Lightbulb, Thermostat) with type identifier and characteristics
 - **Characteristic**: A readable/writable property of a service with type, value, and notification support
-- **Error**: Structured error with type classification, message, and operation context
+- **Error**: Structured error with semantic error code (e.g., PERMISSION_DENIED, DEVICE_UNREACHABLE), human-readable message, and operation context (accessory name, characteristic type, operation)
 
 ## Success Criteria *(mandatory)*
 
