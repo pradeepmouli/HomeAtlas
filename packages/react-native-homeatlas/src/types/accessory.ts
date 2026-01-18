@@ -7,8 +7,7 @@ import type { UUID } from './index';
 import type { Service } from './service';
 
 /**
- * HomeKit accessory category enumeration.
- * Maps to HMAccessoryCategory in HomeKit.
+ * HomeKit accessory category enumeration as exposed in the HomeAtlas TypeScript API.
  */
 export type AccessoryCategory =
   | 'other'
