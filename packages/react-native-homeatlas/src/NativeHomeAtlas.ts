@@ -110,7 +110,7 @@ export interface NativeHomeAtlas {
     serviceType: string,
     characteristicType: string,
     value: CharacteristicValue,
-    mode?: string
+    mode: string
   ): Promise<void>;
 
   /**
