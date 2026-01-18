@@ -3,7 +3,6 @@
  * @packageDocumentation
  */
 
-// @ts-ignore - React Native types will be available at runtime
 import { NativeModules, NativeEventEmitter, Platform } from 'react-native';
 import type {
   Home,
