@@ -1,6 +1,6 @@
 # Tasks: TypeScript Bindings for HomeAtlas
 
-**Input**: Design documents from `/specs/001-add-typescript-bindings/`
+**Input**: Design documents from `/specs/004-add-typescript-bindings/`
 **Prerequisites**: plan.md ✓, spec.md ✓, research.md ✓, data-model.md ✓, contracts/ ✓
 
 **Tests**: Included per constitution TDD requirement.

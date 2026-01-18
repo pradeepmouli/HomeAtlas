@@ -1,6 +1,6 @@
 # Feature Specification: TypeScript Bindings for HomeAtlas
 
-**Feature Branch**: `001-add-typescript-bindings`
+**Feature Branch**: `004-add-typescript-bindings`
 **Created**: 2026-01-16
 **Status**: Draft
 **Input**: User description: "Add TypeScript bindings for use in React Native/Expo and/or Velox"
