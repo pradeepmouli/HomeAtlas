@@ -37,8 +37,8 @@ export class HomeAtlasError extends Error {
     this.underlyingError = context.underlyingError ?? null;
 
     // Maintains proper stack trace for where error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, HomeAtlasError);
+    if (typeof (Error as any).captureStackTrace === 'function') {
+      (Error as any).captureStackTrace(this, HomeAtlasError);
     }
   }
 

@@ -86,7 +86,7 @@ export class RetryHelper {
     const err = error as { code?: string; message?: string };
     
     // Retry on network timeouts and device unreachable
-    return (
+    return !!(
       err.code === 'timeout' ||
       err.code === 'deviceUnreachable' ||
       err.message?.includes('timeout') ||
