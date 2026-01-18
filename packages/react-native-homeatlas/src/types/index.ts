@@ -3,7 +3,17 @@
  * @packageDocumentation
  */
 
-/** Possible characteristic value types */
+/**
+ * Possible characteristic value types exposed to JavaScript.
+ *
+ * - `boolean` for on/off style characteristics.
+ * - `number` for numeric characteristics (e.g. temperature, brightness).
+ * - `string` for textual characteristics.
+ * - `number[]` for byte arrays backing HomeKit `Data` values.
+ *
+ * The `number[]` variant corresponds to `[UInt8]` produced on the native
+ * side when serializing HomeKit `Data` characteristics into a byte array.
+ */
 export type CharacteristicValue = boolean | number | string | number[];
 
 /** UUID string format */
