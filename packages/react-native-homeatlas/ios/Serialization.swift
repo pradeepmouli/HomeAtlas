@@ -119,7 +119,7 @@ enum Serialization {
         return [
             "id": service.uniqueIdentifier.uuidString,
             "type": service.serviceType,
-            "name": service.name as Any,
+            "name": service.name,
             "isPrimary": service.isPrimaryService,
             "characteristics": service.characteristics.map { serializeCharacteristic($0) }
         ]
