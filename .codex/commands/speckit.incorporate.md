@@ -1,86 +1,6 @@
 ---
-description: "Incorporate documents into an existing or new workflow and advance stages intelligently"
-handoffs:
-  - label: Create Feature Specification
-    agent: speckit.specify
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new feature specification using this document as the primary source.
-      Adapt and structure the content according to spec-kit feature specification requirements. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Bugfix Specification
-    agent: speckit.bugfix
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new bugfix workflow using this document as the primary source.
-      Extract bug description, reproduction steps, expected vs actual behavior, and root cause if available. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Enhancement Specification
-    agent: speckit.enhance
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new enhancement workflow using this document as the primary source.
-      Focus on the problem statement, proposed changes, and verification steps. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Modification Specification
-    agent: speckit.modify
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new modification workflow using this document as the primary source.
-      Identify the feature to modify and extract proposed changes with impact analysis. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Refactoring Specification
-    agent: speckit.refactor
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new refactoring workflow using this document as the primary source.
-      Extract the code quality goals, target areas for improvement, and success metrics. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Hotfix Specification
-    agent: speckit.hotfix
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new hotfix workflow using this document as the primary source.
-      This is urgent - extract incident details, impact, and immediate fix requirements. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Deprecation Specification
-    agent: speckit.deprecate
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new deprecation workflow using this document as the primary source.
-      Identify the feature to deprecate, reason for deprecation, and migration path for users. Please save this as research in the appropriate workflow directory.
-    send: false
-  - label: Create Baseline Documentation
-    agent: speckit.baseline
-    prompt: |
-      The user wants to incorporate the document at: {document_path}
-
-      Based on analysis above, create a new baseline workflow using this document as the primary source.
-      Extract project context, architecture overview, and current state documentation. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Implementation Plan
-    agent: speckit.plan
-    prompt: |
-      The user wants to incorporate the document at: {document_path} into the planning stage.
-
-      Based on analysis above and the existing specification, create an implementation plan
-      using this document as the primary source. Extract technical approach, steps, and decisions. Please save this as research in the appropriate workflow directory.
-    send: true
-  - label: Create Task List
-    agent: speckit.tasks
-    prompt: |
-      The user wants to incorporate the document at: {document_path} into the task stage.
-
-      Based on analysis above, the existing spec, and plan (if available), create a task list
-      using this document as the primary source. Extract concrete action items and organize them logically. Please save this as research in the appropriate workflow directory.
-    send: true
+description: Incorporate documents into an existing or new workflow and advance stages
+  intelligently
 ---
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
@@ -458,3 +378,19 @@ Please resolve manually or use:
 ---
 
 **Note**: This is a command extension - it doesn't create workflow structures itself, but works with existing workflows and delegates to appropriate workflow commands/scripts.
+
+
+---
+
+## Next Steps
+
+1. Create Feature Specification
+2. Create Bugfix Specification
+3. Create Enhancement Specification
+4. Create Modification Specification
+5. Create Refactoring Specification
+6. Create Hotfix Specification
+7. Create Deprecation Specification
+8. Create Baseline Documentation
+9. Create Implementation Plan
+10. Create Task List

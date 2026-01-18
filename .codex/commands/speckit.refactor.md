@@ -1,15 +1,6 @@
 ---
 description: Create a refactoring workflow with metrics tracking and behavior preservation
   validation.
-hooks:
-  Stop:
-  - hooks:
-    - type: prompt
-      prompt: "After completing this workflow, consider these next steps:\n\n1. **Create\
-        \ Implementation Plan**\n   - Run: `/speckit.plan` or use the `speckit.plan`\
-        \ subagent\n   - Context: Create a plan for the refactoring. I am refactoring...\n\
-        2. **Break Down Into Tasks**\n   - Run: `/speckit.tasks` or use the `speckit.tasks`\
-        \ subagent\n   - Context: Break the refactoring plan into tasks"
 ---
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
@@ -78,11 +69,7 @@ Note: The script creates and checks out the new branch before writing files. Ref
 
 ---
 
-## Recommended Next Steps
+## Next Steps
 
-After completing this workflow, consider these next steps:
-
-1. **Create Implementation Plan**: Run `/speckit.plan`
-   - Suggested prompt: Create a plan for the refactoring. I am refactoring...
-2. **Break Down Into Tasks**: Run `/speckit.tasks`
-   - Suggested prompt: Break the refactoring plan into tasks
+1. Create Implementation Plan
+2. Break Down Into Tasks

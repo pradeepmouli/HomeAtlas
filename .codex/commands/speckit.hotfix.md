@@ -1,15 +1,6 @@
 ---
 description: Create an emergency hotfix workflow with expedited process and mandatory
   post-mortem.
-hooks:
-  Stop:
-  - hooks:
-    - type: prompt
-      prompt: "After completing this workflow, consider these next steps:\n\n1. **Create\
-        \ Expedited Plan**\n   - Run: `/speckit.plan` or use the `speckit.plan` subagent\n\
-        \   - Context: Create an expedited plan for the hotfix. This is an emergency...\n\
-        2. **Break Down Into Tasks**\n   - Run: `/speckit.tasks` or use the `speckit.tasks`\
-        \ subagent\n   - Context: Break the hotfix plan into minimal tasks"
 ---
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
@@ -68,11 +59,7 @@ Note: Hotfix workflow bypasses normal TDD process due to emergency nature. Tests
 
 ---
 
-## Recommended Next Steps
+## Next Steps
 
-After completing this workflow, consider these next steps:
-
-1. **Create Expedited Plan**: Run `/speckit.plan`
-   - Suggested prompt: Create an expedited plan for the hotfix. This is an emergency...
-2. **Break Down Into Tasks**: Run `/speckit.tasks`
-   - Suggested prompt: Break the hotfix plan into minimal tasks
+1. Create Expedited Plan
+2. Break Down Into Tasks
