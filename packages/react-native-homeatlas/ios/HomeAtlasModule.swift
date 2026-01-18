@@ -27,6 +27,11 @@ public class HomeAtlasModule: Module {
     private var isManagerReady = false
     private var readyContinuation: CheckedContinuation<Void, Never>?
     private var subscriptions: [String: CharacteristicSubscription] = [:]
+    private static var debugLoggingEnabled = false
+    
+    // MARK: - Constants
+    
+    private static let homeManagerTimeoutSeconds: TimeInterval = 5.0
     
     // MARK: - Module State
     
@@ -189,7 +194,10 @@ public class HomeAtlasModule: Module {
         // MARK: Utilities
         
         Function("setDebugLoggingEnabled") { (enabled: Bool) in
-            // TODO: Implement debug logging
+            HomeAtlasModule.debugLoggingEnabled = enabled
+            if enabled {
+                Self.log("Debug logging enabled")
+            }
         }
     }
     
@@ -204,6 +212,9 @@ public class HomeAtlasModule: Module {
         // Create home manager if needed
         if self.homeManager == nil {
             self.homeManager = HMHomeManager()
+            // Set delegate to receive homeManagerDidUpdateHomes callbacks
+            self.homeManager?.delegate = self
+            Self.log("Created HMHomeManager and set delegate")
         }
         
         // Wait for home manager to be ready
@@ -212,6 +223,7 @@ public class HomeAtlasModule: Module {
         // Update state
         self.moduleState = .ready
         self.isManagerReady = true
+        Self.log("HomeAtlas initialized successfully")
     }
     
     private func waitForHomeManager() async throws {
@@ -221,6 +233,7 @@ public class HomeAtlasModule: Module {
         
         // Check if already ready (homes are loaded)
         if !homeManager.homes.isEmpty {
+            Self.log("Home manager already has homes loaded")
             return
         }
         
@@ -228,10 +241,11 @@ public class HomeAtlasModule: Module {
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             self.readyContinuation = continuation
             
-            // Set up a timer as a fallback (5 seconds)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            // Set up a timer as a fallback
+            DispatchQueue.main.asyncAfter(deadline: .now() + Self.homeManagerTimeoutSeconds) {
                 if let cont = self.readyContinuation {
                     self.readyContinuation = nil
+                    Self.log("Home manager timeout reached, resuming continuation")
                     cont.resume()
                 }
             }
@@ -546,6 +560,11 @@ public class HomeAtlasModule: Module {
             throw HomeAtlasError.deviceUnreachable("Accessory not found")
         }
         
+        // Check if accessory is reachable before attempting operations
+        guard accessory.isReachable else {
+            throw HomeAtlasError.deviceUnreachable("Accessory '\(accessory.name)' is not reachable")
+        }
+        
         // Find service
         guard let service = accessory.services.first(where: { $0.serviceType == serviceType }) else {
             throw HomeAtlasError.operationNotSupported("Service not found on accessory")
@@ -643,10 +662,22 @@ enum HomeAtlasError: Error {
 
 extension HomeAtlasModule: HMHomeManagerDelegate {
     public func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
+        Self.log("homeManagerDidUpdateHomes called with \(manager.homes.count) homes")
         // Resume continuation when homes are loaded
         if let continuation = self.readyContinuation {
             self.readyContinuation = nil
             continuation.resume()
+        }
+    }
+}
+
+// MARK: - Debug Logging
+
+extension HomeAtlasModule {
+    /// Internal logging method that respects the debug logging flag.
+    private static func log(_ message: String) {
+        if debugLoggingEnabled {
+            NSLog("[HomeAtlas] %@", message)
         }
     }
 }

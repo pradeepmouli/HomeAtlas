@@ -36,7 +36,7 @@ const eventEmitter = NativeHomeAtlas
  * Provides type-safe access to HomeKit functionality through React Native.
  */
 class HomeAtlasAPI {
-  private subscriptions: Map<string, any> = new Map();
+  private subscriptions: Map<string, { remove: () => void }> = new Map();
 
   // MARK: - Initialization
 
@@ -49,6 +49,8 @@ class HomeAtlasAPI {
    * @throws {HomeAtlasError} with code 'platformUnavailable' if not on iOS
    */
   async initialize(): Promise<Home[]> {
+    this.ensureNativeModuleAvailable();
+    
     if (Platform.OS !== 'ios') {
       throw HomeAtlasError.platformUnavailable();
     }
@@ -70,7 +72,7 @@ class HomeAtlasAPI {
    * @returns true if ready, false otherwise
    */
   isReady(): boolean {
-    if (Platform.OS !== 'ios') {
+    if (Platform.OS !== 'ios' || !NativeHomeAtlas) {
       return false;
     }
 
@@ -88,7 +90,7 @@ class HomeAtlasAPI {
    * @returns Current module state (uninitialized, ready, permissionDenied, error)
    */
   getState(): ModuleState {
-    if (Platform.OS !== 'ios') {
+    if (Platform.OS !== 'ios' || !NativeHomeAtlas) {
       return 'error';
     }
 
@@ -109,6 +111,8 @@ class HomeAtlasAPI {
    * @throws {HomeAtlasError} if not initialized
    */
   async getHomes(): Promise<Home[]> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Getting homes...');
       const homes = await NativeHomeAtlas.getHomes();
@@ -127,6 +131,8 @@ class HomeAtlasAPI {
    * @returns Promise resolving to home or null if not found
    */
   async getHome(homeId: UUID): Promise<Home | null> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Getting home', { homeId });
       const home = await NativeHomeAtlas.getHome(homeId);
@@ -143,6 +149,8 @@ class HomeAtlasAPI {
    * @returns Promise resolving to array of accessories
    */
   async getAllAccessories(): Promise<Accessory[]> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Getting all accessories...');
       const accessories = await NativeHomeAtlas.getAllAccessories();
@@ -161,6 +169,8 @@ class HomeAtlasAPI {
    * @returns Promise resolving to accessory or null if not found
    */
   async getAccessory(accessoryId: UUID): Promise<Accessory | null> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Getting accessory', { accessoryId });
       const accessory = await NativeHomeAtlas.getAccessory(accessoryId);
@@ -178,6 +188,8 @@ class HomeAtlasAPI {
    * @returns Promise resolving to first matching accessory or null
    */
   async findAccessoryByName(name: string): Promise<Accessory | null> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Finding accessory by name', { name });
       const accessory = await NativeHomeAtlas.findAccessoryByName(name);
@@ -205,6 +217,8 @@ class HomeAtlasAPI {
     serviceType: string,
     characteristicType: string
   ): Promise<CharacteristicValue> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Reading characteristic', {
         accessoryId,
@@ -243,6 +257,8 @@ class HomeAtlasAPI {
     value: CharacteristicValue,
     mode: 'optimistic' | 'confirmed' = 'confirmed'
   ): Promise<void> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Writing characteristic', {
         accessoryId,
@@ -283,6 +299,8 @@ class HomeAtlasAPI {
     callback: (event: CharacteristicChangeEvent) => void,
     serviceType?: string
   ): Subscription {
+    this.ensureNativeModuleAvailable();
+    
     if (Platform.OS !== 'ios') {
       throw HomeAtlasError.platformUnavailable();
     }
@@ -339,6 +357,10 @@ class HomeAtlasAPI {
 
   /**
    * Remove all active subscriptions.
+   * 
+   * **Important**: Call this method in component cleanup (e.g., useEffect return)
+   * to prevent memory leaks. Subscriptions will not be automatically cleaned up
+   * when the component unmounts.
    */
   unsubscribeAll(): void {
     DebugLogger.log('Unsubscribing all subscriptions');
@@ -350,7 +372,7 @@ class HomeAtlasAPI {
     this.subscriptions.clear();
 
     // Clear native subscriptions
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === 'ios' && NativeHomeAtlas) {
       NativeHomeAtlas.unsubscribeAll();
     }
   }
@@ -364,6 +386,8 @@ class HomeAtlasAPI {
    * @returns Promise resolving when refresh completes
    */
   async refresh(): Promise<void> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Refreshing accessory cache...');
       await NativeHomeAtlas.refresh();
@@ -381,6 +405,8 @@ class HomeAtlasAPI {
    * @throws {HomeAtlasError} with code 'deviceUnreachable' if device offline
    */
   async identify(accessoryId: UUID): Promise<void> {
+    this.ensureNativeModuleAvailable();
+    
     try {
       DebugLogger.log('Identifying accessory', { accessoryId });
       await NativeHomeAtlas.identify(accessoryId);
@@ -398,8 +424,22 @@ class HomeAtlasAPI {
    */
   setDebugLoggingEnabled(enabled: boolean): void {
     DebugLogger.setEnabled(enabled);
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === 'ios' && NativeHomeAtlas) {
       NativeHomeAtlas.setDebugLoggingEnabled(enabled);
+    }
+  }
+
+  // MARK: - Private Helpers
+
+  /**
+   * Ensure the native module is available before making calls.
+   * @throws {HomeAtlasError} if native module is not loaded
+   */
+  private ensureNativeModuleAvailable(): void {
+    if (!NativeHomeAtlas) {
+      throw HomeAtlasError.unknown(
+        'HomeAtlas native module not found. Make sure the package is properly linked.'
+      );
     }
   }
 }

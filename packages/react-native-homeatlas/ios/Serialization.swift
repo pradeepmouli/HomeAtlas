@@ -207,7 +207,12 @@ enum Serialization {
             }
             return nil
             
-        case HMCharacteristicMetadataFormatInt:
+        case HMCharacteristicMetadataFormatInt,
+             HMCharacteristicMetadataFormatUInt8, 
+             HMCharacteristicMetadataFormatUInt16,
+             HMCharacteristicMetadataFormatUInt32,
+             HMCharacteristicMetadataFormatUInt64:
+            // All integer types handled the same way
             if let intValue = value as? Int {
                 return intValue
             }
@@ -230,18 +235,6 @@ enum Serialization {
                 return stringValue
             }
             return String(describing: value)
-            
-        case HMCharacteristicMetadataFormatUInt8, 
-             HMCharacteristicMetadataFormatUInt16,
-             HMCharacteristicMetadataFormatUInt32,
-             HMCharacteristicMetadataFormatUInt64:
-            if let intValue = value as? Int {
-                return intValue
-            }
-            if let doubleValue = value as? Double {
-                return Int(doubleValue)
-            }
-            return nil
             
         case HMCharacteristicMetadataFormatData:
             if let dataValue = value as? Data {
