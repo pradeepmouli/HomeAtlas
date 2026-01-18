@@ -21,7 +21,7 @@ public protocol GeneratedService {
 /// Reference: https://developer.apple.com/documentation/homekit/hmservice
 @Snapshotable
 @MainActor
-open class Service {
+open class Service: HomeKitDescribable {
     internal let underlying: HMService
     private enum CharacteristicCacheEntry {
         case wrapper(AnyObject)

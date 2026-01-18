@@ -23,7 +23,7 @@ public protocol GeneratedCharacteristic {
 ///
 /// Reference: https://developer.apple.com/documentation/homekit/hmcharacteristic
 @MainActor
-open class Characteristic<Value> {
+open class Characteristic<Value>: HomeKitDescribable {
     internal let underlying: HMCharacteristic
 
     /// The unique identifier for this characteristic type.
@@ -34,6 +34,11 @@ open class Characteristic<Value> {
     /// A localized description of the characteristic.
     public var localizedDescription: String {
         underlying.localizedDescription
+    }
+
+    /// The unique instance identifier for this characteristic.
+    public var uniqueIdentifier: UUID {
+        underlying.uniqueIdentifier
     }
 
     /// The service that contains this characteristic.

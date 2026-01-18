@@ -11,7 +11,7 @@ import HomeKit
 /// Reference: https://developer.apple.com/documentation/homekit/hmaccessory
 @Snapshotable
 @MainActor
-public final class Accessory {
+public final class Accessory: HomeKitDescribable {
     private let underlying: HMAccessory
     private var serviceCache: [UUID: AnyObject] = [:]
 
@@ -23,6 +23,11 @@ public final class Accessory {
     /// The unique identifier for the accessory.
     public var uniqueIdentifier: UUID {
         underlying.uniqueIdentifier
+    }
+
+    /// A localized description of the accessory category.
+    public var localizedDescription: String {
+        underlying.category.localizedDescription
     }
 
     /// Indicates whether the accessory is reachable.
