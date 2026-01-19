@@ -335,8 +335,13 @@ class HomeAtlasAPI {
         }
       );
 
-      // Store subscription
-      this.subscriptions.set(subscriptionId, listener);
+      // Store subscription - create wrapper to handle undefined listener
+      const subscription = {
+        remove: () => {
+          listener?.remove();
+        }
+      };
+      this.subscriptions.set(subscriptionId, subscription);
 
       DebugLogger.log('Subscribed successfully', { subscriptionId });
 
