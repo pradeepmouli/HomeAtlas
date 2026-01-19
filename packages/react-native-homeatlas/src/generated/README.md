@@ -38,12 +38,19 @@ Import generated types from the main package:
 
 ```typescript
 import { 
+  isServiceType,
   LightbulbService,
   ThermostatService,
   ServiceTypes,
-  CharacteristicTypes,
-  getTypedService
+  CharacteristicTypes
 } from 'react-native-homeatlas';
+
+// Use type guard for runtime type safety
+const service = homes[0].accessories[0].services[0];
+if (isServiceType<LightbulbService>(service, ServiceTypes.LIGHTBULB)) {
+  // TypeScript now knows service is a LightbulbService
+  const isOn = service.powerstate.value; // type-safe!
+}
 ```
 
 See `examples/type-safe-usage.ts` for complete usage examples.

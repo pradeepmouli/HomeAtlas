@@ -6,7 +6,7 @@
  */
 
 import HomeAtlas, { 
-  getTypedService, 
+  isServiceType,
   LightbulbService, 
   ThermostatService,
   ServiceTypes,
@@ -38,19 +38,17 @@ async function controlLightbulb() {
     return;
   }
   
-  // Get type-safe service with full autocomplete
-  const typedLight = getTypedService<LightbulbService>(service);
-  
-  if (typedLight) {
+  // Type guard with runtime validation - checks service.type matches the UUID
+  if (isServiceType<LightbulbService>(service, ServiceTypes.LIGHTBULB)) {
     // TypeScript now knows about lightbulb-specific characteristics
     // and provides autocomplete for: powerstate, brightness, hue, saturation, colortemperature
     
     // Read current state (type-safe boolean)
-    const isOn: boolean = typedLight.powerstate.value;
+    const isOn: boolean = service.powerstate.value;
     console.log(`Light is currently: ${isOn ? 'ON' : 'OFF'}`);
     
     // Optional characteristics have proper types
-    const brightness: number | undefined = typedLight.brightness?.value;
+    const brightness: number | undefined = service.brightness?.value;
     if (brightness !== undefined) {
       console.log(`Brightness: ${brightness}%`);
     }
@@ -64,7 +62,7 @@ async function controlLightbulb() {
     );
     
     // Set brightness if available
-    if (typedLight.brightness) {
+    if (service.brightness) {
       await HomeAtlas.writeCharacteristic(
         lightbulbAccessory.id,
         ServiceTypes.LIGHTBULB,
@@ -100,21 +98,19 @@ async function controlThermostat() {
     return;
   }
   
-  // Get type-safe service with autocomplete
-  const typedThermostat = getTypedService<ThermostatService>(service);
-  
-  if (typedThermostat) {
+  // Type guard with runtime validation
+  if (isServiceType<ThermostatService>(service, ServiceTypes.THERMOSTAT)) {
     // TypeScript knows about thermostat-specific characteristics:
     // currenttemperature, targettemperature, currentrelativehumidity, etc.
     
     // Read current temperature (type-safe number)
-    const currentTemp: number = typedThermostat.currenttemperature.value;
-    const targetTemp: number = typedThermostat.targettemperature.value;
+    const currentTemp: number = service.currenttemperature.value;
+    const targetTemp: number = service.targettemperature.value;
     
     console.log(`Current: ${currentTemp}°C, Target: ${targetTemp}°C`);
     
     // Optional humidity if available
-    const humidity: number | undefined = typedThermostat.currentrelativehumidity?.value;
+    const humidity: number | undefined = service.currentrelativehumidity?.value;
     if (humidity !== undefined) {
       console.log(`Humidity: ${humidity}%`);
     }
@@ -133,23 +129,25 @@ async function controlThermostat() {
 async function demonstrateTypeSafety() {
   const homes = await HomeAtlas.getHomes();
   const service = homes[0].accessories[0].services[0];
-  const typedLight = getTypedService<LightbulbService>(service);
   
-  if (typedLight) {
+  // Type guard with runtime validation
+  if (isServiceType<LightbulbService>(service, ServiceTypes.LIGHTBULB)) {
     // ✅ This works - TypeScript knows powerstate is Characteristic<boolean>
-    const isOn: boolean = typedLight.powerstate.value;
+    const isOn: boolean = service.powerstate.value;
+    console.log('Is on:', isOn);
     
     // ✅ This works - optional characteristic properly typed
-    const brightness: number | undefined = typedLight.brightness?.value;
+    const brightness: number | undefined = service.brightness?.value;
+    console.log('Brightness:', brightness);
     
     // ❌ This fails at compile-time - TypeScript prevents accessing non-existent properties
-    // const invalid = typedLight.nonExistentProperty; // Error: Property 'nonExistentProperty' does not exist
+    // const invalid = service.nonExistentProperty; // Error: Property 'nonExistentProperty' does not exist
     
     // ❌ This fails at compile-time - TypeScript prevents wrong types
-    // const wrongType: string = typedLight.powerstate.value; // Error: Type 'boolean' is not assignable to type 'string'
+    // const wrongType: string = service.powerstate.value; // Error: Type 'boolean' is not assignable to type 'string'
     
     // ✅ Autocomplete works - IDE shows: powerstate, brightness, hue, saturation, colortemperature
-    // typedLight. // <-- Autocomplete shows all available characteristics
+    // service. // <-- Autocomplete shows all available characteristics
   }
 }
 

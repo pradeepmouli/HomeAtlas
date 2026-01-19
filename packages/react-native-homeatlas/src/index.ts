@@ -37,35 +37,50 @@ const defaultRetryHelper = new InternalRetryHelper();
 (HomeAtlasAPI as any).retryHelper = defaultRetryHelper;
 
 /**
- * Type-safe service helper function (T079)
+ * Type guard for service type checking (T079)
  * 
- * Casts a generic Service to a specific typed service interface for compile-time safety.
- * This enables TypeScript autocomplete and type checking for service-specific characteristics.
+ * Checks if a service matches a specific typed service interface based on its type UUID.
+ * This provides runtime type safety by validating the service.type property.
  * 
  * @template T - The specific service interface type (e.g., LightbulbService)
- * @param service - The generic service object to cast
- * @returns The service cast to the specified type, or null if the service type doesn't match
+ * @param service - The generic service object to check
+ * @param serviceType - The expected service type identifier (e.g., 'HMServiceTypeLightbulb')
+ * @returns True if the service type matches, narrowing the type to T
  * 
  * @example
  * ```typescript
- * import HomeAtlas, { getTypedService, LightbulbService } from 'react-native-homeatlas';
+ * import HomeAtlas, { isServiceType, LightbulbService } from 'react-native-homeatlas';
  * 
  * const homes = await HomeAtlas.getHomes();
- * const lightbulb = homes[0].accessories[0].services[0];
+ * const service = homes[0].accessories[0].services[0];
  * 
- * // Get type-safe service with autocomplete
- * const typedLight = getTypedService<LightbulbService>(lightbulb);
- * if (typedLight) {
- *   // TypeScript now knows about lightbulb-specific characteristics
- *   const isOn = typedLight.powerstate.value; // boolean type
- *   const brightness = typedLight.brightness?.value; // number | undefined
+ * // Type guard with runtime validation
+ * if (isServiceType<LightbulbService>(service, 'HMServiceTypeLightbulb')) {
+ *   // TypeScript now knows service is LightbulbService
+ *   const isOn = service.powerstate.value; // boolean type
+ *   const brightness = service.brightness?.value; // number | undefined
  * }
  * ```
  */
+export function isServiceType<T extends Service>(
+  service: Service,
+  serviceType: string
+): service is T {
+  return service.type === serviceType;
+}
+
+/**
+ * @deprecated Use isServiceType() instead for runtime type safety
+ * 
+ * Legacy helper function for type-safe service casting.
+ * This function performs an unsafe cast without runtime validation.
+ * Use isServiceType() for proper runtime type checking.
+ * 
+ * @template T - The specific service interface type
+ * @param service - The generic service object to cast
+ * @returns The service cast to the specified type, or null
+ */
 export function getTypedService<T extends Service>(service: Service): T | null {
-  // In a real implementation, we would check if service.type matches
-  // the expected type constant. For now, we perform a simple cast
-  // and let TypeScript provide compile-time safety.
   return service as T;
 }
 
