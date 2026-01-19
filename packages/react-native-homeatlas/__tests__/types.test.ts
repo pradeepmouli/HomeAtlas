@@ -58,6 +58,7 @@ describe('Type Tests', () => {
       
       // Type check: result should be ModuleState
       const validStates: ModuleState[] = ['uninitialized', 'ready', 'permissionDenied', 'error'];
+      expect(validStates).toContain(result);
       
       // At compile time, this ensures getState returns a valid ModuleState
       type GetStateReturn = ReturnType<typeof HomeAtlas.getState>;
