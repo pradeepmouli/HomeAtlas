@@ -257,9 +257,9 @@ describe('HomeAtlas Unit Tests', () => {
       NativeHomeAtlas.subscribe.mockReturnValue('sub-1');
       
       const callback = vi.fn();
-      const subscription = HomeAtlas.subscribe('acc-1', 'on', callback, undefined);
+      const subscription = HomeAtlas.subscribe('acc-1', 'on', callback);
       
-      expect(NativeHomeAtlas.subscribe).toHaveBeenCalledWith('acc-1', 'on', undefined);
+      expect(NativeHomeAtlas.subscribe).toHaveBeenCalledWith('acc-1', 'on', callback);
       
       // Unsubscribe
       subscription.remove();
