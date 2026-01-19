@@ -101,7 +101,7 @@ describe('Type Tests', () => {
         console.log(event);
       };
       
-      const subscription = HomeAtlas.subscribe('uuid', 'on', undefined, callback);
+      const subscription = HomeAtlas.subscribe('uuid', 'on', callback);
       
       // Type check: Subscription interface
       expect(subscription).toHaveProperty('remove');
