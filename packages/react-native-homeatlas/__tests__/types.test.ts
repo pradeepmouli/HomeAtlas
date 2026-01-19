@@ -3,6 +3,7 @@
  * Validates TypeScript type definitions and compile-time type safety
  */
 
+import { describe, it, expect } from 'vitest';
 import HomeAtlas from '../src/index';
 import type {
   Home,
@@ -129,9 +130,9 @@ describe('Type Tests', () => {
   });
 
   describe('User Story 6: Error Types', () => {
-    it('T093: HomeAtlasError should have correct structure', () => {
-      // Import HomeAtlasError
-      const { HomeAtlasError } = require('../src/HomeAtlasError');
+    it('T093: HomeAtlasError should have correct structure', async () => {
+      // Import HomeAtlasError dynamically
+      const { HomeAtlasError } = await import('../src/HomeAtlasError');
       
       const error = new HomeAtlasError(
         'permissionDenied',

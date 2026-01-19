@@ -3,6 +3,7 @@
  * Tests business logic, serialization, caching, and error handling
  */
 
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { NativeModules } from 'react-native';
 import HomeAtlas from '../src/index';
 import { HomeAtlasError, isHomeAtlasError } from '../src/HomeAtlasError';
@@ -16,7 +17,7 @@ const { HomeAtlas: NativeHomeAtlas } = NativeModules;
 
 describe('HomeAtlas Unit Tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('User Story 1: Device Discovery', () => {
@@ -255,8 +256,8 @@ describe('HomeAtlas Unit Tests', () => {
     it('T083: should handle individual unsubscribe behavior', () => {
       NativeHomeAtlas.subscribe.mockReturnValue('sub-1');
       
-      const callback = jest.fn();
-      const subscription = HomeAtlas.subscribe('acc-1', 'on', undefined, callback);
+      const callback = vi.fn();
+      const subscription = HomeAtlas.subscribe('acc-1', 'on', callback, undefined);
       
       expect(NativeHomeAtlas.subscribe).toHaveBeenCalledWith('acc-1', 'on', undefined);
       
@@ -355,18 +356,18 @@ describe('HomeAtlas Unit Tests', () => {
   });
 
   describe('Utility Classes', () => {
-    it('should export RetryHelper', () => {
-      const { RetryHelper } = require('../src/index');
+    it('should export RetryHelper', async () => {
+      const { RetryHelper } = await import('../src/index');
       expect(RetryHelper).toBeDefined();
     });
 
-    it('should export DebugLogger', () => {
-      const { DebugLogger } = require('../src/index');
+    it('should export DebugLogger', async () => {
+      const { DebugLogger } = await import('../src/index');
       expect(DebugLogger).toBeDefined();
     });
 
-    it('should export CacheManager', () => {
-      const { CacheManager } = require('../src/index');
+    it('should export CacheManager', async () => {
+      const { CacheManager } = await import('../src/index');
       expect(CacheManager).toBeDefined();
     });
   });

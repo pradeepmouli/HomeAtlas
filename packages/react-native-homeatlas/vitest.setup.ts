@@ -1,40 +1,42 @@
-// Jest setup file
+// Vitest setup file
+import { vi } from 'vitest';
+
 // Mock React Native modules
-global.__DEV__ = true;
+(global as any).__DEV__ = true;
 
 // Mock NativeModules completely without requiring react-native
-jest.mock('react-native', () => ({
+vi.mock('react-native', () => ({
   NativeModules: {
     HomeAtlas: {
-      initialize: jest.fn(),
-      isReady: jest.fn(),
-      getState: jest.fn(),
-      getHomes: jest.fn(),
-      getHome: jest.fn(),
-      getAllAccessories: jest.fn(),
-      getAccessory: jest.fn(),
-      findAccessoryByName: jest.fn(),
-      refresh: jest.fn(),
-      readCharacteristic: jest.fn(),
-      writeCharacteristic: jest.fn(),
-      identify: jest.fn(),
-      subscribe: jest.fn(),
-      unsubscribe: jest.fn(),
-      unsubscribeAll: jest.fn(),
-      setDebugLoggingEnabled: jest.fn(),
+      initialize: vi.fn(),
+      isReady: vi.fn(),
+      getState: vi.fn(),
+      getHomes: vi.fn(),
+      getHome: vi.fn(),
+      getAllAccessories: vi.fn(),
+      getAccessory: vi.fn(),
+      findAccessoryByName: vi.fn(),
+      refresh: vi.fn(),
+      readCharacteristic: vi.fn(),
+      writeCharacteristic: vi.fn(),
+      identify: vi.fn(),
+      subscribe: vi.fn(),
+      unsubscribe: vi.fn(),
+      unsubscribeAll: vi.fn(),
+      setDebugLoggingEnabled: vi.fn(),
     },
   },
   NativeEventEmitter: class MockEventEmitter {
-    addListener = jest.fn(() => ({
-      remove: jest.fn(),
+    addListener = vi.fn(() => ({
+      remove: vi.fn(),
     }));
-    removeAllListeners = jest.fn();
-    removeSubscription = jest.fn();
+    removeAllListeners = vi.fn();
+    removeSubscription = vi.fn();
   },
   Platform: {
     OS: 'ios',
     Version: 17,
-    select: jest.fn((obj) => obj.ios),
+    select: vi.fn((obj) => obj.ios),
   },
 }));
 
@@ -43,7 +45,7 @@ const originalWarn = console.warn;
 const originalError = console.error;
 
 beforeAll(() => {
-  console.warn = jest.fn((message) => {
+  console.warn = vi.fn((message) => {
     // Suppress specific warnings
     if (
       message.includes('Native module') ||
@@ -54,7 +56,7 @@ beforeAll(() => {
     originalWarn(message);
   });
   
-  console.error = jest.fn((message) => {
+  console.error = vi.fn((message) => {
     // Suppress specific errors
     if (
       message.includes('Native module') ||
