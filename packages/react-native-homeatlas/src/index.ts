@@ -14,6 +14,9 @@ export type { ModuleState } from './types/state';
 export type { WriteMode } from './types/write';
 export type { CharacteristicChangeEvent, Subscription } from './types/events';
 
+// Export generated types (Type-Safe Service Access - User Story 4)
+export * from './generated';
+
 // Export error class
 export { HomeAtlasError, isHomeAtlasError } from './HomeAtlasError';
 
