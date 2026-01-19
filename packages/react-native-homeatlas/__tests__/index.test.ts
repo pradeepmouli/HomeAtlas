@@ -195,6 +195,7 @@ describe('HomeAtlas Unit Tests', () => {
       // Note: Retry logic is handled by RetryHelper utility
       // This test validates that the API accepts and uses RetryHelper
       const result = await HomeAtlas.readCharacteristic('acc-1', 'lightbulb', 'on');
+      expect(result).toBe(true);
       
       // With current implementation, native module handles retries
       // So we expect the call to be made
