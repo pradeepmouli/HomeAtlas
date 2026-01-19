@@ -6,6 +6,9 @@
 import type { UUID } from './index';
 import type { Characteristic } from './characteristic';
 
+// Re-export Characteristic for convenience
+export type { Characteristic };
+
 /**
  * Represents a functional unit of an accessory (e.g., lightbulb, thermostat).
  */

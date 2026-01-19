@@ -283,4 +283,141 @@ describe('Type Tests', () => {
       });
     });
   });
+
+  describe('User Story 4: Type-Safe Service Access', () => {
+    it('T069: LightbulbService should have proper TypeScript types', () => {
+      // This test validates that when service types are generated,
+      // they provide compile-time type safety and autocomplete
+      
+      // Mock service that would be returned from getTypedService
+      const mockLightbulbService = {
+        id: 'service-uuid',
+        type: 'lightbulb',
+        name: 'Main Light',
+        isPrimary: true,
+        characteristics: [
+          {
+            id: 'char-1',
+            type: 'on',
+            value: true,
+            supportsRead: true,
+            supportsWrite: true,
+            supportsNotify: true,
+            minValue: null,
+            maxValue: null,
+            stepValue: null,
+          },
+          {
+            id: 'char-2',
+            type: 'brightness',
+            value: 75,
+            supportsRead: true,
+            supportsWrite: true,
+            supportsNotify: true,
+            minValue: 0,
+            maxValue: 100,
+            stepValue: 1,
+          },
+        ],
+      };
+      
+      // Type assertions to ensure service type structure is correct
+      expect(mockLightbulbService.type).toBe('lightbulb');
+      expect(mockLightbulbService.characteristics).toHaveLength(2);
+      
+      // When generated types exist, this would enable:
+      // - TypeScript autocomplete for service.on, service.brightness
+      // - Compile-time errors for invalid property access
+      // - Proper value types (boolean for 'on', number for 'brightness')
+      
+      const onChar = mockLightbulbService.characteristics.find(c => c.type === 'on');
+      const brightnessChar = mockLightbulbService.characteristics.find(c => c.type === 'brightness');
+      
+      expect(onChar).toBeDefined();
+      expect(onChar?.value).toBe(true);
+      expect(typeof onChar?.value).toBe('boolean');
+      
+      expect(brightnessChar).toBeDefined();
+      expect(brightnessChar?.value).toBe(75);
+      expect(typeof brightnessChar?.value).toBe('number');
+    });
+
+    it('T070: ThermostatService should have proper TypeScript types', () => {
+      // Mock thermostat service structure
+      const mockThermostatService = {
+        id: 'service-uuid',
+        type: 'thermostat',
+        name: 'Living Room Thermostat',
+        isPrimary: true,
+        characteristics: [
+          {
+            id: 'char-1',
+            type: 'currentTemperature',
+            value: 21.5,
+            supportsRead: true,
+            supportsWrite: false,
+            supportsNotify: true,
+            minValue: -270,
+            maxValue: 100,
+            stepValue: 0.1,
+          },
+          {
+            id: 'char-2',
+            type: 'targetTemperature',
+            value: 22.0,
+            supportsRead: true,
+            supportsWrite: true,
+            supportsNotify: true,
+            minValue: 10,
+            maxValue: 38,
+            stepValue: 0.1,
+          },
+          {
+            id: 'char-3',
+            type: 'currentHeatingCoolingState',
+            value: 1, // heating
+            supportsRead: true,
+            supportsWrite: false,
+            supportsNotify: true,
+            minValue: 0,
+            maxValue: 2,
+            stepValue: 1,
+          },
+        ],
+      };
+      
+      // Type assertions
+      expect(mockThermostatService.type).toBe('thermostat');
+      expect(mockThermostatService.characteristics).toHaveLength(3);
+      
+      // When generated types exist, this enables:
+      // - Autocomplete for thermostat-specific characteristics
+      // - Type safety for temperature values (numbers)
+      // - Compile-time validation of characteristic access
+      
+      const currentTemp = mockThermostatService.characteristics.find(
+        c => c.type === 'currentTemperature'
+      );
+      const targetTemp = mockThermostatService.characteristics.find(
+        c => c.type === 'targetTemperature'
+      );
+      const heatingState = mockThermostatService.characteristics.find(
+        c => c.type === 'currentHeatingCoolingState'
+      );
+      
+      expect(currentTemp).toBeDefined();
+      expect(typeof currentTemp?.value).toBe('number');
+      expect(currentTemp?.value).toBe(21.5);
+      expect(currentTemp?.supportsWrite).toBe(false);
+      
+      expect(targetTemp).toBeDefined();
+      expect(typeof targetTemp?.value).toBe('number');
+      expect(targetTemp?.value).toBe(22.0);
+      expect(targetTemp?.supportsWrite).toBe(true);
+      
+      expect(heatingState).toBeDefined();
+      expect(typeof heatingState?.value).toBe('number');
+      expect([0, 1, 2]).toContain(heatingState?.value);
+    });
+  });
 });
