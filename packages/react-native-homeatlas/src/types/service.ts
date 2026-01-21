@@ -3,21 +3,20 @@
  * @packageDocumentation
  */
 
-import type { UUID } from './index';
+import type { UUID, CharacteristicValue } from './index';
 import type { Characteristic } from './characteristic';
 
 /**
  * Represents a functional unit of an accessory (e.g., lightbulb, thermostat).
+ * Based on ServiceSnapshot from HomeAtlas encoding.
+ * @template ServiceType - The specific service type identifier
  */
-export interface Service {
+export interface Service<ServiceType extends string = string> {
   /** Unique identifier (UUID) */
   readonly id: UUID;
-  /** Service type identifier */
-  readonly type: string;
-  /** User-assigned service name */
-  readonly name: string | null;
-  /** Whether this is the primary service of the accessory */
-  readonly isPrimary: boolean;
-  /** Characteristics (properties) of this service */
-  readonly characteristics: Characteristic[];
+  /** Service type identifier (HomeKit UUID) */
+  readonly type: ServiceType;
+  /** User-assigned service name (optional) */
+  readonly name?: Characteristic<string> | undefined;
 }
+

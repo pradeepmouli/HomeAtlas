@@ -87,26 +87,10 @@ struct TypeScriptGenerator {
         let fileURL = outputURL.appendingPathComponent("characteristics.ts")
         var contents = fileHeader()
         contents += "\n/**\n * HomeKit characteristic type definitions.\n * Auto-generated from homekit-services.yaml.\n */\n\n"
+        contents += "import type { Characteristic } from '../types/characteristic';\n"
         contents += "import { CharacteristicTypes } from './characteristicTypes';\n\n"
 
-        // Generate base characteristic interface
-        contents += "/** Base characteristic interface with common properties */\n"
-        contents += "export interface CharacteristicBase<T = any> {\n"
-        contents += "  type: string;\n"
-        contents += "  value: T | null;\n"
-        contents += "  format: string;\n"
-        contents += "  permissions: string[];\n"
-        contents += "  unit?: string;\n"
-        contents += "  minValue?: number;\n"
-        contents += "  maxValue?: number;\n"
-        contents += "  stepValue?: number;\n"
-        contents += "  minStep?: number;\n"
-        contents += "  maxLength?: number;\n"
-        contents += "  validValues?: number[];\n"
-        contents += "  validValuesRange?: [number, number];\n"
-        contents += "}\n\n"
-
-        // Generate specific characteristic interfaces
+        // Generate specific characteristic interfaces that extend the base Characteristic type
         for characteristic in catalog.characteristics.sorted(by: { $0.name < $1.name }) {
             let typeName = makeTypeScriptTypeName(from: characteristic.swiftName)
             let tsValueType = mapValueType(characteristic.valueType)
@@ -116,16 +100,16 @@ struct TypeScriptGenerator {
             if characteristic.deprecated {
                 contents += "/** @deprecated HomeKit marks this characteristic as deprecated */\n"
             }
-            contents += "export interface \(typeName) extends CharacteristicBase<\(tsValueType)> {\n"
+            contents += "export interface \(typeName) extends Characteristic<\(tsValueType)> {\n"
             contents += "  type: CharacteristicTypes.\(makeTypeScriptConstantName(from: characteristic.swiftName));\n"
-            contents += "  value: \(tsValueType) | null;\n"
+            contents += "  value: \(tsValueType);\n"
             contents += "}\n\n"
         }
 
         try contents.write(to: fileURL, atomically: true, encoding: .utf8)
     }
 
-    /// Generate service interfaces with required and optional characteristics
+    /// Generate service interfaces with required and optional characteristics as direct properties
     private func generateServiceInterfaces(at servicesDir: URL) throws {
         let characteristicTypeNames = Dictionary(uniqueKeysWithValues:
             catalog.characteristics.map { ($0.name, makeTypeScriptTypeName(from: $0.swiftName)) }
@@ -136,6 +120,7 @@ struct TypeScriptGenerator {
             let fileURL = servicesDir.appendingPathComponent("\(typeName).ts")
             var contents = fileHeader()
             contents += "\n/**\n * \(service.name) service interface.\n * Auto-generated from homekit-services.yaml.\n */\n\n"
+            contents += "import type { Service } from '../../types/service';\n"
             contents += "import { ServiceTypes } from '../serviceTypes';\n"
             contents += "import { CharacteristicTypes } from '../characteristicTypes';\n"
 
@@ -167,76 +152,90 @@ struct TypeScriptGenerator {
                 contents += "/** @deprecated HomeKit marks this service as deprecated */\n"
             }
 
-            contents += "export interface \(typeName) {\n"
-            contents += "  type: ServiceTypes.\(makeTypeScriptConstantName(from: service.swiftName));\n"
-            contents += "  name: string;\n"
-            contents += "  isPrimary: boolean;\n"
-            contents += "  characteristics: {\n"
-
-            // Required characteristics
+            let serviceTypeConstant = "ServiceTypes.\(makeTypeScriptConstantName(from: service.swiftName))"
+            contents += "export interface \(typeName) extends Service<\(serviceTypeConstant)> {\n"
+            contents += "  type: \(serviceTypeConstant);\n"
+            
+            // Required characteristics as direct properties
             for charName in service.requiredCharacteristics.sorted() {
                 if let typeName = characteristicTypeNames[charName] {
                     let key = makeCharacteristicKey(charName)
-                    contents += "    /** Required */\n"
-                    contents += "    '\(key)': \(typeName);\n"
+                    contents += "  /** Required */\n"
+                    contents += "  \(key): \(typeName);\n"
                 }
             }
 
-            // Optional characteristics
+            // Optional characteristics as optional properties
             for charName in service.optionalCharacteristics.sorted() {
                 if let typeName = characteristicTypeNames[charName] {
                     let key = makeCharacteristicKey(charName)
-                    contents += "    /** Optional */\n"
-                    contents += "    '\(key)'?: \(typeName);\n"
+                    contents += "  /** Optional */\n"
+                    contents += "  \(key)?: \(typeName);\n"
                 }
             }
 
-            contents += "  };\n"
             contents += "}\n"
-
             try contents.write(to: fileURL, atomically: true, encoding: .utf8)
         }
     }
 
-    /// Generate index file that re-exports all generated types
+    // MARK: - Index Generation
+
     private func generateIndexFile(at outputURL: URL) throws {
         let fileURL = outputURL.appendingPathComponent("index.ts")
         var contents = fileHeader()
-        contents += "\n/**\n * Generated HomeKit type definitions index.\n * Auto-generated from homekit-services.yaml.\n */\n\n"
+        contents += "\n/**\n * HomeKit type definitions and service catalog.\n * Auto-generated from homekit-services.yaml.\n */\n\n"
 
-        contents += "// Enums\n"
+        // Export type enums
         contents += "export { ServiceTypes } from './serviceTypes';\n"
-        contents += "export { CharacteristicTypes } from './characteristicTypes';\n\n"
-
-        contents += "// Characteristics\n"
-        contents += "export type * from './characteristics';\n\n"
-
-        contents += "// Services\n"
-        for service in catalog.services.sorted(by: { $0.name < $1.name }) {
-            contents += "export type { \(service.name)Service } from './services/\(service.name)Service';\n"
+        contents += "export { CharacteristicTypes } from './characteristicTypes';\n"
+        contents += "export type {\n"
+        
+        for characteristic in catalog.characteristics.sorted(by: { $0.name < $1.name }) {
+            let typeName = makeTypeScriptTypeName(from: characteristic.swiftName)
+            contents += "  \(typeName),\n"
         }
+        contents += "} from './characteristics';\n\n"
+
+        // Export service types
+        contents += "export type {\n"
+        for service in catalog.services.sorted(by: { $0.name < $1.name }) {
+            let typeName = "\(service.name)Service"
+            contents += "  \(typeName),\n"
+        }
+        contents += "} from './services';\n"
 
         try contents.write(to: fileURL, atomically: true, encoding: .utf8)
+        
+        // Generate services/index.ts as well
+        let servicesIndexURL = outputURL.appendingPathComponent("services", isDirectory: true).appendingPathComponent("index.ts")
+        var servicesContents = fileHeader()
+        servicesContents += "\n/**\n * HomeKit service type exports.\n * Auto-generated from homekit-services.yaml.\n */\n\n"
+        
+        for service in catalog.services.sorted(by: { $0.name < $1.name }) {
+            let typeName = "\(service.name)Service"
+            servicesContents += "export type { \(typeName) } from './\(typeName)';\n"
+        }
+        
+        try servicesContents.write(to: servicesIndexURL, atomically: true, encoding: .utf8)
     }
 
-    // MARK: - Helpers
+    // MARK: - Helper Methods
 
     private func fileHeader() -> String {
         return """
-        /**
-         * AUTO-GENERATED FILE - DO NOT EDIT
-         * Generated by HomeKitServiceGenerator
-         * Date: \(ISO8601DateFormatter().string(from: Date()))
-         */
+        // Auto-generated TypeScript definitions for HomeKit services and characteristics
+        // Generated by HomeKitServiceGenerator - DO NOT EDIT MANUALLY
+        // Source: homekit-services.yaml
         """
     }
 
     private func makeTypeScriptConstantName(from swiftName: String) -> String {
-        // Convert PascalCase to SCREAMING_SNAKE_CASE
+        // Convert to UPPER_SNAKE_CASE for constants
         var result = ""
         for (index, char) in swiftName.enumerated() {
-            if char.isUppercase && index > 0 {
-                result += "_"
+            if index > 0 && char.isUppercase {
+                result.append("_")
             }
             result.append(char.uppercased())
         }
@@ -249,12 +248,12 @@ struct TypeScriptGenerator {
     }
 
     private func makeCharacteristicKey(_ name: String) -> String {
-        // Convert characteristic name to camelCase key
-        let components = name.split(separator: " ")
-        guard !components.isEmpty else { return name }
-
-        let first = components[0].lowercased()
-        let rest = components.dropFirst().map { $0.capitalized }.joined()
+        // The characteristic name is the display name (e.g., "PowerState", "CurrentPosition")
+        // Convert PascalCase to camelCase
+        guard !name.isEmpty else { return name }
+        
+        let first = name.prefix(1).lowercased()
+        let rest = name.dropFirst()
         return first + rest
     }
 
