@@ -314,9 +314,10 @@ extension Duration {
 
 /// A strongly-typed wrapper for HomeKit characteristics (stub for non-HomeKit platforms).
 @MainActor
-open class Characteristic<Value> {
+open class Characteristic<Value>: HomeKitDescribable {
     public var characteristicType: String { "" }
     public var localizedDescription: String { "" }
+    public let uniqueIdentifier: UUID = UUID()
     public var supportsRead: Bool { false }
     public var supportsWrite: Bool { false }
     public var supportsEventNotification: Bool { false }
