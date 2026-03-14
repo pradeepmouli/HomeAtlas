@@ -227,7 +227,7 @@ open class Service: HomeKitDescribable {
     public var localizedDescription: String { "" }
     public var isPrimaryService: Bool { false }
     public var isUserInteractive: Bool { false }
-    public var uniqueIdentifier: UUID { UUID() }
+    public let uniqueIdentifier: UUID = UUID()
 
     public init() {}
 
