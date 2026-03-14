@@ -121,34 +121,40 @@ jobs:
         run: swift run HomeKitServiceGenerator --help || echo "Generator compiled successfully"
 
       - name: Codegen sanity (no diffs)
-        shell: bash {0}
         run: |
+          set +e
+
           # Re-run generator with the current catalog and ensure tree remains clean
           swift run HomeKitServiceGenerator Resources/homekit-services.yaml --output Sources/HomeAtlas/Generated
           GEN_EXIT=$?
           if [ $GEN_EXIT -ne 0 ]; then
-            echo "ERROR: Generator exited with code $GEN_EXIT"
+            echo "::error::Generator exited with code $GEN_EXIT"
             exit 1
           fi
+
+          echo "--- git status after generator run ---"
+          git status --short
+          echo "--- git diff --stat ---"
+          git diff --stat
 
           # Check for diffs outside Generated directories
-          git diff --exit-code -- ':!**/Generated/**/*.swift'
-          if [ $? -ne 0 ]; then
-            echo "ERROR: Unexpected changes detected outside Generated directory"
-            git diff -- ':!**/Generated/**/*.swift'
+          # Use positive pathspec to check only non-generated files
+          NON_GEN_DIFF=$(git diff --name-only | grep -v '/Generated/' || true)
+          if [ -n "$NON_GEN_DIFF" ]; then
+            echo "::error::Unexpected changes detected outside Generated directories:"
+            echo "$NON_GEN_DIFF"
+            git diff -- $(echo "$NON_GEN_DIFF" | head -20)
             exit 1
           fi
-          echo "No unexpected changes outside Generated directory"
+          echo "No unexpected changes outside Generated directories"
 
           # For generated files, check only meaningful changes (ignore timestamp line)
-          # Write diff to a temp file to avoid pipefail issues
           git diff -U0 -- 'Sources/HomeAtlas/Generated' 'Sources/HomeAtlasMacros/Generated' > /tmp/gen-diff.txt || true
           # Filter to only +/- content lines, exclude file headers and timestamp lines
           MEANINGFUL=$(grep -E '^\+|^-' /tmp/gen-diff.txt | grep -v -E '^\+\+\+|^---' | grep -v 'Generated on' || true)
           if [ -n "$MEANINGFUL" ]; then
-            echo "ERROR: Unexpected changes in generated files (excluding timestamps):"
+            echo "::error::Unexpected changes in generated files (excluding timestamps):"
             echo "$MEANINGFUL"
-            git diff -- 'Sources/HomeAtlas/Generated' 'Sources/HomeAtlasMacros/Generated'
             exit 1
           fi
           echo "Generated files have only timestamp changes, which is expected"
