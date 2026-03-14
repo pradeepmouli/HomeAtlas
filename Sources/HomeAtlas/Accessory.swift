@@ -314,9 +314,10 @@ private extension Accessory {
 
 /// A strongly-typed wrapper for HomeKit accessories (stub for non-HomeKit platforms).
 @MainActor
-public final class Accessory {
+public final class Accessory: HomeKitDescribable {
     public var name: String { "" }
     public var uniqueIdentifier: UUID { UUID() }
+    public var localizedDescription: String { "" }
     public var isReachable: Bool { false }
     public var isBlocked: Bool { false }
     public var supportsIdentify: Bool { false }
