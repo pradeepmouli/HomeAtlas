@@ -221,13 +221,13 @@ public extension Service {
 
 /// A strongly-typed wrapper for HomeKit services (stub for non-HomeKit platforms).
 @MainActor
-open class Service {
+open class Service: HomeKitDescribable {
     public var serviceType: String { "" }
     public var name: String? { nil }
     public var localizedDescription: String { "" }
     public var isPrimaryService: Bool { false }
     public var isUserInteractive: Bool { false }
-    public var uniqueIdentifier: UUID { UUID() }
+    public let uniqueIdentifier: UUID = UUID()
 
     public init() {}
 
