@@ -1,7 +1,7 @@
 # Implementation Plan: TypeScript Bindings for HomeAtlas
 
-**Branch**: `001-add-typescript-bindings` | **Date**: 2026-01-16 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-add-typescript-bindings/spec.md`
+**Branch**: `004-add-typescript-bindings` | **Date**: 2026-01-16 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/004-add-typescript-bindings/spec.md`
 
 ## Summary
 
@@ -37,7 +37,7 @@ Create TypeScript bindings to expose HomeAtlas (Apple HomeKit Swift wrapper) fun
 ### Documentation (this feature)
 
 ```text
-specs/001-add-typescript-bindings/
+specs/004-add-typescript-bindings/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output

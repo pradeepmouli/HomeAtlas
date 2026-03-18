@@ -36,3 +36,11 @@ Package.resolved
 
 # Specify tool local state (if purely local; delete if you intend to share)
 .specify/
+
+# React Native / TypeScript package artifacts
+packages/react-native-homeatlas/node_modules/
+packages/react-native-homeatlas/build/
+packages/react-native-homeatlas/npm-debug.log*
+packages/react-native-homeatlas/yarn-error.log*
+packages/react-native-homeatlas/package-lock.json
+packages/react-native-homeatlas/yarn.lock
